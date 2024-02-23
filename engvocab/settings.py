@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-2093rb4%9to(ssboh-&(jk+6e#lufq6255c_zdxd^g93kk@%2&"
+SECRET_KEY = os.getenv("DB_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = int(os.environ.get('DB_DEBUG', default=1))
 
 ALLOWED_HOSTS = ["engvocab.eu.pythonanywhere.com", "localhost", "127.0.0.1"]
 
@@ -31,6 +35,7 @@ ALLOWED_HOSTS = ["engvocab.eu.pythonanywhere.com", "localhost", "127.0.0.1"]
 # Application definition
 
 INSTALLED_APPS = [
+    "vocapp.apps.VocappConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -75,8 +80,13 @@ WSGI_APPLICATION = "engvocab.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        'ENGINE': os.getenv("DB_ENGINE"),
+		'NAME': os.getenv("DB_NAME"),
+		'USER': os.getenv("DB_USER"),
+		'PASSWORD': os.getenv("DB_PASSWORD"),
+		'HOST': os.getenv("DB_HOST"),
+        # 'PORT': os.getenv("DB_PORT"),
+		'OPTIONS': {'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"},
     }
 }
 
