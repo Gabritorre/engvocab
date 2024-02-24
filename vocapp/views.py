@@ -36,7 +36,8 @@ def search(request):
 def find_expression(request):
     # if expression found redirect to inspect_expression with expression_id.
     # If not found redirect to search with error message.
-    expression_id = 10
+    expression_name = request.GET["expression_name"]
+    expression_id = 0
     return HttpResponseRedirect(reverse("vocapp:inspect_expression", args=(expression_id,)))
 
 def inspect_expression(request, expression_id):

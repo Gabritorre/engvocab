@@ -20,7 +20,7 @@
 		<main>
 			<form action="{%url 'vocapp:find_expression'%}">
 				{% csrf_token %}
-				<input type="text" id="search" name="search" placeholder="Search for an expression">
+				<input type="text" id="expression_name" name="expression_name" placeholder="Search for an expression">
 				<button type="submit">Search</button>
 			</form>
 		</main>
