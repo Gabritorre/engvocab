@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Engvocab</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset="utf-8">
+		<!-- <link rel="shortcut icon" type="image/x-icon" href="style/favicon.ico"/> -->
+	</head>
+	<body>
+		<header>
+			{{User}} | <a href="/login">Login</a> | <a href="/signin">Signin</a>
+		</header>
+		<hr>
+		<nav>
+			<ul>
+				<li><a href="/home">Home</a></li>
+				<li><a href="/search">Search</a></li>
+				<li><a href="/dashboard">Dashboard</a></li>
+			</ul>
+		<main>
+		<ul>
+			<li>not learned: {{not_learned}}</li>
+			<li>learning: {{learning}}</li>
+			<li>learned: {{learned}}</li>
+		</ul>
+		</main>
+	</body>
+</html>
