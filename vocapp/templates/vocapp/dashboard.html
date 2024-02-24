@@ -8,14 +8,14 @@
 	</head>
 	<body>
 		<header>
-			{{User}} | <a href="/login">Login</a> | <a href="/signin">Signin</a>
+			{{User}} | <a href="{%url 'vocapp:login'%}">Login</a> | <a href="{%url 'vocapp:signin'%}">Signin</a>
 		</header>
 		<hr>
 		<nav>
 			<ul>
-				<li><a href="/home">Home</a></li>
-				<li><a href="/search">Search</a></li>
-				<li><a href="/dashboard">Dashboard</a></li>
+				<li><a href="{%url 'vocapp:home'%}">Home</a></li>
+				<li><a href="{%url 'vocapp:search'%}">Search</a></li>
+				<li><a href="{%url 'vocapp:dashboard'%}">Dashboard</a></li>
 			</ul>
 		<main>
 		<ul>

@@ -1,8 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
-from django.http import HttpResponse
-from django.shortcuts import redirect
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 
 
 def redir_home(request):
@@ -32,6 +32,12 @@ def search(request):
         "User" : "Gigi",
     }
     return render(request, "vocapp/search.html", context)
+
+def find_expression(request):
+    # if expression found redirect to inspect_expression with expression_id.
+    # If not found redirect to search with error message.
+    expression_id = 10
+    return HttpResponseRedirect(reverse("vocapp:inspect_expression", args=(expression_id,)))
 
 def inspect_expression(request, expression_id):
     context = {

@@ -13,9 +13,9 @@
 		<hr>
 		<nav>
 			<ul>
-				<li><a href="/home">Home</a></li>
-				<li><a href="/search">Search</a></li>
-				<li><a href="/dashboard">Dashboard</a></li>
+				<li><a href="{%url 'vocapp:home'%}">Home</a></li>
+				<li><a href="{%url 'vocapp:search'%}">Search</a></li>
+				<li><a href="{%url 'vocapp:dashboard'%}">Dashboard</a></li>
 			</ul>
 		<main>
 			<div>
@@ -37,7 +37,6 @@
 				{{expression_info.note}}<br>
 				<hr>
 				<button>Guessed</button> <button>Not guessed</button>
-
 			</div>
 		</main>
 	</body>
