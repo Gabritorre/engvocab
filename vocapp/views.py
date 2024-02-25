@@ -5,6 +5,8 @@ from django.urls import reverse
 from .models import Role, Level, Expression, User, Learn
 from random import choice
 
+import json
+
 
 def redir_home(request):
     return redirect('vocapp:home')
@@ -35,10 +37,12 @@ def home(request):
 	return render(request, "vocapp/home.html", context)
 
 def search(request):
-    context = {
-        "User" : "username",
+	expressions_list = list(Expression.objects.values_list('content', flat = True))
+	context = {
+		"User" : "username",
+		"expressions_list" : json.dumps(expressions_list),
     }
-    return render(request, "vocapp/search.html", context)
+	return render(request, "vocapp/search.html", context)
 
 def find_expression(request):
     # if expression found redirect to inspect_expression with expression_id.

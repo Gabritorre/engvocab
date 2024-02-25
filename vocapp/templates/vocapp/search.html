@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		{% load static %}
 		<title>Engvocab</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta charset="utf-8">
@@ -20,9 +21,12 @@
 		<main>
 			<form action="{%url 'vocapp:find_expression'%}">
 				{% csrf_token %}
-				<input type="text" id="expression_name" name="expression_name" placeholder="Search for an expression">
-				<button type="submit">Search</button>
+				<input type="text" oninput="updateResults('{{ expressions_list|escapejs }}', this.value)" id="expression_name" name="expression_name" placeholder="Search for an expression" autocomplete="off">
 			</form>
+
+			<div id="results"></div>
+
 		</main>
+		<script src="{% static 'vocapp/js/search.js' %}"></script>
 	</body>
 </html>
