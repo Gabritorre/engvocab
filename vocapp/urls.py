@@ -12,5 +12,6 @@ urlpatterns = [
 	path("dashboard", views.dashboard, name="dashboard"),
 	path("login", views.login, name="login"),
 	path("signin", views.signin, name="signin"),
-	path("validation", views.validation, name="validation")	
+	path("validation", views.validation, name="validation"),
+	path("adjust_confidence/<int:expression_id>", views.adjust_confidence, name="adjust_confidence"),
 ]

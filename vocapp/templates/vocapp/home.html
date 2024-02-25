@@ -23,6 +23,8 @@
 					<button>{{level}}</button>
 				{%endfor%}
 				| <button>Phrasal verb</button>
+				| discover (login)
+				| review (login)
 			</div>
 			<hr>
 			<div>
@@ -33,7 +35,14 @@
 				{{expression_info.example_en}} | {{expression_info.example_it}}<br>
 				{{expression_info.note}}<br>
 				<hr>
-				<button>Guessed</button> <button>Not guessed</button>
+				<form action="{%url 'vocapp:adjust_confidence' expression_info.id%}" method="POST">
+					{% csrf_token %}
+					<button type ="submit" name="guessing" value="1">Guessed</button> 
+				</form>
+				<form action="{%url 'vocapp:adjust_confidence' expression_info.id%}" method="POST">
+					{% csrf_token %}
+					<button type ="submit" name="guessing" value="0">Not guessed</button>
+				</form>
 			</div>
 		</main>
 	</body>

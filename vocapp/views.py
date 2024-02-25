@@ -9,6 +9,17 @@ from random import choice
 def redir_home(request):
     return redirect('vocapp:home')
 
+def adjust_confidence(request, expression_id):
+    # if there is a user logged in
+    # get the curret confidence of the user with the "expression_id" word
+    # if the guessing value is 1 the increase it
+    # else decrease it 
+    
+	# if there is no user logged in just redirect to home
+    print("id: ", expression_id)
+    print("value: ", request.POST["guessing"])
+    return redirect('vocapp:home')
+
 def home(request):
     # update this two list only once (maybe by a refresh button)
 	all_ids = Expression.objects.values_list('id', flat = True)
