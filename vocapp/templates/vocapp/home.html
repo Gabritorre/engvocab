@@ -22,14 +22,11 @@
 				{% for level in levels %}
 					<button>{{level}}</button>
 				{%endfor%}
-				|
-				{% for category in categories %}
-					<button>{{category}}</button>
-				{%endfor%}
+				| <button>Phrasal verb</button>
 			</div>
 			<hr>
 			<div>
-				{{expression_info.level}} | {{expression_info.role}} | {{expression_info.context}} | {{expression_info.is_phrasal_verb}} | {{expression_info.is_formal}} <br>
+				{{expression_info.level}} | {{expression_info.role}} | {{expression_info.context}} {% if expression_info.is_phrasal_verb %} | phrasal verb {% endif %} | {% if expression_info.is_formal %} formal {%endif%} <br>
 				{{expression_info.content}}<br>
 				<button>Show</button><br>
 				{{expression_info.translation_it}}<br>

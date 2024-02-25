@@ -1,35 +1,31 @@
 from django.shortcuts import render, redirect
-
-# Create your views here.
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 
+from .models import Role, Level, Expression, User, Learn
+from random import choice
+
 
 def redir_home(request):
-    return redirect('home')
+    return redirect('vocapp:home')
 
 def home(request):
-    context = {
-        "levels": ["A1/A2", "B1", "B1+", "B2", "C1"],
-        "categories": ["Idiom", "Phrasal Verb"],
-        "expression_info": {"content": "my expression",
-                            "context" : "contesto",
-                            "example_en": "example in english",
-                            "example_it": "esempio in italiano",
-                            "note": "note",
-                            "translation_it": "traduzione",
-                            "level": "A1",
-                            "role": "Verbo",
-                            "is_formal": "è formale",
-                            "is_phrasal_verb": "è un phrasal verb"
-                            },
-        "User" : "Gigi",
-    }
-    return render(request, "vocapp/home.html", context)
+    # update this two list only once (maybe by a refresh button)
+	all_ids = Expression.objects.values_list('id', flat = True)
+	levels = Level.objects.values_list('level', flat = True)
+    
+	expression_data = Expression.objects.get(pk = choice(all_ids))
+	context = {
+		"levels": levels,
+		"expression_info": expression_data,
+		"User" : "username",
+	}
+	
+	return render(request, "vocapp/home.html", context)
 
 def search(request):
     context = {
-        "User" : "Gigi",
+        "User" : "username",
     }
     return render(request, "vocapp/search.html", context)
 
@@ -54,7 +50,7 @@ def inspect_expression(request, expression_id):
                             "is_formal": "è formale",
                             "is_phrasal_verb": "è un phrasal verb"
                             },
-        "User" : "Gigi",
+        "User" : "username",
     }
     return render(request, "vocapp/expression.html", context)
 
@@ -69,7 +65,7 @@ def dashboard(request):
         "not_learned" : 123,
         "learning" : 789,
         "learned" : 456,
-        "User" : "Gigi",
+        "User" : "username",
     }
     return render(request, "vocapp/dashboard.html", context)
 
