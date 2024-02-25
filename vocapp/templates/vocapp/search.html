@@ -21,10 +21,14 @@
 		<main>
 			<form action="{%url 'vocapp:find_expression'%}">
 				{% csrf_token %}
-				<input type="text" oninput="updateResults('{{ expressions_list|escapejs }}', this.value)" id="expression_name" name="expression_name" placeholder="Search for an expression" autocomplete="off">
+				<input type="text" oninput="updateResults('{{ expressions_list|escapejs }}')" id="expression_name" name="expression_name" placeholder="Search for an expression" autocomplete="off">
 			</form>
 
-			<div id="results"></div>
+			<div>
+				<h3>Expressions:</h3>
+				<ul id="expressions">
+				</ul>
+			</div>
 
 		</main>
 		<script src="{% static 'vocapp/js/search.js' %}"></script>

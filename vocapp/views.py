@@ -37,7 +37,7 @@ def home(request):
 	return render(request, "vocapp/home.html", context)
 
 def search(request):
-	expressions_list = list(Expression.objects.values_list('content', flat = True))
+	expressions_list = dict(Expression.objects.values_list('id', 'content'))
 	context = {
 		"User" : "username",
 		"expressions_list" : json.dumps(expressions_list),
