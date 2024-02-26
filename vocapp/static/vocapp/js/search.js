@@ -1,7 +1,6 @@
 
-function updateResults(expressions_list) {
+function updateResults(expressions_list, inputValue) {
 	expressions_list = JSON.parse(expressions_list);
-
 	clear_expressions();
 	let html_list = document.getElementById("expressions");
 	for (const [key, value] of Object.entries(expressions_list)){

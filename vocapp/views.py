@@ -44,30 +44,15 @@ def search(request):
     }
 	return render(request, "vocapp/search.html", context)
 
-def find_expression(request):
-    # if expression found redirect to inspect_expression with expression_id.
-    # If not found redirect to search with error message.
-    expression_name = request.GET["expression_name"]
-    expression_id = 0
-    return HttpResponseRedirect(reverse("vocapp:inspect_expression", args=(expression_id,)))
 
 def inspect_expression(request, expression_id):
-    context = {
-        "expression_id" : expression_id,
-        "expression_info": {"content": "my expression",
-                            "context" : "contesto",
-                            "example_en": "example in english",
-                            "example_it": "esempio in italiano",
-                            "note": "note",
-                            "translation_it": "traduzione",
-                            "level": "A1",
-                            "role": "Verbo",
-                            "is_formal": "è formale",
-                            "is_phrasal_verb": "è un phrasal verb"
-                            },
-        "User" : "username",
-    }
-    return render(request, "vocapp/expression.html", context)
+	expression_info = Expression.objects.get(pk = expression_id)
+	context = {
+		"expression_id" : expression_id,
+		"expression_info": expression_info,
+		"User" : "username",
+	}
+	return render(request, "vocapp/expression.html", context)
 
 def login(request):
     return render(request, "vocapp/login.html")

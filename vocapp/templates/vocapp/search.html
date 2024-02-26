@@ -19,11 +19,8 @@
 				<li><a href="{%url 'vocapp:dashboard'%}">Dashboard</a></li>
 			</ul>
 		<main>
-			<form action="{%url 'vocapp:find_expression'%}">
-				{% csrf_token %}
-				<input type="text" oninput="updateResults('{{ expressions_list|escapejs }}')" id="expression_name" name="expression_name" placeholder="Search for an expression" autocomplete="off">
-			</form>
-
+			<input type="text" oninput="updateResults('{{ expressions_list|escapejs }}', this.value)" id="expression_name" name="expression_name" placeholder="Search for an expression" autocomplete="off">
+			
 			<div>
 				<h3>Expressions:</h3>
 				<ul id="expressions">
