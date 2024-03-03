@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth import authenticate, login, logout 
 from django.urls import reverse
-from django.contrib.auth.models import User
+from .forms import LoginForm, SignupForm
 
-from .models import Role, Level, Expression, Learn
+from .models import Role, Level, Expression, Learn, User
 from random import choice
 
 import json
@@ -55,11 +56,6 @@ def inspect_expression(request, expression_id):
 	}
 	return render(request, "vocapp/expression.html", context)
 
-def login(request):
-    return render(request, "vocapp/login.html")
-
-def signin(request):
-	return render(request, "vocapp/signin.html")
 
 def dashboard(request):
     context = {
@@ -70,26 +66,31 @@ def dashboard(request):
     }
     return render(request, "vocapp/dashboard.html", context)
 
-def validation_signin(request):
-    # if from Registration, then check if username already exists. If not, then create user. If yes, then redirect to Registration with error message.
-    # if no error, redirect to Home.
+def signin(request):
+	if request.method == "POST":
+		form = SignupForm(request.POST)
+		if form.is_valid():
+			form.save()
+			return redirect("vocapp:login")
+	else:
+		form = SignupForm()
+	return render(request, "vocapp/signin.html", {'form': form})
 
-	username = request.POST["username"]
-	password = request.POST["password"]
-	password_conf = request.POST["password_conf"]
+def login(request):
+	if request.method == 'POST':
+		form = LoginForm(request.POST)
+		if form.is_valid():
+			username = form.cleaned_data["username"]
+			password = form.cleaned_data["password"]
+			user = authenticate(request, username=username, password=password)
+			if user:
+				login(request, user)
+				return redirect("vocapp:home")
+	else:
+		form = LoginForm()
+	return render(request, "vocapp/login.html", {'form': form})
+	
 
-	print(username, password, password_conf)
-	if (request.POST["password"] == request.POST["password_conf"]):
-		User.objects.create_user(username="john", password="johnpassword").save()
-
-
-	return HttpResponse("casa")
-
-def validation_login(request):
-    # if from Login, then check credentials. If not found redirect to Login with error message.
-    # if no error, redirect to Home.
-
-	username = request.POST["username"]
-	password = request.POST["password"]
-	print(username, password)
-	return HttpResponse("home")
+def logout(request):
+    logout(request)
+    return redirect("vocapp:login")
