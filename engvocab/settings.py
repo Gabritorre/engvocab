@@ -32,6 +32,8 @@ DEBUG = int(os.environ.get('DB_DEBUG', default=1))
 ALLOWED_HOSTS = ["engvocab.eu.pythonanywhere.com", "localhost", "127.0.0.1"]
 
 
+AUTH_USER_MODEL = "vocapp.User"
+
 # Application definition
 
 INSTALLED_APPS = [

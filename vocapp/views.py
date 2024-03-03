@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
+from django.contrib.auth.models import User
 
-from .models import Role, Level, Expression, User, Learn
+from .models import Role, Level, Expression, Learn
 from random import choice
 
 import json
@@ -58,7 +59,7 @@ def login(request):
     return render(request, "vocapp/login.html")
 
 def signin(request):
-    return render(request, "vocapp/signin.html")
+	return render(request, "vocapp/signin.html")
 
 def dashboard(request):
     context = {
@@ -69,8 +70,26 @@ def dashboard(request):
     }
     return render(request, "vocapp/dashboard.html", context)
 
-def validation(request):
-    # if from Login, then check credentials. If not found redirect to Login with error message.
+def validation_signin(request):
     # if from Registration, then check if username already exists. If not, then create user. If yes, then redirect to Registration with error message.
     # if no error, redirect to Home.
-    return HttpResponse("Validation")
+
+	username = request.POST["username"]
+	password = request.POST["password"]
+	password_conf = request.POST["password_conf"]
+
+	print(username, password, password_conf)
+	if (request.POST["password"] == request.POST["password_conf"]):
+		User.objects.create_user(username="john", password="johnpassword").save()
+
+
+	return HttpResponse("casa")
+
+def validation_login(request):
+    # if from Login, then check credentials. If not found redirect to Login with error message.
+    # if no error, redirect to Home.
+
+	username = request.POST["username"]
+	password = request.POST["password"]
+	print(username, password)
+	return HttpResponse("home")

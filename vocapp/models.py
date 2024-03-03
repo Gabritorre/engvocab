@@ -1,6 +1,8 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+from django.conf import settings
 
-# Create your models here.
+
 class Role(models.Model):
 	role = models.CharField(max_length=30, primary_key=True)
 
@@ -25,7 +27,8 @@ class Expression(models.Model):
 	role = models.ForeignKey(Role, on_delete=models.CASCADE)
 	level = models.ForeignKey(Level, on_delete=models.CASCADE)
 
-class User(models.Model):
+
+class User(AbstractUser):
 	username = models.CharField(max_length=30, primary_key=True)
 	password = models.CharField(max_length=100, null=False, blank=False)
 	expression = models.ManyToManyField(Expression, through='Learn')
@@ -33,6 +36,6 @@ class User(models.Model):
 
 
 class Learn(models.Model):
-	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	expression = models.ForeignKey(Expression, on_delete=models.CASCADE)
 	confidence = models.IntegerField(default=0)

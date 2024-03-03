@@ -14,13 +14,13 @@
 				<li><a href="{%url 'vocapp:dashboard'%}">Dashboard</a></li>
 			</ul>
 		<main>
-			<form action="{%url 'vocapp:validation'%}">
+			<form action="{%url 'vocapp:validation_login'%}" method="POST">
 				{% csrf_token %}
 				<input type="text" id="username" name="username" placeholder="Username">
 				<input type="password" id="password" name="password" placeholder="Password">
 				<button type="submit">Login</button>
 			</form>
-			first time here? <a href="{%url 'vocapp:signin'%}">Sign in</a>
+			First time here? <a href="{%url 'vocapp:signin'%}">Sign in</a>
 		</main>
 	</body>
 </html>
