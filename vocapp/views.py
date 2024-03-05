@@ -66,17 +66,17 @@ def dashboard(request):
     }
     return render(request, "vocapp/dashboard.html", context)
 
-def signin(request):
+def signup(request):
 	if request.method == "POST":
 		form = SignupForm(request.POST)
 		if form.is_valid():
 			form.save()
-			return redirect("vocapp:login")
+			return redirect("vocapp:login_user")
 	else:
 		form = SignupForm()
-	return render(request, "vocapp/signin.html", {'form': form})
+	return render(request, "vocapp/signup.html", {'form': form})
 
-def login(request):
+def login_user(request):
 	if request.method == 'POST':
 		form = LoginForm(request.POST)
 		if form.is_valid():
@@ -91,6 +91,6 @@ def login(request):
 	return render(request, "vocapp/login.html", {'form': form})
 	
 
-def logout(request):
+def logout_user(request):
     logout(request)
-    return redirect("vocapp:login")
+    return redirect("vocapp:login_user")

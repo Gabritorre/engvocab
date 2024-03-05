@@ -10,14 +10,15 @@
 		<header>
 			{% if request.user.is_authenticated %}
 			<p>{{ request.user.username }}</p>
-			<a href="{% url 'vocapp:logout' %}">Logout</a>
+			<a href="{% url 'vocapp:logout_user' %}">Logout</a>
 			{% else %}
-			<a href="{% url 'vocapp:login' %}">Login</a>
-			<a href="{% url 'vocapp:signup' %}">Signup</a>
+			<a href="{% url 'vocapp:login_user' %}">Login</a>
+			<a href="{% url 'vocapp:signup' %}">Sign up</a>
 			{% endif %}
 		</header>
 		<hr>
 		<nav>
+
 			<ul>
 				<li><a href="{%url 'vocapp:home'%}">Home</a></li>
 				<li><a href="{%url 'vocapp:search'%}">Search</a></li>
@@ -50,16 +51,6 @@
 					<button type ="submit" name="guessing" value="0">Not guessed</button>
 				</form>
 			</div>
-
-			{% if request.user.is_authenticated %}
-			<p>{{ request.user.username }}</p>
-			<a href="{% url 'vocapp:logout' %}">Logout</a>
-			{% else %}
-			<a href="{% url 'vocapp:login' %}">Login</a>
-			<a href="{% url 'vocapp:signup' %}">Signup</a>
-			{% endif %}
-
-			<h1>Welcome!</h1>
 		</main>
 	</body>
 </html>
