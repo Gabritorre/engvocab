@@ -14,22 +14,36 @@ def redir_home(request):
     return redirect('vocapp:home')
 
 def adjust_confidence(request, expression_id):
-    # if there is a user logged in
-    # get the curret confidence of the user with the "expression_id" word
-    # if the guessing value is 1 the increase it
-    # else decrease it 
-    
+	# if there is a user logged in
+	# get the curret confidence of the user with the "expression_id" word
+	# if the guessing value is 1 the increase it
+	# else decrease it 
+	
+	if request.user.is_authenticated:
+		user = User.objects.get(username=request.user.username)
+		expr = Expression.objects.get(pk = expression_id)
+		try:
+			association = Learn.objects.get(user = user, expression = expr)
+			if (request.POST["guessing"] == '1'):	# guessed
+				association.confidence += 1
+			elif (request.POST["guessing"] == '0'):	# not guessed
+				association.confidence -= 1
+				if (association.confidence < 0):
+					association.confidence = 0
+			association.save()
+		except Learn.DoesNotExist:	# create a new association between user and expression
+			new_association = Learn(user = user, expression = expr, confidence=0)
+			new_association.save()
+
 	# if there is no user logged in just redirect to home
-    print("id: ", expression_id)
-    print("value: ", request.POST["guessing"])
-    return redirect('vocapp:home')
+	return redirect('vocapp:home')
 
 def home(request):
     # update this two list only once (maybe by a refresh button)
 	all_ids = Expression.objects.values_list('id', flat = True)
 	levels = Level.objects.values_list('level', flat = True)
     
-	expression_data = Expression.objects.get(pk = choice(all_ids))
+	expression_data = Expression.objects.get(pk = choice(all_ids))	# pick a random expression
 	context = {
 		"levels": levels,
 		"expression_info": expression_data,
@@ -58,6 +72,7 @@ def inspect_expression(request, expression_id):
 
 
 def dashboard(request):
+	# check if user is autenticated, if not redirect to home
     context = {
         "not_learned" : 123,
         "learning" : 789,

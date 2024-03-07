@@ -4,6 +4,9 @@ function updateResults(expressions_list, inputValue) {
 	clear_expressions();
 	let html_list = document.getElementById("expressions");
 	for (const [key, value] of Object.entries(expressions_list)){
+		if (!value.includes(inputValue)) {
+			continue;
+		}
 		let arg_link = document.createElement("a");
 		var link_text = document.createTextNode(value);
 		let elem = document.createElement("li");

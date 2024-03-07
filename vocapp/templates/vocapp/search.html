@@ -10,11 +10,11 @@
 	<body>
 		<header>
 			{% if request.user.is_authenticated %}
-			<p>{{ request.user.username }}</p>
-			<a href="{% url 'vocapp:logout_user' %}">Logout</a>
+				<p>{{ request.user.username }}</p>
+				<a href="{% url 'vocapp:logout_user' %}">Logout</a>
 			{% else %}
-			<a href="{% url 'vocapp:login_user' %}">Login</a>
-			<a href="{% url 'vocapp:signup' %}">Sign up</a>
+				<a href="{% url 'vocapp:login_user' %}">Login</a>
+				<a href="{% url 'vocapp:signup' %}">Sign up</a>
 			{% endif %}
 		</header>
 		<hr>
@@ -22,7 +22,9 @@
 			<ul>
 				<li><a href="{%url 'vocapp:home'%}">Home</a></li>
 				<li><a href="{%url 'vocapp:search'%}">Search</a></li>
-				<li><a href="{%url 'vocapp:dashboard'%}">Dashboard</a></li>
+				{% if request.user.is_authenticated %}
+					<li><a href="{%url 'vocapp:dashboard'%}">Dashboard</a></li>
+				{% endif %}
 			</ul>
 		<main>
 			<input type="text" oninput="updateResults('{{ expressions_list|escapejs }}', this.value)" id="expression_name" name="expression_name" placeholder="Search for an expression" autocomplete="off">

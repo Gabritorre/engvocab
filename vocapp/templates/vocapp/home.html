@@ -8,12 +8,13 @@
 	</head>
 	<body>
 		<header>
+			{% load static %}
 			{% if request.user.is_authenticated %}
-			<p>{{ request.user.username }}</p>
-			<a href="{% url 'vocapp:logout_user' %}">Logout</a>
+				<p>{{ request.user.username }}</p>
+				<a href="{% url 'vocapp:logout_user' %}">Logout</a>
 			{% else %}
-			<a href="{% url 'vocapp:login_user' %}">Login</a>
-			<a href="{% url 'vocapp:signup' %}">Sign up</a>
+				<a href="{% url 'vocapp:login_user' %}">Login</a>
+				<a href="{% url 'vocapp:signup' %}">Sign up</a>
 			{% endif %}
 		</header>
 		<hr>
@@ -22,7 +23,9 @@
 			<ul>
 				<li><a href="{%url 'vocapp:home'%}">Home</a></li>
 				<li><a href="{%url 'vocapp:search'%}">Search</a></li>
-				<li><a href="{%url 'vocapp:dashboard'%}">Dashboard</a></li>
+				{% if request.user.is_authenticated %}
+					<li><a href="{%url 'vocapp:dashboard'%}">Dashboard</a></li>
+				{% endif %}
 			</ul>
 		<main>
 			<div>
@@ -30,27 +33,32 @@
 					<button>{{level}}</button>
 				{%endfor%}
 				| <button>Phrasal verb</button>
+				{% if request.user.is_authenticated %}
 				| discover (login)
 				| review (login)
+				{% endif %}
 			</div>
 			<hr>
 			<div>
 				{{expression_info.level}} | {{expression_info.role}} | {{expression_info.context}} {% if expression_info.is_phrasal_verb %} | phrasal verb {% endif %} | {% if expression_info.is_formal %} formal {%endif%} <br>
 				{{expression_info.content}}<br>
-				<button>Show</button><br>
-				{{expression_info.translation_it}}<br>
-				{{expression_info.example_en}} | {{expression_info.example_it}}<br>
-				{{expression_info.note}}<br>
-				<hr>
-				<form action="{%url 'vocapp:adjust_confidence' expression_info.id%}" method="POST">
-					{% csrf_token %}
-					<button type ="submit" name="guessing" value="1">Guessed</button> 
-				</form>
-				<form action="{%url 'vocapp:adjust_confidence' expression_info.id%}" method="POST">
-					{% csrf_token %}
-					<button type ="submit" name="guessing" value="0">Not guessed</button>
-				</form>
+				<button id="show_button" onclick="show_solution()">Show</button><br>
+				<div hidden id="solution">
+					{{expression_info.translation_it}}<br>
+					{{expression_info.example_en}} | {{expression_info.example_it}}<br>
+					{{expression_info.note}}<br>
+					<hr>
+					<form action="{%url 'vocapp:adjust_confidence' expression_info.id%}" method="POST">
+						{% csrf_token %}
+						<button type ="submit" name="guessing" value="1">Guessed</button> 
+					</form>
+					<form action="{%url 'vocapp:adjust_confidence' expression_info.id%}" method="POST">
+						{% csrf_token %}
+						<button type ="submit" name="guessing" value="0">Not guessed</button>
+					</form>
+				</div>
 			</div>
 		</main>
+		<script src="{% static 'vocapp/js/home.js' %}"></script>
 	</body>
 </html>

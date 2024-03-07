@@ -29,11 +29,7 @@ class Expression(models.Model):
 
 
 class User(AbstractUser):
-	# username = models.CharField(max_length=30, unique=True)
-	# password = models.CharField(max_length=100, null=False, blank=False)
 	expression = models.ManyToManyField(Expression, through='Learn')
-	# last_connection = models.DateTimeField("last connection")
-
 
 
 class Learn(models.Model):
