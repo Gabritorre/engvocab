@@ -30,9 +30,12 @@
 		<main>
 			<div>
 				{% for level in levels %}
-					<button>{{level}}</button>
+					<input type="checkbox" name="level" id="level" value="{{level}}">
+					<label for="level">{{level}}</label>
 				{%endfor%}
-				| <button>Phrasal verb</button>
+				|
+				<input type="checkbox" name="phrasal" id="phrasal">
+				<label for="phrasal">phrasal verb</label>
 				{% if request.user.is_authenticated %}
 				| discover (login)
 				| review (login)

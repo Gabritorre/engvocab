@@ -55,7 +55,6 @@ def home(request):
 def search(request):
 	expressions_list = dict(Expression.objects.values_list('id', 'content'))
 	context = {
-		"User" : "username",
 		"expressions_list" : json.dumps(expressions_list),
     }
 	return render(request, "vocapp/search.html", context)
@@ -66,20 +65,21 @@ def inspect_expression(request, expression_id):
 	context = {
 		"expression_id" : expression_id,
 		"expression_info": expression_info,
-		"User" : "username",
 	}
 	return render(request, "vocapp/expression.html", context)
 
 
 def dashboard(request):
 	# check if user is autenticated, if not redirect to home
-    context = {
-        "not_learned" : 123,
-        "learning" : 789,
-        "learned" : 456,
-        "User" : "username",
-    }
-    return render(request, "vocapp/dashboard.html", context)
+	if request.user.is_authenticated:
+		context = {
+			"not_learned" : 123,
+			"learning" : 789,
+			"learned" : 456,
+		}
+		return render(request, "vocapp/dashboard.html", context)
+	else:
+		return redirect("vocapp:login_user")
 
 def signup(request):
 	if request.method == "POST":
