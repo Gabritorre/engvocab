@@ -29,13 +29,17 @@
 			</ul>
 		<main>
 			<div>
-				{% for level in levels %}
-					<input type="checkbox" name="level" id="{{level}}" value="{{level}}">
-					<label for="{{level}}">{{level}}</label>
-				{%endfor%}
-				|
-				<input type="checkbox" name="phrasal" id="phrasal">
-				<label for="phrasal">phrasal verb</label>
+				<form action="{%url 'vocapp:home'%}" method="GET">
+					{% for level in levels %}
+						<input type="checkbox" name="level" id="{{level}}" value="{{level}}">
+						<label for="{{level}}">{{level}}</label>
+					{%endfor%}
+					|
+					<input type="checkbox" name="phrasal" id="phrasal">
+					<label for="phrasal">phrasal verb</label>
+					<button type="submit">Apply</button>
+				</form>
+
 				{% if request.user.is_authenticated %}
 				| discover (login)
 				| review (login)

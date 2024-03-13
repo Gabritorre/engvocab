@@ -43,12 +43,13 @@ def home(request):
     # update this two list only once (maybe by a refresh button)
 	all_ids = Expression.objects.values_list('id', flat = True)
 	levels = Level.objects.values_list('level', flat = True)
+	# filters = request.GET["level"]
+	# print(filters)
     
 	expression_data = Expression.objects.get(pk = choice(all_ids))	# pick a random expression
 	context = {
 		"levels": levels,
 		"expression_info": expression_data,
-		"User" : "username",
 	}
 	
 	return render(request, "vocapp/home.html", context)
@@ -73,10 +74,16 @@ def inspect_expression(request, expression_id):
 def dashboard(request):
 	# check if user is autenticated, if not redirect to home
 	if request.user.is_authenticated:
+		not_learned = Learn.objects.filter(user=request.user.id, confidence__lte=0).count()
+		learning = Learn.objects.filter(user=request.user.id, confidence__range=(1, 10)).count()
+		learned = Learn.objects.filter(user=request.user.id, confidence__gte=11).count()
+		print("not: ", not_learned)
+		print("ing: ", learning)
+		print("ed: ", learned)
 		context = {
-			"not_learned" : 123,
-			"learning" : 789,
-			"learned" : 456,
+			"not_learned" : not_learned,
+			"learning" : learning,
+			"learned" : learned,
 		}
 		return render(request, "vocapp/dashboard.html", context)
 	else:
