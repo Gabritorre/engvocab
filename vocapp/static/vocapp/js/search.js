@@ -1,30 +1,42 @@
+var expressions_dict;
+var expressions_content;
 
-function updateResults(expressions_list, inputValue) {
+// get a json string 'expressions_list' that will be parsed in a JSON object.
+//save in a dictionary the key value pair 'id_expression:content'
+//save in a array only the content
+//sort the content array
+function sortExpressions(expressions_list) {
 	expressions_list = JSON.parse(expressions_list);
-	let expressions_dict = {};
+	expressions_dict = {};
 	for (const[key, value] of Object.entries(expressions_list)){
 		expressions_dict[key] = value;
 	}
-	values = Object.values(expressions_list);
-	values.sort();
-	clear_expressions();
+	expressions_content = Object.values(expressions_list);
+	expressions_content.sort();
+}
+
+//update the search output every time the user press a key
+function updateResults(inputValue) {
+	clearExpressions();
 
 	let html_list = document.getElementById("expressions");
-	for (let i = 0; i < values.length; i++){
-		if (!values[i].includes(inputValue)) {
+	for (let i = 0; i < expressions_content.length; i++) {
+		if (!expressions_content[i].includes(inputValue)) {	//keeps only the string that includes the user input string
 			continue;
 		}
 		let arg_link = document.createElement("a");
-		var link_text = document.createTextNode(values[i]);
+		var link_text = document.createTextNode(expressions_content[i]);
 		let elem = document.createElement("li");
 		arg_link.appendChild(link_text);
-		arg_link.href = "expression/" + Object.keys(expressions_dict).find(key => expressions_dict[key] === values[i]);
+		//get the ID of the current expression to build the url
+		arg_link.href = "expression/" + Object.keys(expressions_dict).find(key => expressions_dict[key] === expressions_content[i]);
 		elem.appendChild(arg_link);
 		html_list.append(elem);
 	}
 }
 
-function clear_expressions(){
+//clear the search output
+function clearExpressions(){
 	try{
 		let delete_list = document.getElementById("expressions");
 		while (delete_list.firstChild) {

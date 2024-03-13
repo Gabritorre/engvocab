@@ -27,7 +27,7 @@
 				{% endif %}
 			</ul>
 		<main>
-			<input type="text" oninput="updateResults('{{ expressions_list|escapejs }}', this.value)" id="expression_name" name="expression_name" placeholder="Search for an expression" autocomplete="off">
+			<input type="text" oninput="updateResults(this.value)" id="expression_name" name="expression_name" placeholder="Search for an expression" autocomplete="off">
 			
 			<div>
 				<h3>Expressions:</h3>
@@ -37,5 +37,6 @@
 
 		</main>
 		<script src="{% static 'vocapp/js/search.js' %}"></script>
+		<script>sortExpressions('{{ expressions_list|escapejs }}')</script>
 	</body>
 </html>
