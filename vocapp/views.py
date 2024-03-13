@@ -34,7 +34,8 @@ def adjust_confidence(request, expression_id):
 		except Learn.DoesNotExist:	# create a new association between user and expression
 			new_association = Learn(user = user, expression = expr, confidence=0)
 			new_association.save()
-
+		return HttpResponseRedirect(reverse("vocapp:home"))
+	
 	# if there is no user logged in just redirect to home
 	return redirect('vocapp:home')
 
@@ -82,16 +83,20 @@ def dashboard(request):
 		return redirect("vocapp:login_user")
 
 def signup(request):
+	if request.user.is_authenticated:
+		return redirect("vocapp:home")
 	if request.method == "POST":
 		form = SignupForm(request.POST)
 		if form.is_valid():
 			form.save()
-			return redirect("vocapp:login_user")
+			return HttpResponseRedirect(reverse("vocapp:login_user"))
 	else:
 		form = SignupForm()
 	return render(request, "vocapp/signup.html", {'form': form})
 
 def login_user(request):
+	if request.user.is_authenticated:
+		return redirect("vocapp:home")
 	if request.method == 'POST':
 		form = LoginForm(request.POST)
 		if form.is_valid():

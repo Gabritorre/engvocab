@@ -30,8 +30,8 @@
 		<main>
 			<div>
 				{% for level in levels %}
-					<input type="checkbox" name="level" id="level" value="{{level}}">
-					<label for="level">{{level}}</label>
+					<input type="checkbox" name="level" id="{{level}}" value="{{level}}">
+					<label for="{{level}}">{{level}}</label>
 				{%endfor%}
 				|
 				<input type="checkbox" name="phrasal" id="phrasal">
