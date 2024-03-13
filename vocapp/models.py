@@ -27,6 +27,9 @@ class Expression(models.Model):
 	role = models.ForeignKey(Role, on_delete=models.CASCADE)
 	level = models.ForeignKey(Level, on_delete=models.CASCADE)
 
+	def __str__(self):
+		return self.content
+
 
 class User(AbstractUser):
 	expression = models.ManyToManyField(Expression, through='Learn')
