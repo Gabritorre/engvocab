@@ -39,16 +39,29 @@ def adjust_confidence(request, expression_id):
 	# if there is no user logged in just redirect to home
 	return redirect('vocapp:home')
 
+def update_filters(request):
+	if request.GET:
+		if ("level" in request.GET):
+			request.session["level_filters"] = dict(request.GET)["level"]
+	return HttpResponseRedirect(reverse("vocapp:home"))
+
 def home(request):
-    # update this two list only once (maybe by a refresh button)
-	all_ids = Expression.objects.values_list('id', flat = True)
 	levels = Level.objects.values_list('level', flat = True)
-	# filters = request.GET["level"]
-	# print(filters)
-    
-	expression_data = Expression.objects.get(pk = choice(all_ids))	# pick a random expression
+	if ("level_filters" not in request.session.keys()):
+		request.session["level_filters"] = []
+	
+	if (request.session["level_filters"] == []):
+		all_ids = Expression.objects.values_list('id', flat = True)
+		expression_data = Expression.objects.get(pk = choice(all_ids))	# pick a random expression
+	else:
+		filter = choice(request.session["level_filters"])
+		filtered_ids = Expression.objects.filter(level = filter).values_list('id', flat = True)
+		expression_data = Expression.objects.filter(level = filter)
+		expression_data = expression_data.get(pk = choice(filtered_ids))	# pick a random expression respecting the filters
+
 	context = {
 		"levels": levels,
+		"filters": request.session["level_filters"],
 		"expression_info": expression_data,
 	}
 	
@@ -77,9 +90,6 @@ def dashboard(request):
 		not_learned = Learn.objects.filter(user=request.user.id, confidence__lte=0).count()
 		learning = Learn.objects.filter(user=request.user.id, confidence__range=(1, 10)).count()
 		learned = Learn.objects.filter(user=request.user.id, confidence__gte=11).count()
-		print("not: ", not_learned)
-		print("ing: ", learning)
-		print("ed: ", learned)
 		context = {
 			"not_learned" : not_learned,
 			"learning" : learning,

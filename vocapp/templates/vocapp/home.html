@@ -29,9 +29,9 @@
 			</ul>
 		<main>
 			<div>
-				<form action="{%url 'vocapp:home'%}" method="GET">
+				<form action="{%url 'vocapp:update_filters'%}" method="GET">
 					{% for level in levels %}
-						<input type="checkbox" name="level" id="{{level}}" value="{{level}}">
+						<input type="checkbox" name="level" id="{{level}}" value="{{level}}" {%if level in filters%} checked {%endif%}>
 						<label for="{{level}}">{{level}}</label>
 					{%endfor%}
 					|
