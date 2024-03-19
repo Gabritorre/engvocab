@@ -40,13 +40,18 @@ def adjust_confidence(request, expression_id):
 	return redirect('vocapp:home')
 
 def update_filters(request):
-	if request.GET:
-		if ("level" in request.GET):
-			request.session["level_filters"] = dict(request.GET)["level"]
-		if ("phrasal" in request.GET):
-			request.session["phrasal"] = True
-		else:
-			request.session["phrasal"] = False
+	if ("level" in request.GET):
+		request.session["level_filters"] = dict(request.GET)["level"]
+	else:
+		request.session["level_filters"] = []
+	if ("phrasal" in request.GET):
+		request.session["phrasal"] = True
+	else:
+		request.session["phrasal"] = False
+	if ("category" in request.GET):
+		request.session["category"] = request.GET["category"]
+		print(request.session["category"])
+	
 	return HttpResponseRedirect(reverse("vocapp:home"))
 
 def home(request):
@@ -71,7 +76,6 @@ def home(request):
 	expression_data = Expression.objects.get(pk = choice(filtered_ids))	# pick a random expression respecting the filters
 	context = {
 		"levels": levels,
-		"filters": request.session["level_filters"],
 		"phrasal": request.session["phrasal"],
 		"expression_info": expression_data,
 	}
