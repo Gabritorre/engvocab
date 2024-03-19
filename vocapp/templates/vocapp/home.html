@@ -35,7 +35,7 @@
 						<label for="{{level}}">{{level}}</label>
 					{%endfor%}
 					|
-					<input type="checkbox" name="phrasal" id="phrasal">
+					<input type="checkbox" name="phrasal" id="phrasal" {%if phrasal %} checked {% endif %}>
 					<label for="phrasal">phrasal verb</label>
 					<button type="submit">Apply</button>
 				</form>

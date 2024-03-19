@@ -43,6 +43,10 @@ def update_filters(request):
 	if request.GET:
 		if ("level" in request.GET):
 			request.session["level_filters"] = dict(request.GET)["level"]
+		if ("phrasal" in request.GET):
+			request.session["phrasal"] = True
+		else:
+			request.session["phrasal"] = False
 	return HttpResponseRedirect(reverse("vocapp:home"))
 
 def home(request):
@@ -50,18 +54,25 @@ def home(request):
 	if ("level_filters" not in request.session.keys()):
 		request.session["level_filters"] = []
 	
-	if (request.session["level_filters"] == []):
-		all_ids = Expression.objects.values_list('id', flat = True)
-		expression_data = Expression.objects.get(pk = choice(all_ids))	# pick a random expression
-	else:
-		filter = choice(request.session["level_filters"])
-		filtered_ids = Expression.objects.filter(level = filter).values_list('id', flat = True)
-		expression_data = Expression.objects.filter(level = filter)
-		expression_data = expression_data.get(pk = choice(filtered_ids))	# pick a random expression respecting the filters
+	if ("phrasal" not in request.session.keys()):
+		request.session["phrasal"] = False
 
+	if (request.session["level_filters"] == []):
+		if (request.session["phrasal"]):
+			filtered_ids = Expression.objects.filter(is_phrasal_verb = True).values_list('id', flat = True)
+		else:
+			filtered_ids = Expression.objects.values_list('id', flat = True)
+	else:
+		if (request.session["phrasal"]):
+			filtered_ids = Expression.objects.filter(is_phrasal_verb = True, level__in=request.session["level_filters"]).values_list('id', flat=True)
+		else:
+			filtered_ids = Expression.objects.filter(level__in=request.session["level_filters"]).values_list('id', flat=True)
+
+	expression_data = Expression.objects.get(pk = choice(filtered_ids))	# pick a random expression respecting the filters
 	context = {
 		"levels": levels,
 		"filters": request.session["level_filters"],
+		"phrasal": request.session["phrasal"],
 		"expression_info": expression_data,
 	}
 	
