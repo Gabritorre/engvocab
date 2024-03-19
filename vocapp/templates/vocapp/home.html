@@ -39,9 +39,9 @@
 					<label for="phrasal">phrasal verb</label>
 					{% if request.user.is_authenticated %}
 						|
-						<input type="radio" name="category" id="discover">
+						<input type="radio" name="category" id="discover" value="discover">
 						<label for="discover">discover</label>
-						<input type="radio" name="category" id="review">
+						<input type="radio" name="category" id="review" value="review">
 						<label for="review">review</label>
 					{% endif %}
 					<button type="submit">Apply</button>

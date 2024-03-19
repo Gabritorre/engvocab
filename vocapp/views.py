@@ -40,18 +40,19 @@ def adjust_confidence(request, expression_id):
 	return redirect('vocapp:home')
 
 def update_filters(request):
+	request.session["level_filters"] = []
+	request.session["phrasal"] = False
+	request.session["category"] = "discover"
+	print(dict(request.GET))
 	if ("level" in request.GET):
 		request.session["level_filters"] = dict(request.GET)["level"]
-	else:
-		request.session["level_filters"] = []
+
 	if ("phrasal" in request.GET):
 		request.session["phrasal"] = True
-	else:
-		request.session["phrasal"] = False
+
 	if ("category" in request.GET):
 		request.session["category"] = request.GET["category"]
-		print(request.session["category"])
-	
+
 	return HttpResponseRedirect(reverse("vocapp:home"))
 
 def home(request):
@@ -61,7 +62,14 @@ def home(request):
 	
 	if ("phrasal" not in request.session.keys()):
 		request.session["phrasal"] = False
+	
+	if ("category" not in request.session.keys()):
+		request.session["category"] = "discover"
 
+	# se discovery allora prendi expression non ancora legate alla tabella Learn
+	# se review allora prendi expression solamente collegate alla tabella Learn
+	# controllo se l'utente è autenticato(?)
+	# se non è collegato è discovery di default
 	if (request.session["level_filters"] == []):
 		if (request.session["phrasal"]):
 			filtered_ids = Expression.objects.filter(is_phrasal_verb = True).values_list('id', flat = True)
