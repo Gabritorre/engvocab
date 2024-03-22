@@ -35,13 +35,13 @@
 						<label for="{{level}}">{{level}}</label>
 					{%endfor%}
 					|
-					<input type="checkbox" name="phrasal" id="phrasal" {%if phrasal %} checked {% endif %}>
+					<input type="checkbox" name="phrasal" id="phrasal" {%if request.session.phrasal %} checked {% endif %}>
 					<label for="phrasal">phrasal verb</label>
 					{% if request.user.is_authenticated %}
 						|
-						<input type="radio" name="category" id="discover" value="discover">
+						<input type="radio" name="category" id="discover" value="discover" {%if request.session.category == 'discover'%} checked {%endif%}>
 						<label for="discover">discover</label>
-						<input type="radio" name="category" id="review" value="review">
+						<input type="radio" name="category" id="review" value="review" {%if request.session.category == 'review'%} checked {%endif%}>
 						<label for="review">review</label>
 					{% endif %}
 					<button type="submit">Apply</button>

@@ -43,7 +43,6 @@ def update_filters(request):
 	request.session["level_filters"] = []
 	request.session["phrasal"] = False
 	request.session["category"] = "discover"
-	print(dict(request.GET))
 	if ("level" in request.GET):
 		request.session["level_filters"] = dict(request.GET)["level"]
 
@@ -70,6 +69,17 @@ def home(request):
 	# se review allora prendi expression solamente collegate alla tabella Learn
 	# controllo se l'utente è autenticato(?)
 	# se non è collegato è discovery di default
+
+	if (request.session["category"] == "review"):
+		result = Learn.objects.filter(user__id=request.user.id, confidence__gt = 0).select_related('user', 'expression')
+		print("review")
+		print(result)	
+	else:
+		#to fix
+		result = Learn.objects.filter(user__id=request.user.id, confidence = 0).select_related('user', 'expression')
+		print("discover")
+		print(result)
+
 	if (request.session["level_filters"] == []):
 		if (request.session["phrasal"]):
 			filtered_ids = Expression.objects.filter(is_phrasal_verb = True).values_list('id', flat = True)
@@ -84,7 +94,6 @@ def home(request):
 	expression_data = Expression.objects.get(pk = choice(filtered_ids))	# pick a random expression respecting the filters
 	context = {
 		"levels": levels,
-		"phrasal": request.session["phrasal"],
 		"expression_info": expression_data,
 	}
 	
