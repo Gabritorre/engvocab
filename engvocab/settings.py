@@ -34,6 +34,11 @@ ALLOWED_HOSTS = ["engvocab.eu.pythonanywhere.com", "localhost", "127.0.0.1"]
 
 AUTH_USER_MODEL = "vocapp.User"
 
+if DEBUG == 0:
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True
+
 # Application definition
 
 INSTALLED_APPS = [
