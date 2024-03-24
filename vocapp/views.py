@@ -5,7 +5,9 @@ from django.urls import reverse
 from .forms import LoginForm, SignupForm
 
 from .models import Role, Level, Expression, Learn, User
+from .custom_exceptions import EmptyQuery
 from random import choice
+
 
 import json
 
@@ -14,11 +16,6 @@ def redir_home(request):
     return redirect('vocapp:home')
 
 def adjust_confidence(request, expression_id):
-	# if there is a user logged in
-	# get the curret confidence of the user with the "expression_id" word
-	# if the guessing value is 1 the increase it
-	# else decrease it 
-	
 	if request.user.is_authenticated:
 		user = User.objects.get(username=request.user.username)
 		expr = Expression.objects.get(pk = expression_id)
@@ -60,28 +57,40 @@ def filter_expressions(levels, phrasal, category, user):
 	# DISCOVER or REVIEW
 	if (category == "review"):
 		expressions_set = Expression.objects.filter(learn__user_id = user.id, learn__confidence__gt = 0)
-		# print("review")
-		# print(expressions_set)	
+		if not expressions_set:
+			raise EmptyQuery(1)
 	elif category == "discover" and user.is_authenticated:
 		expressions_set = Expression.objects.filter(learn__user_id = user.id, learn__confidence = 0)
-		# print("discover")
-		# print(expressions_set)
+		if not expressions_set:
+			raise EmptyQuery(2)
 	else: 
 		expressions_set = Expression.objects.all()
-		# print("all")
-		# print(expressions_set)
+		if not expressions_set:
+			raise EmptyQuery(3)
 
 	# LEVEL FILTERS and PHRASAL VERB
 	if (levels == []):
 		if (phrasal):
 			filtered_ids = expressions_set.filter(is_phrasal_verb = True).values_list('id', flat = True)
+			if not filtered_ids:
+				raise EmptyQuery(4)
 		else:
 			filtered_ids = expressions_set.values_list('id', flat = True)
+			if not filtered_ids:
+				raise EmptyQuery(5)
 	else:
 		if (phrasal):
 			filtered_ids = expressions_set.filter(is_phrasal_verb = True, level__in=levels).values_list('id', flat=True)
+			if not filtered_ids:
+				raise EmptyQuery(6)
 		else:
 			filtered_ids = expressions_set.filter(level__in=levels).values_list('id', flat=True)
+			if not filtered_ids:
+				raise EmptyQuery(7)
+			
+	if not filtered_ids:
+		print(filtered_ids)
+		raise EmptyQuery(0)
 	
 	return expressions_set.get(pk = choice(filtered_ids))
 
@@ -99,12 +108,18 @@ def home(request):
 
 	try:
 		expression_data = filter_expressions(request.session["level_filters"], request.session["phrasal"], request.session["category"], request.user)
-	except IndexError as e:
-		return HttpResponse(e)
-	context = {
-		"levels": levels,
-		"expression_info": expression_data,
-	}
+	except EmptyQuery as e:
+		context = {
+			"levels": levels,
+			"expression_info": {},
+			"error": e,
+		}
+	else:
+		context = {
+			"levels": levels,
+			"expression_info": expression_data,
+			"error" : {}
+		}
 	
 	return render(request, "vocapp/home.html", context)
 

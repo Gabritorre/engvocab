@@ -50,25 +50,30 @@
 				
 			</div>
 			<hr>
-			<div>
-				{{expression_info.level}} | {{expression_info.role}} | {{expression_info.context}} {% if expression_info.is_phrasal_verb %} | phrasal verb {% endif %} | {% if expression_info.is_formal %} formal {%endif%} <br>
-				{{expression_info.content}}<br>
-				<button id="show_button" onclick="show_solution()">Show</button><br>
-				<div hidden id="solution">
-					{{expression_info.translation_it}}<br>
-					{{expression_info.example_en}} | {{expression_info.example_it}}<br>
-					{{expression_info.note}}<br>
-					<hr>
-					<form action="{%url 'vocapp:adjust_confidence' expression_info.id%}" method="POST">
-						{% csrf_token %}
-						<button type ="submit" name="guessing" value="1">Guessed</button> 
-					</form>
-					<form action="{%url 'vocapp:adjust_confidence' expression_info.id%}" method="POST">
-						{% csrf_token %}
-						<button type ="submit" name="guessing" value="0">Not guessed</button>
-					</form>
+			{%if expression_info %}
+				<div>
+					{{expression_info.level}} | {{expression_info.role}} | {{expression_info.context}} {% if expression_info.is_phrasal_verb %} | phrasal verb {% endif %} | {% if expression_info.is_formal %} formal {%endif%} <br>
+					{{expression_info.content}}<br>
+					<button id="show_button" onclick="show_solution()">Show</button><br>
+					<div hidden id="solution">
+						{{expression_info.translation_it}}<br>
+						{{expression_info.example_en}} | {{expression_info.example_it}}<br>
+						{{expression_info.note}}<br>
+						<hr>
+						<form action="{%url 'vocapp:adjust_confidence' expression_info.id%}" method="POST">
+							{% csrf_token %}
+							<button type ="submit" name="guessing" value="1">Guessed</button> 
+						</form>
+						<form action="{%url 'vocapp:adjust_confidence' expression_info.id%}" method="POST">
+							{% csrf_token %}
+							<button type ="submit" name="guessing" value="0">Not guessed</button>
+						</form>
+					</div>
 				</div>
-			</div>
+			{% else %}
+				<p>{{error}}</p>
+			{% endif %}
+
 		</main>
 		<script src="{% static 'vocapp/js/home.js' %}"></script>
 	</body>
