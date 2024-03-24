@@ -37,6 +37,9 @@
 
 		</main>
 		<script src="{% static 'vocapp/js/search.js' %}"></script>
-		<script>sortExpressions('{{ expressions_list|escapejs }}')</script>
+		<script>
+		sortExpressions('{{ expressions_list|escapejs }}');
+		updateResults("");
+		</script>
 	</body>
 </html>
