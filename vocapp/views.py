@@ -54,6 +54,38 @@ def update_filters(request):
 
 	return HttpResponseRedirect(reverse("vocapp:home"))
 
+def filter_expressions(levels, phrasal, category, user):
+	expressions_set = None
+
+	# DISCOVER or REVIEW
+	if (category == "review"):
+		expressions_set = Expression.objects.filter(learn__user_id = user.id, learn__confidence__gt = 0)
+		# print("review")
+		# print(expressions_set)	
+	elif category == "discover" and user.is_authenticated:
+		expressions_set = Expression.objects.filter(learn__user_id = user.id, learn__confidence = 0)
+		# print("discover")
+		# print(expressions_set)
+	else: 
+		expressions_set = Expression.objects.all()
+		# print("all")
+		# print(expressions_set)
+
+	# LEVEL FILTERS and PHRASAL VERB
+	if (levels == []):
+		if (phrasal):
+			filtered_ids = expressions_set.filter(is_phrasal_verb = True).values_list('id', flat = True)
+		else:
+			filtered_ids = expressions_set.values_list('id', flat = True)
+	else:
+		if (phrasal):
+			filtered_ids = expressions_set.filter(is_phrasal_verb = True, level__in=levels).values_list('id', flat=True)
+		else:
+			filtered_ids = expressions_set.filter(level__in=levels).values_list('id', flat=True)
+	
+	return expressions_set.get(pk = choice(filtered_ids))
+
+
 def home(request):
 	levels = Level.objects.values_list('level', flat = True)
 	if ("level_filters" not in request.session.keys()):
@@ -65,33 +97,10 @@ def home(request):
 	if ("category" not in request.session.keys()):
 		request.session["category"] = "discover"
 
-	# se discovery allora prendi expression non ancora legate alla tabella Learn
-	# se review allora prendi expression solamente collegate alla tabella Learn
-	# controllo se l'utente è autenticato(?)
-	# se non è collegato è discovery di default
-
-	if (request.session["category"] == "review"):
-		result = Learn.objects.filter(user__id=request.user.id, confidence__gt = 0).select_related('user', 'expression')
-		print("review")
-		print(result)	
-	else:
-		#to fix
-		result = Learn.objects.filter(user__id=request.user.id, confidence = 0).select_related('user', 'expression')
-		print("discover")
-		print(result)
-
-	if (request.session["level_filters"] == []):
-		if (request.session["phrasal"]):
-			filtered_ids = Expression.objects.filter(is_phrasal_verb = True).values_list('id', flat = True)
-		else:
-			filtered_ids = Expression.objects.values_list('id', flat = True)
-	else:
-		if (request.session["phrasal"]):
-			filtered_ids = Expression.objects.filter(is_phrasal_verb = True, level__in=request.session["level_filters"]).values_list('id', flat=True)
-		else:
-			filtered_ids = Expression.objects.filter(level__in=request.session["level_filters"]).values_list('id', flat=True)
-
-	expression_data = Expression.objects.get(pk = choice(filtered_ids))	# pick a random expression respecting the filters
+	try:
+		expression_data = filter_expressions(request.session["level_filters"], request.session["phrasal"], request.session["category"], request.user)
+	except IndexError as e:
+		return HttpResponse(e)
 	context = {
 		"levels": levels,
 		"expression_info": expression_data,
