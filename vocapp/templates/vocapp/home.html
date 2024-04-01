@@ -27,8 +27,10 @@
 	<hr>
 	{%if expression_info %}
 		<div>
-			{{expression_info.level}} | {{expression_info.role}} | {{expression_info.context}} {% if expression_info.is_phrasal_verb %} | phrasal verb {% endif %} | {% if expression_info.is_formal %} formal {%endif%} <br>
-			{{expression_info.content}}<br>
+			{{expression_info.level}} | {{expression_info.role}} | {{expression_info.context}} {% if expression_info.is_phrasal_verb %} | phrasal verb {% endif %} | {% if expression_info.is_formal %} formal {%endif%}
+			<br>
+			<p id="content"></p>
+			<br>
 			<button id="show_button" onclick="show_solution()">Show</button><br>
 			<div hidden id="solution">
 				{{expression_info.translation_it}}<br>
@@ -50,5 +52,8 @@
 	{% endif %}
 
 </main>
+
 <script src="{% static 'vocapp/js/home.js' %}"></script>
+<script src="{% static 'vocapp/js/typing_sim.js' %}"></script>
+<script defer>type("{{expression_info.content}}", "content")</script>
 {% endblock %}

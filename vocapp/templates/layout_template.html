@@ -9,26 +9,30 @@
 		<!-- <link rel="shortcut icon" type="image/x-icon" href="style/favicon.ico"/> -->
 	</head>
 	<body>
-		<header>
-			{% if request.user.is_authenticated %}
-				<p>{{ request.user.username }}</p>
-				<a href="{% url 'vocapp:logout_user' %}">Logout</a>
-			{% else %}
-				<a href="{% url 'vocapp:login_user' %}">Login</a>
-				<a href="{% url 'vocapp:signup' %}">Sign up</a>
-			{% endif %}
-		</header>
-		<hr>
 		<nav>
 			<ul>
-				<li><a href="{%url 'vocapp:home'%}">Home</a></li>
-				<li><a href="{%url 'vocapp:search'%}">Search</a></li>
-				{% if request.user.is_authenticated %}
-					<li><a href="{%url 'vocapp:dashboard'%}">Dashboard</a></li>
-				{% endif %}
-				<li><a href="{%url 'vocapp:about'%}">About</a></li>
+			{% if request.user.is_authenticated %}
+				<li><a class="nav_item" href="{% url 'vocapp:logout_user' %}">Logout</a></li>
+			{% else %}
+				<li><a class="nav_item" href="{% url 'vocapp:login_user' %}">Login</a></li>
+				<li><a class="nav_item" href="{% url 'vocapp:signup' %}">Signup</a></li>
+			{% endif %}
 			</ul>
+			<ul>
+				<li><a class="nav_item" href="{%url 'vocapp:home'%}">Home</a></li>
+				<li><a class="nav_item" href="{%url 'vocapp:search'%}">Search</a></li>
+				{% if request.user.is_authenticated %}
+					<li><a class="nav_item" href="{%url 'vocapp:dashboard'%}">Dashboard</a></li>
+				{% endif %}
+				<li><a class="nav_item" href="{%url 'vocapp:about'%}">About</a></li>
+			</ul>
+			<div>
+				<p>{% if request.user.is_authenticated %} {{request.user.username}}{% else %}Guest{% endif %}@engvocab /home $ <span id="command"> </span></p>
+			</div>
+		</nav>
 		{% block main %}
 		{% endblock %}
 	</body>
+	<script src="{% static 'vocapp/js/typing_sim.js' %}"></script>
+	<script>AddEvents()</script>
 </html>
