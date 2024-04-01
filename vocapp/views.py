@@ -155,6 +155,13 @@ def dashboard(request):
 	else:
 		return redirect("vocapp:login_user")
 
+def about(request):
+	context = {
+		"version" : "1.0.0",
+		"repo" : "https://github.com/Gabritorre/engvocab",
+	}
+	return render(request, "vocapp/about.html", context)
+
 def signup(request):
 	if request.user.is_authenticated:
 		return redirect("vocapp:home")

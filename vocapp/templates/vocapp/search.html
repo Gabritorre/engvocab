@@ -25,6 +25,7 @@
 				{% if request.user.is_authenticated %}
 					<li><a href="{%url 'vocapp:dashboard'%}">Dashboard</a></li>
 				{% endif %}
+				<li><a href="{%url 'vocapp:about'%}">About</a></li>
 			</ul>
 		<main>
 			<input type="text" oninput="updateResults(this.value)" id="expression_name" name="expression_name" placeholder="Search for an expression" autocomplete="off">

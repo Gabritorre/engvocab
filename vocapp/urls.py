@@ -8,6 +8,7 @@ urlpatterns = [
 	path("home", views.home, name="home"),
 	path("search", views.search, name="search"),
 	path("expression/<int:expression_id>", views.inspect_expression, name="inspect_expression"),
+	path("about", views.about, name="about"),
 	path("dashboard", views.dashboard, name="dashboard"),
 	path("login", views.login_user, name="login_user"),
 	path("signup", views.signup, name="signup"),
