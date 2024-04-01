@@ -1,81 +1,54 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>Engvocab</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta charset="utf-8">
-		<!-- <link rel="shortcut icon" type="image/x-icon" href="style/favicon.ico"/> -->
-	</head>
-	<body>
-		<header>
-			{% load static %}
+{% extends "layout_template.html" %}
+
+{% block main %}
+{% load static %}
+<main>
+	<div>
+		<form action="{%url 'vocapp:update_filters'%}" method="GET">
+			{% for level in levels %}
+				<input type="checkbox" name="level" id="{{level}}" value="{{level}}" {%if level in request.session.level_filters%} checked {%endif%}>
+				<label for="{{level}}">{{level}}</label>
+			{%endfor%}
+			|
+			<input type="checkbox" name="phrasal" id="phrasal" {%if request.session.phrasal %} checked {% endif %}>
+			<label for="phrasal">phrasal verb</label>
 			{% if request.user.is_authenticated %}
-				<p>{{ request.user.username }}</p>
-				<a href="{% url 'vocapp:logout_user' %}">Logout</a>
-			{% else %}
-				<a href="{% url 'vocapp:login_user' %}">Login</a>
-				<a href="{% url 'vocapp:signup' %}">Sign up</a>
+				|
+				<input type="radio" name="category" id="discover" value="discover" {%if request.session.category == 'discover'%} checked {%endif%}>
+				<label for="discover">discover</label>
+				<input type="radio" name="category" id="review" value="review" {%if request.session.category == 'review'%} checked {%endif%}>
+				<label for="review">review</label>
 			{% endif %}
-		</header>
-		<hr>
-		<nav>
+			<button type="submit">Apply</button>
+		</form>
 
-			<ul>
-				<li><a href="{%url 'vocapp:home'%}">Home</a></li>
-				<li><a href="{%url 'vocapp:search'%}">Search</a></li>
-				{% if request.user.is_authenticated %}
-					<li><a href="{%url 'vocapp:dashboard'%}">Dashboard</a></li>
-				{% endif %}
-				<li><a href="{%url 'vocapp:about'%}">About</a></li>
-			</ul>
-		<main>
-			<div>
-				<form action="{%url 'vocapp:update_filters'%}" method="GET">
-					{% for level in levels %}
-						<input type="checkbox" name="level" id="{{level}}" value="{{level}}" {%if level in request.session.level_filters%} checked {%endif%}>
-						<label for="{{level}}">{{level}}</label>
-					{%endfor%}
-					|
-					<input type="checkbox" name="phrasal" id="phrasal" {%if request.session.phrasal %} checked {% endif %}>
-					<label for="phrasal">phrasal verb</label>
-					{% if request.user.is_authenticated %}
-						|
-						<input type="radio" name="category" id="discover" value="discover" {%if request.session.category == 'discover'%} checked {%endif%}>
-						<label for="discover">discover</label>
-						<input type="radio" name="category" id="review" value="review" {%if request.session.category == 'review'%} checked {%endif%}>
-						<label for="review">review</label>
-					{% endif %}
-					<button type="submit">Apply</button>
+		
+	</div>
+	<hr>
+	{%if expression_info %}
+		<div>
+			{{expression_info.level}} | {{expression_info.role}} | {{expression_info.context}} {% if expression_info.is_phrasal_verb %} | phrasal verb {% endif %} | {% if expression_info.is_formal %} formal {%endif%} <br>
+			{{expression_info.content}}<br>
+			<button id="show_button" onclick="show_solution()">Show</button><br>
+			<div hidden id="solution">
+				{{expression_info.translation_it}}<br>
+				{{expression_info.example_en}} | {{expression_info.example_it}}<br>
+				{{expression_info.note}}<br>
+				<hr>
+				<form action="{%url 'vocapp:adjust_confidence' expression_info.id%}" method="POST">
+					{% csrf_token %}
+					<button type ="submit" name="guessing" value="1">Guessed</button> 
 				</form>
-
-				
+				<form action="{%url 'vocapp:adjust_confidence' expression_info.id%}" method="POST">
+					{% csrf_token %}
+					<button type ="submit" name="guessing" value="0">Not guessed</button>
+				</form>
 			</div>
-			<hr>
-			{%if expression_info %}
-				<div>
-					{{expression_info.level}} | {{expression_info.role}} | {{expression_info.context}} {% if expression_info.is_phrasal_verb %} | phrasal verb {% endif %} | {% if expression_info.is_formal %} formal {%endif%} <br>
-					{{expression_info.content}}<br>
-					<button id="show_button" onclick="show_solution()">Show</button><br>
-					<div hidden id="solution">
-						{{expression_info.translation_it}}<br>
-						{{expression_info.example_en}} | {{expression_info.example_it}}<br>
-						{{expression_info.note}}<br>
-						<hr>
-						<form action="{%url 'vocapp:adjust_confidence' expression_info.id%}" method="POST">
-							{% csrf_token %}
-							<button type ="submit" name="guessing" value="1">Guessed</button> 
-						</form>
-						<form action="{%url 'vocapp:adjust_confidence' expression_info.id%}" method="POST">
-							{% csrf_token %}
-							<button type ="submit" name="guessing" value="0">Not guessed</button>
-						</form>
-					</div>
-				</div>
-			{% else %}
-				<p>{{error}}</p>
-			{% endif %}
+		</div>
+	{% else %}
+		<p>{{error}}</p>
+	{% endif %}
 
-		</main>
-		<script src="{% static 'vocapp/js/home.js' %}"></script>
-	</body>
-</html>
+</main>
+<script src="{% static 'vocapp/js/home.js' %}"></script>
+{% endblock %}

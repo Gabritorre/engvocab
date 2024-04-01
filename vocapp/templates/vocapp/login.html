@@ -1,29 +1,13 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>Engvocab</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta charset="utf-8">
-		<!-- <link rel="shortcut icon" type="image/x-icon" href="style/favicon.ico"/> -->
-	</head>
-	<body>
-		<nav>
-			<ul>
-				<li><a href="{%url 'vocapp:home'%}">Home</a></li>
-				<li><a href="{%url 'vocapp:search'%}">Search</a></li>
-				{% if request.user.is_authenticated %}
-					<li><a href="{%url 'vocapp:dashboard'%}">Dashboard</a></li>
-				{% endif %}
-				<li><a href="{%url 'vocapp:about'%}">About</a></li>
-			</ul>
-		<main>
-			<h1>Login</h1>
-			<form method="POST">
-				{% csrf_token %}
-				{{ form.as_p }}
-				<button type="submit">Login</button>
-			</form>
-			First time here? <a href="{%url 'vocapp:signup'%}">Sign up</a>
-		</main>
-	</body>
-</html>
+{% extends "layout_template.html" %}
+
+{% block main %}
+<main>
+	<h1>Login</h1>
+	<form method="POST">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<button type="submit">Login</button>
+	</form>
+	First time here? <a href="{%url 'vocapp:signup'%}">Sign up</a>
+</main>
+{% endblock %}

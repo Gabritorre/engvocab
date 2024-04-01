@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Engvocab</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset="utf-8">
+		<!-- <link rel="shortcut icon" type="image/x-icon" href="style/favicon.ico"/> -->
+	</head>
+	<body>
+		<header>
+			{% if request.user.is_authenticated %}
+				<p>{{ request.user.username }}</p>
+				<a href="{% url 'vocapp:logout_user' %}">Logout</a>
+			{% else %}
+				<a href="{% url 'vocapp:login_user' %}">Login</a>
+				<a href="{% url 'vocapp:signup' %}">Sign up</a>
+			{% endif %}
+		</header>
+		<hr>
+		<nav>
+			<ul>
+				<li><a href="{%url 'vocapp:home'%}">Home</a></li>
+				<li><a href="{%url 'vocapp:search'%}">Search</a></li>
+				{% if request.user.is_authenticated %}
+					<li><a href="{%url 'vocapp:dashboard'%}">Dashboard</a></li>
+				{% endif %}
+				<li><a href="{%url 'vocapp:about'%}">About</a></li>
+			</ul>
+		{% block main %}
+		{% endblock %}
+	</body>
+</html>
