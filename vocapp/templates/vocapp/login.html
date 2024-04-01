@@ -5,7 +5,13 @@
 	<h1>Login</h1>
 	<form method="POST">
 		{% csrf_token %}
-		{{ form.as_p }}
+		<!-- {{ form.as_p }} -->
+		<label for="id_username">Username:</label>
+		{{ form.username }}
+		<br>
+		<label for="id_password">Password:</label>
+		{{ form.password }}
+
 		<button type="submit">Login</button>
 	</form>
 	First time here? <a href="{%url 'vocapp:signup'%}">Sign up</a>

@@ -168,8 +168,14 @@ def signup(request):
 	if request.method == "POST":
 		form = SignupForm(request.POST)
 		if form.is_valid():
+			username = form.cleaned_data["username"]
+			password = form.cleaned_data["password1"]
 			form.save()
-			return HttpResponseRedirect(reverse("vocapp:login_user"))
+			user = authenticate(request, username=username, password=password)
+			if user:
+				login(request, user)
+				return redirect("vocapp:home")
+			return HttpResponseRedirect(reverse("vocapp:signup_user"))
 	else:
 		form = SignupForm()
 	return render(request, "vocapp/signup.html", {'form': form})
