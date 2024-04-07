@@ -6,20 +6,20 @@
 	<div>
 		<form action="{%url 'vocapp:update_filters'%}" method="GET">
 			{% for level in levels %}
-				<input type="checkbox" name="level" id="{{level}}" value="{{level}}" {%if level in request.session.level_filters%} checked {%endif%}>
+				<input type="checkbox" name="level" id="{{level}}" class="filter" value="{{level}}" {%if level in request.session.level_filters%} checked {%endif%}>
 				<label for="{{level}}">{{level}}</label>
 			{%endfor%}
 			|
-			<input type="checkbox" name="phrasal" id="phrasal" {%if request.session.phrasal %} checked {% endif %}>
+			<input type="checkbox" name="phrasal" id="phrasal" class="filter" value="phrasal" {%if request.session.phrasal %} checked {% endif %}>
 			<label for="phrasal">phrasal verb</label>
 			{% if request.user.is_authenticated %}
 				|
-				<input type="radio" name="category" id="discover" value="discover" {%if request.session.category == 'discover'%} checked {%endif%}>
+				<input type="radio" name="category" id="discover" class="filter" value="discover" {%if request.session.category == 'discover'%} checked {%endif%}>
 				<label for="discover">discover</label>
-				<input type="radio" name="category" id="review" value="review" {%if request.session.category == 'review'%} checked {%endif%}>
+				<input type="radio" name="category" id="review" class="filter" value="review" {%if request.session.category == 'review'%} checked {%endif%}>
 				<label for="review">review</label>
 			{% endif %}
-			<button type="submit">Apply</button>
+			<button type="submit" id="apply_filter">Apply</button>
 		</form>
 
 		
@@ -53,7 +53,39 @@
 
 </main>
 
+<script defer>
+	window.filter_command = ""
+	"{% if request.session.level_filters%}"
+		window.filter_command = "filter";
+	
+		"{%for level in request.session.level_filters %}"
+			window.filter_command += " " + "{{level}}";
+		"{%endfor%}"
+	"{% endif %}"
+
+	"{%if request.session.phrasal %}"
+		if (window.filter_command == "") {
+			window.filter_command = "filter";
+		}
+		window.filter_command += " " + "phrasal";
+	"{% endif %}"
+
+	"{%if request.session.category == 'review'%}"
+		if (window.filter_command == "") {
+			window.filter_command = "filter";
+		}
+		window.filter_command += " " + "review";
+	"{%endif%}"
+</script>
+
 <script src="{% static 'vocapp/js/home.js' %}"></script>
 <script src="{% static 'vocapp/js/typing_sim.js' %}"></script>
-<script defer>type("{{expression_info.content}}", "content", 1)</script>
+
+<script>
+	"{%if expression_info.content%}"
+		type("{{expression_info.content}}", "content", 1);
+	"{% endif %}"
+	addFilterEvents();
+</script>
+
 {% endblock %}
