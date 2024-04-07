@@ -29,7 +29,7 @@ function AddEvents() {
 
 	for (let i = 0; i < nav_items.length; i++) {
 		nav_items[i].addEventListener('mouseover', function() {
-			type(nav_items[i].innerHTML.toLowerCase(), "command", 3);
+			type("cd /" + nav_items[i].innerHTML.toLowerCase(), "command", 3);
 		});
 		nav_items[i].addEventListener('mouseout', clear_command);
 	}

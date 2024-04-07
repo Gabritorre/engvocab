@@ -27,7 +27,7 @@
 				<li><a class="nav_item" href="{%url 'vocapp:about'%}">About</a></li>
 			</ul>
 			<div>
-				<p>{% if request.user.is_authenticated %} {{request.user.username}}{% else %}Guest{% endif %}@engvocab /home $ <span id="command"> </span></p>
+				<p>{% if request.user.is_authenticated %} {{request.user.username}}{% else %}Guest{% endif %}@engvocab {{request.path}} $ <span id="command"> </span></p>
 			</div>
 		</nav>
 		{% block main %}
