@@ -37,11 +37,11 @@
 				<hr>
 				<form action="{%url 'vocapp:adjust_confidence' expression_info.id%}" method="POST">
 					{% csrf_token %}
-					<button type ="submit" name="guessing" value="1">Guessed</button> 
+					<button type ="submit" class = "guess_button" name="guessing" value="1">Guessed</button> 
 				</form>
 				<form action="{%url 'vocapp:adjust_confidence' expression_info.id%}" method="POST">
 					{% csrf_token %}
-					<button type ="submit" name="guessing" value="0">Not guessed</button>
+					<button type ="submit" class = "guess_button" name="guessing" value="0">Not guessed</button>
 				</form>
 			</div>
 		</div>
@@ -81,11 +81,12 @@
 <script src="{% static 'vocapp/js/typing_sim.js' %}"></script>
 
 <script>
-	// type the current expression
+	window.active_timers = 0;	//acts like a semaphore for waiting the previous command to be fully typed into the shell
+
 	"{%if expression_info.content%}"
 		type("{{expression_info.content}}", "content", 1, false, false, false);
 	"{% endif %}"
-	addFilterEvents();
+	addHomeEvents();
 </script>
 
 {% endblock %}

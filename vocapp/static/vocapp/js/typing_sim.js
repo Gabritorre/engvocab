@@ -1,5 +1,5 @@
 var timers = [];
-var active_timers = 0;		//acts like a semaphore for waiting the previous command to be fully typed into the shell
+// window.active_timers = 0;		//[declared in home.html] acts like a semaphore for waiting the previous command to be fully typed into the shell
 
 /*
 write a string into a container simulating a real typing
@@ -11,7 +11,7 @@ write a string into a container simulating a real typing
 @wait: set to true if you want to wait the previous command(s) to finish
 */
 async function type(string, container_id, speed = 1, append = false, save = false, wait = false) {
-	let interval = 150;
+	let interval;
 	if (speed == 1) {
 		interval = 135;
 	}
@@ -33,7 +33,7 @@ async function type(string, container_id, speed = 1, append = false, save = fals
 	}
 
 	if (wait){
-		while (active_timers > 0) {	//wait the termination of the previous command
+		while (window.active_timers > 0) {	//wait the termination of the previous command
 			await new Promise(r => setTimeout(r, interval));
 		}
 	}
@@ -43,18 +43,15 @@ async function type(string, container_id, speed = 1, append = false, save = fals
 		}
 	}
 
+	if (save) {
+		window.filter_command = container.innerHTML + string;
+	}
+
 	for (let i = 0; i < string.length; i++) {
-		active_timers++;
+		window.active_timers++;
 		timers[i] = setTimeout(() => {
 			container.innerHTML += string[i];
-			if (save) {
-				window.filter_command = container.innerHTML;
-			}
-			if (i == string.length-1) {
-				last_timer_begin_time = (new Date()).getTime();
-				timer_len = i * interval;
-			}
-			active_timers--;
+			window.active_timers--;
 		}, i * interval);
 	}
 }
@@ -71,17 +68,25 @@ function addNavEvents() {
 	}
 }
 
-function addFilterEvents() {
-	var filters = document.getElementsByClassName('filter');
+function addHomeEvents() {
+	let filters = document.getElementsByClassName('filter');
 
 	for (let i = 0; i < filters.length; i++) {
 		filters[i].addEventListener('change', buildFilterCommand);
 	}
 
-	var apply_button = document.getElementById("apply_filter");
+	let apply_button = document.getElementById("apply_filter");
 	apply_button.addEventListener("click", function() {
 		type(window.filter_command, "command", 5, false, false, false);
 	})
+
+	let guess_buttons = Array.from(document.getElementsByClassName("guess_button"));
+	guess_buttons.forEach((button) => {
+		button.addEventListener("mouseover", function() {
+			type(button.innerHTML.toLowerCase(), "command", 3, false, false, false);
+		})
+		button.addEventListener("mouseout", clear_command);
+	});
 }
 
 function replaceAt(string, index, replacement) {
@@ -91,10 +96,11 @@ function replaceAt(string, index, replacement) {
     return string.substring(0, index) + replacement + string.substring(index + replacement.length);
 }
 
-function buildFilterCommand(e) {
+async function buildFilterCommand(e) {
 	interval = 30;
 	let container = document.getElementById("command");
-	// add filter this.value
+
+	// add this.value filter 
 	if (e.currentTarget.checked){
 		if (window.filter_command.trim() == "") {
 			type("filter " + this.value, "command", 3, false, true, false)
@@ -108,12 +114,13 @@ function buildFilterCommand(e) {
 			}
 		}
 	}
-	//remove filter this.value
+	//remove this.value filter 
 	else {
 		// if the command is empty right now, then retype the full command updated
 		if (container.innerHTML.trim() == ""){
 			window.filter_command = window.filter_command.replace(" " + this.value, '');
-			if (window.filter_command == "filter"){	// if there is no more filters active then avoid to print the command
+			
+			if (window.filter_command.trim() == "filter"){	// if there is no more filters active then avoid to print the command
 				window.filter_command = "";
 				return;
 			}
@@ -121,19 +128,26 @@ function buildFilterCommand(e) {
 		}
 		// else remove character by character the filter to be removed
 		else {
+			let interval = 30;
+			while (window.active_timers > 0){
+				await new Promise(r => setTimeout(r, interval));
+			}
+			
 			let start_index = window.filter_command.indexOf(" " + this.value);
-			let end_index = this.value.length;
+			let len = this.value.length;
 			window.filter_command = window.filter_command.replace(" " + this.value, '');
-			if (window.filter_command == "filter") {// if there is no more filters active then delete every character in the command
+			if (window.filter_command.trim() == "filter") {// if there is no more filters active then delete every character in the command
 				start_index = 0;
-				end_index += window.filter_command.length;
+				len += window.filter_command.length;
 				window.filter_command = "";
 			}
+
 			let j = 0;
-			interval = 30;
-			for (let i = end_index; i >= 0; i--) {
+			for (let i = len; i >= 0; i--) {
+				window.active_timers++;
 				timers[j] = setTimeout(() => {
 					container.innerHTML = replaceAt(container.innerHTML, start_index + i, '');
+					window.active_timers--;
 				}, j * interval);
 				j++;
 			}
@@ -145,8 +159,8 @@ function clear_command(e) {
 	for(let i = 0; i < timers.length; i++) {
 		clearTimeout(timers[i]);
 	}
+	window.active_timers = 0;
 	let container = document.getElementById("command");
 	container.innerHTML = "";
 }
-
 
