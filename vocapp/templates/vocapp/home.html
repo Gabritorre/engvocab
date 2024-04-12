@@ -83,7 +83,7 @@
 <script>
 	// type the current expression
 	"{%if expression_info.content%}"
-		type("{{expression_info.content}}", "content", 1);
+		type("{{expression_info.content}}", "content", 1, false, false, false);
 	"{% endif %}"
 	addFilterEvents();
 </script>
