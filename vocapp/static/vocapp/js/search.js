@@ -44,3 +44,16 @@ function clearExpressions(){
 		}
 	}catch(e){}
 }
+
+function addSearchEvent() {
+	let apply_button = document.getElementById("expression_name");
+	apply_button.addEventListener("input", function() {
+		updateResults(this.value);
+	})
+	apply_button.addEventListener("focus", function() {
+		type("find ", "command", 3, false, false, false);
+	})
+	apply_button.addEventListener("focusout", function() {
+		clear_command();
+	})
+}

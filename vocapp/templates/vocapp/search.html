@@ -3,7 +3,7 @@
 {% block main %}
 {% load static %}
 <main>
-	<input type="text" autofocus oninput="updateResults(this.value)" id="expression_name" name="expression_name" placeholder="Search for an expression" autocomplete="off">
+	<input type="text" autofocus id="expression_name" name="expression_name" placeholder="Search for an expression" autocomplete="off">
 	
 	<div>
 		<h3>Expressions:</h3>
@@ -16,5 +16,6 @@
 <script>
 sortExpressions('{{ expressions_list|escapejs }}');
 updateResults("");
+addSearchEvent();
 </script>
 {% endblock %}
