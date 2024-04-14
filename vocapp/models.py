@@ -24,6 +24,7 @@ class Expression(models.Model):
 	example_it = models.CharField(max_length=150, null=True)
 	is_phrasal_verb = models.BooleanField(default=False)
 	is_formal = models.BooleanField(default=False)
+	is_figurative = models.BooleanField(default=False)
 	role = models.ForeignKey(Role, on_delete=models.CASCADE)
 	level = models.ForeignKey(Level, on_delete=models.CASCADE)
 
