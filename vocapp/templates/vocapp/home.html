@@ -25,7 +25,7 @@
 	<hr>
 	{%if expression_info %}
 		<div>
-			{{expression_info.level}} | {{expression_info.role}} | {{expression_info.context}} {% if expression_info.is_phrasal_verb %} | phrasal verb {% endif %} | {% if expression_info.is_formal %} formal {%endif%}
+			{{expression_info.level}} | {{expression_info.role}} | {{expression_info.context}} {% if expression_info.is_phrasal_verb %} | phrasal verb {% endif %} | {% if expression_info.is_formal %} formal {%endif%} | {% if expression_info.is_figurative %} figurative {%endif%}
 			<br>
 			<p id="content"></p>
 			<br>

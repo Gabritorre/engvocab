@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2024-04-14T20:29:40.368Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36" etag="sWnrO677U5pN9jSFKec7" version="24.2.5" type="device">
+<mxfile host="app.diagrams.net" modified="2024-04-15T18:44:37.490Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36" etag="ELK33HB63yoTFPr5F8yY" version="24.2.5" type="device">
   <diagram id="lDlxW4i7y4j8TEf86Q9k" name="Pagina-1">
-    <mxGraphModel dx="3595" dy="620" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="1654" math="0" shadow="0">
+    <mxGraphModel dx="3373" dy="511" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="1654" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -11,10 +11,10 @@
           <mxGeometry y="30" width="144" height="49" as="geometry" />
         </mxCell>
         <mxCell id="zCak5OPpVRagQOr4Mdr1-6" value="Expressions" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="-1759" y="159" width="140" height="192" as="geometry" />
+          <mxGeometry x="-1759" y="159" width="140" height="208" as="geometry" />
         </mxCell>
         <mxCell id="zCak5OPpVRagQOr4Mdr1-7" value="id : int &amp;lt;PK&amp;gt;&lt;br&gt;content : string&lt;br&gt;translation_it : string&lt;br&gt;note: string&lt;br&gt;context : string&lt;br&gt;example_eng : string&lt;br&gt;example_it : string&lt;br&gt;is_phrasal_verb : bool&lt;br&gt;is_formal : bool&lt;div&gt;is_figurative : bool&lt;br&gt;role : string &amp;lt;FK&amp;gt;&lt;br&gt;level : string &amp;lt;FK&amp;gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" parent="zCak5OPpVRagQOr4Mdr1-6" vertex="1">
-          <mxGeometry y="30" width="140" height="162" as="geometry" />
+          <mxGeometry y="30" width="140" height="178" as="geometry" />
         </mxCell>
         <mxCell id="zCak5OPpVRagQOr4Mdr1-10" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;" parent="1" source="zCak5OPpVRagQOr4Mdr1-8" target="zCak5OPpVRagQOr4Mdr1-3" edge="1">
           <mxGeometry relative="1" as="geometry" />
