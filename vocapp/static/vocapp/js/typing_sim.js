@@ -38,9 +38,7 @@ async function type(string, container_id, speed = 1, append = false, save = fals
 		}
 	}
 	else {
-		for (let i = 0; i < timers.length; i++) {
-			clearTimeout(timers[i]);
-		}
+		killTimers();
 	}
 
 	if (save) {
@@ -56,6 +54,11 @@ async function type(string, container_id, speed = 1, append = false, save = fals
 	}
 }
 
+function killTimers() {
+	for (let i = 0; i < timers.length; i++) {
+		clearTimeout(timers[i]);
+	}
+}
 
 function addNavEvents() {
 	var nav_items = document.getElementsByClassName('nav_item');
