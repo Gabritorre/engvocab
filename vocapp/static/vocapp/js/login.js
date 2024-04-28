@@ -18,8 +18,6 @@ async function update_login_shell(e) {
 	let command_container = document.getElementById("command");
 	console.log("user: " + username + " pass_len: " + password_len);
 	if (old_username == null || command_container.innerHTML.trim() == "") {
-		old_username = username;
-		old_password_len = password_len;
 		type("login -u -p " + username + " " + "*".repeat(password_len), "command", 3, false, false, false);
 	}
 	else if (old_username != username) {
@@ -28,9 +26,6 @@ async function update_login_shell(e) {
 		}
 		command_container.innerHTML = command_container.innerHTML.substring(0, "login -u -p ".length);
 		type(username + " " + "*".repeat(password_len), "command", 3, true, false, true);
-		old_username = username;
-		old_password_len = password_len;
-		password_changed = false;
 	}
 	else if (password_changed) {
 		while (window.active_timers > 0){
@@ -38,7 +33,8 @@ async function update_login_shell(e) {
 		}
 		command_container.innerHTML = command_container.innerHTML.substring(0, command_container.innerHTML.length - old_password_len);
 		type("*".repeat(password_len), "command", 3, true, false, true);
-		old_password_len = password_len;
-		password_changed = false;
 	}
+	old_username = username;
+	old_password_len = password_len;
+	password_changed = false;
 }
