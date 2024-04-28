@@ -13,10 +13,10 @@ write a string into a container simulating a real typing
 async function type(string, container_id, speed = 1, append = false, save = false, wait = false) {
 	let interval;
 	if (speed == 1) {
-		interval = 135;
+		interval = 120;
 	}
 	else if (speed == 2) {
-		interval = 100;
+		interval = 80;
 	}
 	else if (speed == 3) {
 		interval = 40;

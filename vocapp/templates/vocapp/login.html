@@ -1,6 +1,7 @@
 {% extends "layout_template.html" %}
 
 {% block main %}
+{% load static %}
 <main>
 	<h1>Login</h1>
 	<form method="POST">
@@ -11,8 +12,12 @@
 		<label for="id_password">Password:</label>
 		{{ form.password }}
 
-		<button type="submit">Login</button>
+		<button type="submit" id="submit_login">Login</button>
 	</form>
 	First time here? <a href="{%url 'vocapp:signup'%}">Sign up</a>
 </main>
+
+<script src="{% static 'vocapp/js/typing_sim.js' %}"></script>
+<script src="{% static 'vocapp/js/login.js' %}"></script>
+<script>addLoginEvent()</script>
 {% endblock %}
