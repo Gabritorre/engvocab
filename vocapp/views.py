@@ -8,9 +8,16 @@ from .models import Role, Level, Expression, Learn, User
 from .custom_exceptions import EmptyQuery
 from random import choice
 
-
 import json
 
+CONFIDENCE_BAR = 420
+CONFIDENCE_PARAMETERS = {
+	"A1/A2": 140,
+	"B1" : 84,
+	"B1+" : 60,
+	"B2" : 42,
+	"C1/C2" : 35
+}
 
 def redir_home(request):
     return redirect('vocapp:home')
@@ -22,17 +29,16 @@ def adjust_confidence(request, expression_id):
 		try:
 			association = Learn.objects.get(user = user, expression = expr)
 			if (request.POST["guessing"] == '1'):	# guessed
-				association.confidence += 1
-			elif (request.POST["guessing"] == '0'):	# not guessed
-				association.confidence -= 1
-				if (association.confidence < 0):
-					association.confidence = 0
+				association.confidence += CONFIDENCE_PARAMETERS[str(expr.level)]
 			association.save()
 		except Learn.DoesNotExist:	# create a new association between user and expression
-			new_association = Learn(user = user, expression = expr, confidence=0)
+			if (request.POST["guessing"] == '1'):	# guessed
+				new_association = Learn(user = user, expression = expr, confidence=CONFIDENCE_PARAMETERS[str(expr.level)])
+			else:
+				new_association = Learn(user = user, expression = expr, confidence=0)
 			new_association.save()
 		return HttpResponseRedirect(reverse("vocapp:home"))
-	
+
 	# if there is no user logged in just redirect to home
 	return redirect('vocapp:home')
 
@@ -55,15 +61,16 @@ def filter_expressions(levels, phrasal, category, user):
 	expressions_set = None
 
 	# DISCOVER or REVIEW
-	if (category == "review"):
-		expressions_set = Expression.objects.filter(learn__user_id = user.id, learn__confidence__gt = 0)
+	if category == "review" and user.is_authenticated:
+		expressions_set = Expression.objects.filter(learn__user_id = user.id, learn__confidence__gte = 0)
 		if not expressions_set:
 			raise EmptyQuery(1)
 	elif category == "discover" and user.is_authenticated:
-		expressions_set = Expression.objects.filter(learn__user_id = user.id, learn__confidence = 0)
+		discovered_ids = Learn.objects.filter(user_id = user.id).values_list('expression_id', flat=True)
+		expressions_set = Expression.objects.exclude(id__in=discovered_ids)
 		if not expressions_set:
 			raise EmptyQuery(2)
-	else: 
+	else:
 		expressions_set = Expression.objects.all()
 		if not expressions_set:
 			raise EmptyQuery(3)
@@ -89,7 +96,6 @@ def filter_expressions(levels, phrasal, category, user):
 				raise EmptyQuery(7)
 			
 	if not filtered_ids:
-		print(filtered_ids)
 		raise EmptyQuery(0)
 	
 	return expressions_set.get(pk = choice(filtered_ids))
@@ -144,8 +150,8 @@ def dashboard(request):
 	# check if user is autenticated, if not redirect to home
 	if request.user.is_authenticated:
 		not_learned = Learn.objects.filter(user=request.user.id, confidence__lte=0).count()
-		learning = Learn.objects.filter(user=request.user.id, confidence__range=(1, 10)).count()
-		learned = Learn.objects.filter(user=request.user.id, confidence__gte=11).count()
+		learning = Learn.objects.filter(user=request.user.id, confidence__range=(1, CONFIDENCE_BAR-1)).count()
+		learned = Learn.objects.filter(user=request.user.id, confidence__gte=CONFIDENCE_BAR).count()
 		context = {
 			"not_learned" : not_learned,
 			"learning" : learning,
