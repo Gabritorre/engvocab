@@ -2,7 +2,7 @@
 
 {% block main %}
 {% load static %}
-<main>
+<main id="main_home">
 	<div>
 		<form action="{%url 'vocapp:update_filters'%}" method="GET">
 			{% for level in levels %}
@@ -19,12 +19,10 @@
 			{% endif %}
 			<button type="submit" id="apply_filter">Apply</button>
 		</form>
-
-		
 	</div>
 	<hr>
-	{%if expression_info %}
-		<div>
+	<div id ="guessing_section">
+		{%if expression_info %}
 			{{expression_info.level}} | {{expression_info.role}} | {{expression_info.context}} | {% if expression_info.is_phrasal_verb %} phrasal verb | {% endif %} {% if expression_info.is_formal %} formal | {%endif%} {% if expression_info.is_figurative %} figurative | {%endif%}
 			<br>
 			<p id="content"></p>
@@ -44,11 +42,10 @@
 					<button type ="submit" class = "guess_button" name="guessing" value="0">Not guessed</button>
 				</form>
 			</div>
-		</div>
-	{% else %}
-		<p>{{error}}</p>
-	{% endif %}
-
+		{% else %}
+			<p>{{error}}</p>
+		{% endif %}
+	</div>
 </main>
 
 <script defer>

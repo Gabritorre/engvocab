@@ -13,7 +13,7 @@ write a string into a container simulating a real typing
 async function type(string, container_id, speed = 1, append = false, save = false, wait = false) {
 	let interval;
 	if (speed == 1) {
-		interval = 120;
+		interval = 110;
 	}
 	else if (speed == 2) {
 		interval = 80;
@@ -62,12 +62,11 @@ function killTimers() {
 
 function addNavEvents() {
 	var nav_items = document.getElementsByClassName('nav_item');
-
 	for (let i = 0; i < nav_items.length; i++) {
-		nav_items[i].addEventListener('mouseover', function() {
-			type("cd /" + nav_items[i].innerHTML.toLowerCase(), "command", 3, false, false, false);
+		nav_items[i].addEventListener('mouseenter', function() {
+			type("cd /" + nav_items[i].children[1].innerHTML.toLowerCase(), "command", 3, false, false, false);
 		});
-		nav_items[i].addEventListener('mouseout', clear_command);
+		nav_items[i].addEventListener('mouseleave', clear_command);
 	}
 }
 

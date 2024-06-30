@@ -1,0 +1,53 @@
+#nav_links {
+	display: flex;
+	flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: center;
+
+	margin: 5px 5px 5px 5px;
+}
+
+	#nav_links .horizontal {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+	}
+
+	#nav_links .nav_item {
+		display:flex;
+		align-items: center;
+
+		margin: 0px 10px;
+	}
+
+#cli {
+	display:flex;
+	justify-content: center;
+	
+	margin: 25px 0px;
+}
+
+	#cli .container {
+		padding: 10px;
+		border: solid 1px rgb(99, 79, 79);
+		border-radius: 15px;
+		width: 80vw;
+	}
+
+#main_home {
+	display:flex;
+	flex-direction: column;
+    align-items: center;
+}
+
+	#main_home hr {
+		width: 90vw;
+	}
+
+	#main_home #guessing_section {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
