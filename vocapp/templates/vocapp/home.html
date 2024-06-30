@@ -24,23 +24,25 @@
 	<div id ="guessing_section">
 		{%if expression_info %}
 			{{expression_info.level}} | {{expression_info.role}} | {{expression_info.context}} | {% if expression_info.is_phrasal_verb %} phrasal verb | {% endif %} {% if expression_info.is_formal %} formal | {%endif%} {% if expression_info.is_figurative %} figurative | {%endif%}
-			<br>
 			<p id="content"></p>
-			<br>
-			<button id="show_button" onclick="show_solution()">Show</button><br>
-			<div hidden id="solution">
-				{{expression_info.translation_it}}<br>
-				{{expression_info.example_en}} | {{expression_info.example_it}}<br>
-				{{expression_info.note}}<br>
-				<hr>
-				<form action="{%url 'vocapp:adjust_confidence' expression_info.id%}" method="POST">
-					{% csrf_token %}
-					<button type ="submit" class = "guess_button" name="guessing" value="1">Guessed</button> 
-				</form>
-				<form action="{%url 'vocapp:adjust_confidence' expression_info.id%}" method="POST">
-					{% csrf_token %}
-					<button type ="submit" class = "guess_button" name="guessing" value="0">Not guessed</button>
-				</form>
+			<button id="show_button" onclick="show_solution()">Show</button>
+			<div hidden id="hidden_solution">
+				<p id="translation">{{expression_info.translation_it}}</p>
+				<div id="example_container">
+					<p id="example_en">Example: {{expression_info.example_en}}</p>
+					<p id="example_it">Esempio: {{expression_info.example_it}}</p>
+					<p id="notes">Note: {{expression_info.note}}</p>
+				</div>
+				<div id="guess_buttons">
+					<form action="{%url 'vocapp:adjust_confidence' expression_info.id%}" method="POST">
+						{% csrf_token %}
+						<button type ="submit" class = "guess_button" name="guessing" value="1">Guessed</button> 
+					</form>
+					<form action="{%url 'vocapp:adjust_confidence' expression_info.id%}" method="POST">
+						{% csrf_token %}
+						<button type ="submit" class = "guess_button" name="guessing" value="0">Not guessed</button>
+					</form>
+				</div>
 			</div>
 		{% else %}
 			<p>{{error}}</p>

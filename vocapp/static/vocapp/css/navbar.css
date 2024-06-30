@@ -43,11 +43,45 @@
 }
 
 	#main_home hr {
-		width: 90vw;
+		width: 80vw;
 	}
 
 	#main_home #guessing_section {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+
+		width: 80vw;
 	}
+
+	#main_home .solution {
+		display:flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+		.solution #example_container {
+			display: flex;
+			flex-direction:column;
+			align-items: flex-start;
+		}
+
+		.solution #example_en {
+			margin-bottom: 5px;
+		}
+
+		.solution #example_it {
+			margin-top: 5px;
+		}
+
+		.solution #notes {
+			margin-top: 5px;
+		}
+
+		.solution #guess_buttons {
+			display: flex;
+			flex-direction: row;
+		}
+			#guess_buttons .guess_button{
+				margin:5px;
+			}
