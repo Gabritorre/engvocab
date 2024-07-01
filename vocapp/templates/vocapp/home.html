@@ -25,7 +25,40 @@
 	<hr>
 	<div id ="guessing_section">
 		{%if expression_info %}
-			{{expression_info.level}} | {{expression_info.role}} | {{expression_info.context}} | {% if expression_info.is_phrasal_verb %} phrasal verb | {% endif %} {% if expression_info.is_formal %} formal | {%endif%} {% if expression_info.is_figurative %} figurative | {%endif%}
+			<div id="table_container">
+				<table>
+					<tbody>
+						<tr>
+							<th>Level</th>
+							<th>Role</th>
+							<th>Context</th>
+							{% if expression_info.is_phrasal_verb %}
+							<th>other info 1</th>
+							{% endif %}
+							{% if expression_info.is_formal %}
+							<th>other info 2</th>
+							{%endif%}
+							{% if expression_info.is_figurative %}
+							<th>other info 3</th>
+							{%endif%}
+						</tr>
+						<tr>
+							<td>{{expression_info.level}}</td>
+							<td>{{expression_info.role}}</td>
+							<td>{{expression_info.context}}</td>
+							{% if expression_info.is_phrasal_verb %}
+								<td>phrasal verb</td>
+							{% endif %}
+							{% if expression_info.is_formal %}
+								<td>formal</td>
+							{%endif%}
+							{% if expression_info.is_figurative %}
+								<td>figurative</td>
+							{%endif%}
+						</tr>
+					</tbody>
+				</table>
+			</div>
 			<p id="content"></p>
 			<button id="show_button" onclick="show_solution()">Show</button>
 			<div hidden id="hidden_solution">

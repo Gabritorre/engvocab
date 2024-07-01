@@ -41,6 +41,21 @@
 
 		width: 80vw;
 	}
+		#guessing_section #table_container {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			overflow-x:auto;
+			width: 75%;
+		}
+		#guessing_section table {
+			table-layout: fixed;
+			width: 100%;  
+		}
+		#guessing_section td {
+			text-align: center;
+			vertical-align: middle;
+		}
 
 	#main_home .solution {
 		display:flex;
