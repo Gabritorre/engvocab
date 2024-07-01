@@ -2,20 +2,38 @@
 
 {% block main %}
 {% load static %}
-<main>
-	<input type="text" autofocus id="expression_name" name="expression_name" placeholder="Search for an expression" autocomplete="off">
-	
-	<div>
-		<h3>Expressions:</h3>
-		<ul id="expressions">
-		</ul>
+<main id="main_search">
+	<div id="search_container">
+		<input type="text" autofocus id="expression_name" name="expression_name" placeholder="Search for an expression" autocomplete="off">
+		<div id="expression_list">
+			<ul id="expressions">
+			</ul>
+		</div>
 	</div>
-
 </main>
+
 <script src="{% static 'vocapp/js/search.js' %}"></script>
 <script>
 sortExpressions('{{ expressions_list|escapejs }}');
 updateResults("");
 addSearchEvent();
+</script>
+
+<!-- the following script is used for determine the width of the list that is calculated as 
+the width of the largest element of the list -->
+<script defer>
+    var container = document.getElementById("expression_list");
+    var children = container.getElementsByTagName("li");
+    var maxWidth = 0;
+
+    // compute the max width
+    for (var i = 0; i < children.length; i++) {
+        var childWidth = children[i].offsetWidth;
+        if (childWidth > maxWidth) {
+            maxWidth = childWidth;
+        }
+    }
+
+    container.style.width = maxWidth + "px";
 </script>
 {% endblock %}

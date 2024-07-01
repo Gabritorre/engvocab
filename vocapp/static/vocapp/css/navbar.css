@@ -1,3 +1,11 @@
+nav {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	background-color: white;
+	width:100vw;
+	padding-top: 10px;
+}
 #nav_links {
 	display: flex;
 	flex-direction: row;
@@ -6,7 +14,7 @@
     align-items: flex-start;
     align-content: center;
 
-	margin: 5px 5px 5px 5px;
+	margin: 0px 10px;
 }
 
 	#nav_links .horizontal {
