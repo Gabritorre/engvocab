@@ -71,13 +71,13 @@ function addNavEvents() {
 }
 
 function addHomeEvents() {
-	let filters = document.getElementsByClassName('filter');
+	let filters = document.getElementsByClassName('filter_checkbox');
 
 	for (let i = 0; i < filters.length; i++) {
 		filters[i].addEventListener('change', buildFilterCommand);
 	}
 
-	let apply_button = document.getElementById("apply_filter");
+	let apply_button = document.getElementById("apply_filter_button");
 	apply_button.addEventListener("click", function() {
 		type(window.filter_command, "command", 5, false, false, false);
 	})

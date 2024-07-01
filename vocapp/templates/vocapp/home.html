@@ -3,23 +3,25 @@
 {% block main %}
 {% load static %}
 <main id="main_home">
-	<div>
-		<form action="{%url 'vocapp:update_filters'%}" method="GET">
-			{% for level in levels %}
-				<input type="checkbox" name="level" id="{{level}}" class="filter" value="{{level}}" {%if level in request.session.level_filters%} checked {%endif%}>
-				<label for="{{level}}">{{level}}</label>
-			{%endfor%}
-			|
-			<input type="checkbox" name="phrasal" id="phrasal" class="filter" value="phrasal" {%if request.session.phrasal %} checked {% endif %}>
-			<label for="phrasal">phrasal verb</label>
-			{% if request.user.is_authenticated %}
-				|
-				<input type="checkbox" name="category" id="review" class="filter" value="review" {%if request.session.category == 'review'%} checked {%endif%}>
-				<label for="review">review</label>
-			{% endif %}
-			<button type="submit" id="apply_filter">Apply</button>
-		</form>
-	</div>
+	<form id="filters_form" action="{%url 'vocapp:update_filters'%}" method="GET">
+		<div id="filters">
+			<div id="levels">
+				{% for level in levels %}
+					<input type="checkbox" name="level" id="{{level}}" class="filter_checkbox" value="{{level}}" {%if level in request.session.level_filters%} checked {%endif%}>
+					<label for="{{level}}">{{level}}</label>
+				{%endfor%}
+			</div>
+			<div id="other">
+				<input type="checkbox" name="phrasal" id="phrasal" class="filter_checkbox" value="phrasal" {%if request.session.phrasal %} checked {% endif %}>
+				<label for="phrasal">phrasal verb</label>
+				{% if request.user.is_authenticated %}
+					<input type="checkbox" name="category" id="review" class="filter_checkbox" value="review" {%if request.session.category == 'review'%} checked {%endif%}>
+					<label for="review">review</label>
+				{% endif %}
+			</div>
+		</div>
+		<button type="submit" id="apply_filter_button">Apply filters</button>
+	</form>
 	<hr>
 	<div id ="guessing_section">
 		{%if expression_info %}
