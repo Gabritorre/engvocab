@@ -1,17 +1,72 @@
 {% extends "layout_template.html" %}
 
 {% block main %}
-<main>
-<ul>
-	<li>site version: {{version}}</li>
-	<li>github repository: <a href="{{repo}}">Engvocab</a></li>
-	<li>site made using:
+{% load static %}
+<main id="main_about">
+	<div id="about_container">	
+		<h2>What is this website about?</h2>
+		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
+			Perspiciatis voluptatem excepturi ipsum? Esse sint totam voluptatem dicta illo porro, sapiente quod iusto saepe excepturi fugiat odit.
+			Odit aspernatur autem facere!
+		</p>
+		<h2>Why did you build this website?</h2>
+		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
+			Perspiciatis voluptatem excepturi ipsum? Esse sint totam voluptatem dicta illo porro, sapiente quod iusto saepe excepturi fugiat odit.
+			Odit aspernatur autem facere!
+		</p>
+		<h2>What advantages do I have if I create an account?</h2>
+		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
+			Perspiciatis voluptatem excepturi ipsum? Esse sint totam voluptatem dicta illo porro, sapiente quod iusto saepe excepturi fugiat odit.
+			Odit aspernatur autem facere!
+		</p>
+		<h2>Other info</h2>
 		<ul>
-			<li>Frontend: HTML, CSS, JS</li>
-			<li>Backend: Django, MySQL</li>
-			<li>Host: Pythonanywhere</li>
+			<li>Website version: {{version}}</li>
+			<li>Github repository: <a href="{{repo}}">Engvocab</a></li>
+			<li>Website created by using:</li>
+				<div id="tech_container">
+					<div id="type">
+						<h3>Frontend</h3>
+						<div class="tech_group">
+							<div>
+								<img src="{% static 'vocapp/icons/html_icon.svg' %}" alt="" width="48" height="48">
+								<span>HTML</span>
+							</div>
+							<div>
+								<img src="{% static 'vocapp/icons/css_icon.svg' %}" alt="" width="48" height="48">
+								<span>CSS<br>(vanilla)</span>
+							</div>
+							<div>
+								<img src="{% static 'vocapp/icons/javascript_icon.svg' %}" alt="" width="48" height="48">
+								<span>JavaScript<br>(vanilla)</span>
+							</div>
+						</div>
+					</div>
+
+					<div id="type">
+						<h3>Backend</h3>
+						<div class="tech_group">
+							<div>
+								<img src="" alt="">
+								<span>Django</span>
+							</div>
+							<div>
+								<img src="" alt="">
+								<span>MySQL</span>
+							</div>
+						</div>
+					</div>
+					<div id="type">
+						<h3>Hosting</h3>
+						<div class="tech_group">
+							<div>
+								<img src="" alt="">
+								<span>Pythonanywhere</span>
+							</div>
+						</div>
+					</div>
+				</div>
 		</ul>
-	</li>
-</ul>
+	</div>
 </main>
 {% endblock %}

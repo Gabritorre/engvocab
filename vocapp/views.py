@@ -149,13 +149,15 @@ def inspect_expression(request, expression_id):
 def dashboard(request):
 	# check if user is autenticated, if not redirect to home
 	if request.user.is_authenticated:
-		not_learned = Learn.objects.filter(user=request.user.id, confidence__lte=0).count()
+		discovered_ids = Learn.objects.filter(user_id = request.user.id).values_list('expression_id', flat=True)
+		not_learned = Expression.objects.exclude(id__in=discovered_ids).count()
 		learning = Learn.objects.filter(user=request.user.id, confidence__range=(1, CONFIDENCE_BAR-1)).count()
 		learned = Learn.objects.filter(user=request.user.id, confidence__gte=CONFIDENCE_BAR).count()
 		context = {
 			"not_learned" : not_learned,
 			"learning" : learning,
 			"learned" : learned,
+			"total_expressions": not_learned + learning + learned,
 		}
 		return render(request, "vocapp/dashboard.html", context)
 	else:
@@ -163,7 +165,7 @@ def dashboard(request):
 
 def about(request):
 	context = {
-		"version" : "1.0.0",
+		"version" : "2.0.0",
 		"repo" : "https://github.com/Gabritorre/engvocab",
 	}
 	return render(request, "vocapp/about.html", context)
