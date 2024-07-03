@@ -4,6 +4,7 @@ nav {
 	left: 0px;
 	width:100vw;
 	padding-top: 10px;
+	z-index: 1;
 }
 #nav_links {
 	display: flex;
@@ -41,7 +42,7 @@ nav {
 
 	#cli .container {
 		padding: 10px;
-		border: solid 1px rgb(99, 79, 79);
+		border: solid 1px rgb(124, 108, 108);
 		border-radius: 15px;
 		width: 80vw;
 	}

@@ -38,16 +38,17 @@ html, input, button {
 /* COLORS */
 
 html {
-	background-color: #201620;
+	background-color: rgb(36,24,36);
 	color: rgb(190, 211, 210);
 }
 
 nav {
-	background-color: #201620;
+	background-color: rgb(32,22,32);
+	box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.2);
 }
 
 main {
-	background-color: #2e212e;
+	background-color: rgb(36,24,36);
 }
 
 a {
@@ -57,10 +58,17 @@ a {
 }
 
 a:hover, a:active {
-	transform: scale(1.05);
 	filter: brightness(150%);
+}
+
+#nav_links a:hover, #nav_links a:active {
+	transform: scale(1.05);
 }
 
 nav img:hover {
 	filter: brightness(170%);
+}
+
+#cli .container {
+	background-color: rgb(18, 18, 18);
 }
