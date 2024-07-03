@@ -33,3 +33,34 @@ html, input, button {
 	font-family: RobotoMono, monospace;
 	font-weight: 450;
 }
+
+
+/* COLORS */
+
+html {
+	background-color: #201620;
+	color: rgb(190, 211, 210);
+}
+
+nav {
+	background-color: #201620;
+}
+
+main {
+	background-color: #2e212e;
+}
+
+a {
+	color: rgb(31, 154, 163);
+	text-decoration: none;
+	transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+a:hover, a:active {
+	transform: scale(1.05);
+	filter: brightness(150%);
+}
+
+nav img:hover {
+	filter: brightness(170%);
+}

@@ -7,15 +7,15 @@
 		<h1>Sign up</h1>
 		<form class="enter_form" method="POST">
 			{% csrf_token %}
-			<div class="form_field">
+			<div class="form_field_signup">
 				<label for="id_username">Username:</label>
 				{{ form.username }}
 			</div>
-			<div class="form_field">
+			<div class="form_field_signup">
 				<label for="id_password1">Password:</label>
 				{{ form.password1 }}
 			</div>
-			<div class="form_field">
+			<div class="form_field_signup">
 				<label for="id_password2">Confirm password:</label>
 				{{ form.password2 }}
 			</div>
