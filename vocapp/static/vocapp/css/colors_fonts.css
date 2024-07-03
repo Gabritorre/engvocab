@@ -20,3 +20,16 @@
 ::-webkit-scrollbar-thumb:hover {
 	background: #e4e4e4; 
 }
+
+
+/* FONT */
+
+@font-face {
+	font-family: RobotoMono;
+	src: url(../fonts/Roboto_Mono/RobotoMono-VariableFont_wght.ttf) format("truetype");
+}
+
+html, input, button {
+	font-family: RobotoMono, monospace;
+	font-weight: 450;
+}

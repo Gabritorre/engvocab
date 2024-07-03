@@ -71,11 +71,11 @@
 				<div id="guess_buttons">
 					<form action="{%url 'vocapp:adjust_confidence' expression_info.id%}" method="POST">
 						{% csrf_token %}
-						<button type ="submit" class = "guess_button" name="guessing" value="1">Guessed</button> 
+						<button type ="submit" class = "guess_button" name="guessing" value="0">Not guessed</button>
 					</form>
 					<form action="{%url 'vocapp:adjust_confidence' expression_info.id%}" method="POST">
 						{% csrf_token %}
-						<button type ="submit" class = "guess_button" name="guessing" value="0">Not guessed</button>
+						<button type ="submit" class = "guess_button" name="guessing" value="1">Guessed</button> 
 					</form>
 				</div>
 			</div>
