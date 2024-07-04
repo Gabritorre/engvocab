@@ -79,18 +79,48 @@ nav img:hover {
 }
 
 #filters label {
-	margin-right: 10px;
+	margin-right: 12px;
 	padding: 5px;
 	text-align: center;
 	width: 100%;
 	background-color: rgb(49, 32, 49);
 	border-radius: 10px;
-	transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+	transition: filter 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+#filters label:hover {
+	filter: brightness(125%);
+}
+
 	#filters .filter_on{
-		background-color: rgb(49, 32, 49);
-		box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.3);
+		box-shadow: 0 0px 10px 3px rgba(0, 0, 0, 0.3);
 		font-weight: bold;
 		filter: brightness(125%);
 		transform: scale(1.08);
 	}
+
+
+button {
+	box-shadow: 0 0px 12px 5px rgba(0, 0, 0, 0.3);
+	border: 0px;
+	padding:5px;
+	border-radius: 10px;
+	color: rgb(0, 0, 0);
+	background-color: rgb(31, 154, 163);
+	font-size: 17px;
+	cursor: pointer;
+}
+
+button:active {
+	box-shadow: 0 0px 12px 5px rgba(0, 0, 0, 0);
+	transform: scale(0.95);
+}
+
+#table_container {
+	filter: brightness(80%);
+}
+#guessing_section #content, #guessing_section #translation {
+	font-size: 22px;
+	font-weight: bold;
+	margin-top: 0px;
+}

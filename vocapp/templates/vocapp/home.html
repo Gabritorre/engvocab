@@ -66,13 +66,13 @@
 				</table>
 			</div>
 			<p id="content"></p>
-			<button id="show_button" onclick="show_solution()">Show</button>
-			<div hidden id="hidden_solution">
+			<button id="show_button" class="visible_object" onclick="show_solution()">Show</button>
+			<div id="solution" class="hidden_object">
 				<p id="translation">{{expression_info.translation_it}}</p>
-				<div id="example_container">
-					<p id="example_en">Example: {{expression_info.example_en}}</p>
-					<p id="example_it">Esempio: {{expression_info.example_it}}</p>
-					<p id="notes">Note: {{expression_info.note}}</p>
+				<div id="translation_info_container">
+					<p id="example_en"><strong>Example</strong>: {{expression_info.example_en}}</p>
+					<p id="example_it"><strong>Esempio</strong>: {{expression_info.example_it}}</p>
+					<p id="notes"><strong>Note</strong>: {{expression_info.note}}</p>
 				</div>
 				<div id="guess_buttons">
 					<form action="{%url 'vocapp:adjust_confidence' expression_info.id%}" method="POST">

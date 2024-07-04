@@ -1,9 +1,10 @@
 function show_solution() {
 	let show_button = document.getElementById("show_button");
-	let solution_div = document.getElementById("hidden_solution");
-	show_button.hidden = true;
-	solution_div.removeAttribute("hidden")
-	solution_div.classList.add("solution");
+	let solution_div = document.getElementById("solution");
+	show_button.classList.remove("visible_object");
+	show_button.classList.add("hidden_object");
+	
+	solution_div.classList.add("visible_object");
 }
 
 function filters_button_style() {
