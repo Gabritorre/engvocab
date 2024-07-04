@@ -72,3 +72,25 @@ nav img:hover {
 #cli .container {
 	background-color: rgb(18, 18, 18);
 }
+
+#cli #user {
+	color: rgb(31, 154, 163);
+	font-weight: 800;
+}
+
+#filters label {
+	margin-right: 10px;
+	padding: 5px;
+	text-align: center;
+	width: 100%;
+	background-color: rgb(49, 32, 49);
+	border-radius: 10px;
+	transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+	#filters .filter_on{
+		background-color: rgb(49, 32, 49);
+		box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.3);
+		font-weight: bold;
+		filter: brightness(125%);
+		transform: scale(1.08);
+	}
