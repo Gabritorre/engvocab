@@ -7,18 +7,18 @@
 
 /* Track */
 ::-webkit-scrollbar-track {
-	background: #2e2e2e; 
+	background: rgb(36,24,36); 
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-	background: rgb(197, 197, 197);
+	background: rgb(68, 53, 68); 
 	border-radius: 5px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-	background: #e4e4e4; 
+	background: rgb(77, 58, 77); 
 }
 
 
@@ -44,7 +44,7 @@ html {
 
 nav {
 	background-color: rgb(32,22,32);
-	box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.2);
+	box-shadow: 0 8px 10px 3px rgba(0, 0, 0, 0.2);
 }
 
 main {
@@ -111,6 +111,10 @@ button {
 	cursor: pointer;
 }
 
+button:hover {
+	filter:brightness(120%);
+}
+
 button:active {
 	box-shadow: 0 0px 12px 5px rgba(0, 0, 0, 0);
 	transform: scale(0.95);
@@ -123,4 +127,30 @@ button:active {
 	font-size: 22px;
 	font-weight: bold;
 	margin-top: 0px;
+}
+
+#search_container input[type=text] {
+	width: 240px;
+}
+
+input[type=text], input[type=password] {
+	display:flex;
+	padding:5px;
+	border: 0px;
+	border-radius: 3px;
+	border-bottom: 2px solid rgba(0, 181, 194, 0);
+	background-color: rgb(44, 29, 44);
+	color: rgb(190, 211, 210);
+	filter:brightness(120%);
+	font-size: 15px;
+	transform: scale(0.93);
+	transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+	outline:0px;
+	background-color: rgb(49, 31, 49);
+	border-bottom: 2px solid rgb(0, 181, 194);
+	transform: scale(1);
+	box-shadow: 0 0px 10px 3px rgba(0, 0, 0, 0.3);
 }

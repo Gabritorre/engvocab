@@ -13,27 +13,10 @@
 </main>
 
 <script src="{% static 'vocapp/js/search.js' %}"></script>
-<script>
+<script defer>
 sortExpressions('{{ expressions_list|escapejs }}');
 updateResults("");
 addSearchEvent();
-</script>
-
-<!-- the following script is used for determine the width of the list that is calculated as 
-the width of the largest element of the list -->
-<script defer>
-    var container = document.getElementById("expression_list");
-    var children = container.getElementsByTagName("li");
-    var maxWidth = 0;
-
-    // compute the max width
-    for (var i = 0; i < children.length; i++) {
-        var childWidth = children[i].offsetWidth;
-        if (childWidth > maxWidth) {
-            maxWidth = childWidth;
-        }
-    }
-
-    container.style.width = maxWidth + "px";
+set_list_size();
 </script>
 {% endblock %}
