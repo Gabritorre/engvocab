@@ -146,7 +146,7 @@ def inspect_expression(request, expression_id):
 	return render(request, "vocapp/expression.html", context)
 
 
-def dashboard(request):
+def progress(request):
 	# check if user is autenticated, if not redirect to home
 	if request.user.is_authenticated:
 		discovered_ids = Learn.objects.filter(user_id = request.user.id).values_list('expression_id', flat=True)
@@ -159,7 +159,7 @@ def dashboard(request):
 			"learned" : learned,
 			"total_expressions": not_learned + learning + learned,
 		}
-		return render(request, "vocapp/dashboard.html", context)
+		return render(request, "vocapp/progress.html", context)
 	else:
 		return redirect("vocapp:login_user")
 
