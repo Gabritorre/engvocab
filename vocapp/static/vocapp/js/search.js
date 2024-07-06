@@ -70,19 +70,11 @@ function addSearchEvent() {
 	})
 }
 
-// the following script is used for determine the width of the list that is calculated as 
-// the width of the largest element of the list
+
+// make the width of the container fixed once is determined
 function set_list_size() {
 	let container = document.getElementById("expression_list");
-	let children = container.getElementsByTagName("li");
-	let maxWidth = 0;
-
-	// compute the max width
-	for (let i = 0; i < children.length; i++) {
-		let childWidth = children[i].children[0].offsetWidth;
-		if (childWidth > maxWidth) {
-			maxWidth = childWidth;
-		}
-	}
-	container.style.width = maxWidth+1 + "px";
+	let currentWidth = container.getBoundingClientRect();
+	container.style.width = parseInt(currentWidth.width)+1 + "px";
+	console.log(currentWidth.width+1 + "px")
 }
