@@ -69,11 +69,11 @@ nav img:hover {
 	filter: brightness(170%);
 }
 
-#cli .container {
+.cli_container {
 	background-color: rgb(18, 18, 18);
 }
 
-#cli #user {
+#cli {
 	color: rgb(31, 154, 163);
 	font-weight: 800;
 }
@@ -92,13 +92,12 @@ nav img:hover {
 	filter: brightness(125%);
 }
 
-	#filters .filter_on{
+	.filter_on {
 		box-shadow: 0 0px 10px 3px rgba(0, 0, 0, 0.3);
 		font-weight: bold;
 		filter: brightness(125%);
 		transform: scale(1.08);
 	}
-
 
 button {
 	box-shadow: 0 0px 12px 5px rgba(0, 0, 0, 0.3);

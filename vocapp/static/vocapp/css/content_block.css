@@ -5,307 +5,200 @@ html {
 
 body {
 	margin: 0px;
-	height:100%;
-
-	display:flex;
-	flex-direction: column;
-
+	height: 100%;
 }
+
 main {
 	margin-top: 127px;
 	width: 100%;
-	height:100%;
 }
 
 /* home.html */
 
-#main_home {
-	display:flex;
-	flex-direction: column;
-    align-items: center;
+#apply_filter_button {
+	margin-top: 15px;
 }
 
-	#main_home #filters_form {
+#filters {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	align-items: center;
+	width: 80vw;
+	margin-top: 20px;
+}
+
+	#levels div {
+		width: 70px;
 		display: flex;
-		flex-direction:column;
 		align-items: center;
 	}
-	#filters_form #apply_filter_button {
-			margin-top: 15px;
-		}
-	
-	#main_home #filters {
+	#other div {
 		display: flex;
-		flex-direction: row;
-		justify-content: space-evenly;
-		width: 80vw;
-		margin-top: 20px;
 		align-items: center;
 	}
 
-		#filters #levels {
-			display:flex;
-			flex-direction:row;
-		}
-			#levels div {
-				width: 70px;
-				display:flex;
-				align-items: center;
-			}
-		#filters #other {
-			display:flex;
-			flex-direction:row;
-		}
-			#other div {
-				display:flex;
-				align-items: center;
-			}
-
-		#filters .filter_checkbox {
-			margin: 0px;
-			display:none;
-		}
-
-		
-
-	#main_home hr {
-		width: 80vw;
-		margin: 25px 0px;
+	.filter_checkbox {
+		margin: 0px;
+		display: none;
 	}
 
-	#main_home #guessing_section {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
+hr {
+	width: 80vw;
+	margin: 25px 0px;
+}
 
-		width: 80vw;
-		margin-bottom: 50px;
+#guessing_section {
+	width: 80vw;
+	margin-bottom: 50px;
+}
+	#table_container {
+		overflow-x: auto;
+		width: 80%;
+		margin-bottom: 20px;
 	}
-		#guessing_section #table_container {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			overflow-x:auto;
-			width: 80%;
-			margin-bottom: 20px;
-		}
-		#guessing_section table {
-			table-layout: fixed;
-			width: 100%;  
-		}
-		#guessing_section td {
-			text-align: center;
-			vertical-align: middle;
-		}
+	table {
+		table-layout: fixed;
+		width: 100%;  
+	}
+	td {
+		text-align: center;
+		vertical-align: middle;
+	}
 
-	#main_home .hidden_object {
+	.hidden_object {
 		visibility: hidden;
-		display:none;
+		display: none;
 		opacity: 0;
 	}
 
-	#main_home .visible_object {
+	.visible_object {
 		visibility: visible;
 		transition: opacity 0.5s ease;
 		opacity: 1;
 	}
 
-	#main_home #solution {
-		display:flex;
-		flex-direction: column;
-		align-items: center;
+	#solution {
 		width: 100%
 	}
 
-		#solution #translation_info_container {
+		#translation_info_container {
 			display: flex;
-			flex-direction:column;
+			flex-direction: column;
 			align-items: flex-start;
 			width: 80%;
 			filter: brightness(80%);
 		}
 
-		#solution #example_en {
+		#example_en {
 			margin-bottom: 5px;
 		}
 
-		#solution #example_it {
+		#example_it {
 			margin-top: 5px;
 		}
 
-		#solution #notes {
+		#notes {
 			margin-top: 5px;
 		}
 
-		#solution #guess_buttons {
-			display: flex;
-			flex-direction: row;
+		.guess_button{
+			margin: 5px;
 		}
-			#guess_buttons .guess_button{
-				margin:5px;
-			}
 
 
 /* search.html */
 
-#main_search {
-	display: flex;
-	align-items: flex-start;
-	justify-content: center;
-}
-
 #search_container {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
 	width: 50vw;
 	margin-top: 30px;
 }
 
-	#search_container #expression_list {
-		display:flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-	}
-
-	#expression_list ul {
+	#search_container ul {
 		list-style-type: none;
 		white-space: nowrap;
 		width: 100%;
 		padding: 0px;
 	}
 
-	#expression_list li {
+	#search_container li {
 		margin: 5px 0px;
 	}
 
 
 /* about.html */
 
-#main_about {
-	display:flex;
-	align-items: flex-start;
-	justify-content: center;
+#about_container {
+	width: 80vw;
 }
-
-	#main_about #about_container {
-		width: 80vw;
+	#about_container p {
+		margin: 0px 0px 0px 20px;
 	}
-		#about_container p {
-			margin: 0px 0px 0px 20px;
-		}
 
-		#about_container h2 {
-			margin: 20px 0px 10px 0px;
-		}
-		
-		#about_container #tech_container {
+	#about_container h2 {
+		margin: 20px 0px 10px 0px;
+	}
+	
+	#tech_container {
+		display: flex;
+		flex-direction: row;
+		align-items: start;
+		justify-content: space-evenly;
+		width: 100%;
+	}
+
+		#tech_group span {
 			display: flex;
-			flex-direction: row;
-			align-items: start;
-			justify-content: space-evenly;
-			width: 100%;
+			align-items: center;
+			margin: 0px 10px;
+			text-align: center;
 		}
-			#tech_container #type {
-				display:flex;
-				flex-direction: column;
-				align-items: center;
-			}
-			#tech_container .tech_group {
-				display:flex;
-				flex-direction:row;
-			}
 
-				.tech_group span{
-					display: flex;
-					align-items: center;
-					margin: 0px 10px;
-					text-align: center;
-				}
-
-				.tech_group div {
-					display:flex;
-					flex-direction: column;
-					align-items: center;
-				}
-
-				.tech_group a {
-					width: 48px;
-					height: 48px;
-				}
+		#tech_group a {
+			width: 48px;
+			height: 48px;
+		}
 
 
 /* signup.html, login.html */
 
-.main_enter {
-	display:flex;
-	align-items: flex-start;
-	justify-content: center;
+.enter_container {
+	margin-top: 40px;
+	padding: 40px 20px;
+	border: solid 1px black;
+	border-radius: 10px;
 }
 
-	.main_enter .enter_container {
-		margin-top: 40px;
-		padding: 40px 20px;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-
-		border: solid 1px black;
-		border-radius: 10px;
+	.enter_container h1 {
+		margin: 0px 0px 20px 0px;
 	}
 
-		.enter_container .enter_form {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
+	.form_field_signup {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 15px;
+		width: 370px;
+	}
+		.form_field_signup label {
+			width: 165px;
+			text-align: end;
 		}
 
-		.enter_container h1 {
-			margin: 0px 0px 20px 0px;
-		}
-			
-			.enter_form .form_field_signup {
-				display:flex;
-				flex-direction:row;
-				justify-content: space-between;
-				align-items: center;
-				margin-bottom:15px;
-				width: 370px;
-			}
-				.form_field_signup label {
-					width: 165px;
-					text-align: end;
-				}
-
-			.enter_form .form_field_login {
-					display:flex;
-					flex-direction:row;
-					justify-content: space-between;
-					align-items: center;
-					margin-bottom:15px;
-					width: 300px;
-				}
-					.form_field_login label {
-						width: 95px;
-						text-align: end;
-					}
-
+	.form_field_login {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 15px;
+		width: 300px;
+	}
 
 /* progress.html */
 
-#main_progress {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
 #chart_container {
-	display:flex;
-	justify-content: center;
 	margin: 20px 0px;
 	height: 80vh;
 	width: 80vw;
 }
-

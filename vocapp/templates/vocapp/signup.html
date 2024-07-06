@@ -2,10 +2,10 @@
 
 {% block main %}
 {% load static %}
-<main class="main_enter">
-	<div class="enter_container">
+<main class="flex_container_row_vcent">
+	<div class="enter_container flex_container_col_cent">
 		<h1>Sign up</h1>
-		<form class="enter_form" method="POST">
+		<form class="flex_container_col_hcent" method="POST">
 			{% csrf_token %}
 			<div class="form_field_signup">
 				<label for="id_username">Username:</label>

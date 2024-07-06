@@ -5,15 +5,16 @@
 		<title>Engvocab</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta charset="utf-8">
+		<link rel="stylesheet" href="{% static 'vocapp/css/containers.css' %}">
 		<link rel="stylesheet" href="{% static 'vocapp/css/colors_fonts.css' %}">
 		<link rel="stylesheet" href="{% static 'vocapp/css/navbar.css' %}">
 		<link rel="stylesheet" href="{% static 'vocapp/css/content_block.css' %}">
 		<link rel="shortcut icon" type="image/x-icon" href="{% static 'vocapp/icons/favicon.svg' %}">
 	</head>
-	<body>
+	<body class="flex_container_col_hcent">
 		<nav>
 			<div id="nav_links">
-				<div class="horizontal">
+				<div class="flex_container_row_hcent">
 					<a class="nav_item" href="{%url 'vocapp:home'%}">
 						<img src="{% static 'vocapp/icons/home.svg' %}" alt="">
 						<span>Home</span>
@@ -33,7 +34,7 @@
 						<span>About</span>
 					</a>
 				</div>
-				<div class="horizontal">
+				<div class="flex_container_row_hcent">
 					{% if request.user.is_authenticated %}
 						<a class="nav_item" href="{% url 'vocapp:logout_user' %}">
 							<img src="{% static 'vocapp/icons/logout.svg' %}" alt="">
@@ -51,9 +52,9 @@
 					{% endif %}
 				</div>
 			</div>
-			<div id="cli">
-				<div class="container">
-					<span id="user">{% if request.user.is_authenticated %} {{request.user.username}}{% else %}Guest{% endif %}@engvocab {{request.path}}</span> $ <span id="command"> </span>
+			<div class="flex_container_row_vcent">
+				<div class="cli_container">
+					<span id="cli">{% if request.user.is_authenticated %} {{request.user.username}}{% else %}Guest{% endif %}@engvocab {{request.path}}</span> $ <span id="command"> </span>
 				</div>
 			</div>
 		</nav>

@@ -2,10 +2,10 @@
 
 {% block main %}
 {% load static %}
-<main id="main_home">
-	<form id="filters_form" action="{%url 'vocapp:update_filters'%}" method="GET">
+<main class="flex_container_col_hcent">
+	<form class="flex_container_col_hcent" action="{%url 'vocapp:update_filters'%}" method="GET">
 		<div id="filters">
-			<div id="levels">
+			<div class="flex_container_row_cent" id="levels">
 				{% for level in levels %}
 					<div class="filter">
 						<input type="checkbox" name="level" id="{{level}}" class="filter_checkbox" value="{{level}}" {%if level in request.session.level_filters%} checked {%endif%}>
@@ -13,7 +13,7 @@
 					</div>
 				{%endfor%}
 			</div>
-			<div id="other">
+			<div class="flex_container_row_cent" id="other">
 				<div class="filter">
 					<input type="checkbox" name="phrasal" id="phrasal" class="filter_checkbox" value="phrasal" {%if request.session.phrasal %} checked class="filter_on" {% endif %}>
 					<label for="phrasal" {%if request.session.phrasal %} class="filter_on" {% endif %}>phrasal verb</label>
@@ -29,9 +29,9 @@
 		<button type="submit" id="apply_filter_button">Apply filters</button>
 	</form>
 	<hr>
-	<div id ="guessing_section">
+	<div id ="guessing_section" class="flex_container_col_hcent">
 		{%if expression_info %}
-			<div id="table_container">
+			<div id="table_container" class="flex_container_row_cent">
 				<table>
 					<tbody>
 						<tr>
@@ -67,14 +67,14 @@
 			</div>
 			<p id="content"></p>
 			<button id="show_button" class="visible_object" onclick="show_solution()">Show</button>
-			<div id="solution" class="hidden_object">
+			<div id="solution" class="hidden_object flex_container_col_hcent" >
 				<p id="translation">{{expression_info.translation_it}}</p>
 				<div id="translation_info_container">
 					<p id="example_en"><strong>Example</strong>: {{expression_info.example_en}}</p>
 					<p id="example_it"><strong>Esempio</strong>: {{expression_info.example_it}}</p>
 					<p id="notes"><strong>Note</strong>: {{expression_info.note}}</p>
 				</div>
-				<div id="guess_buttons">
+				<div id="guess_buttons" class="flex_container_row_cent">
 					<form action="{%url 'vocapp:adjust_confidence' expression_info.id%}" method="POST">
 						{% csrf_token %}
 						<button type ="submit" class = "guess_button" name="guessing" value="0">Not guessed</button>

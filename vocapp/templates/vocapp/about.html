@@ -2,7 +2,7 @@
 
 {% block main %}
 {% load static %}
-<main id="main_about">
+<main class="flex_container_row_vcent">
 	<div id="about_container">	
 		<h2>What is this website about?</h2>
 		<p>
@@ -28,22 +28,22 @@
 			<li>Github repository: <a href="{{repo}}">Engvocab</a></li>
 			<li>Website created by using:</li>
 				<div id="tech_container">
-					<div id="type">
+					<div class="flex_container_col_hcent">
 						<h3>Frontend</h3>
-						<div class="tech_group">
-							<div>
+						<div id="tech_group" class="flex_container_row_vcent">
+							<div class="flex_container_col_hcent">
 								<img src="{% static 'vocapp/icons/html_icon.svg' %}" alt="" width="48" height="48">
 								<span>HTML</span>
 							</div>
-							<div>
+							<div class="flex_container_col_hcent">
 								<img src="{% static 'vocapp/icons/css_icon.svg' %}" alt="" width="48" height="48">
 								<span>CSS<br>(vanilla)</span>
 							</div>
-							<div>
+							<div class="flex_container_col_hcent">
 								<img src="{% static 'vocapp/icons/javascript_icon.svg' %}" alt="" width="48" height="48">
 								<span>JavaScript<br>(vanilla)</span>
 							</div>
-							<div>
+							<div class="flex_container_col_hcent">
 								<a href="https://www.chartjs.org/">
 									<img src="{% static 'vocapp/icons/chartjs_icon.svg' %}" alt="" width="48" height="48">
 								</a>
@@ -52,16 +52,16 @@
 						</div>
 					</div>
 
-					<div id="type">
+					<div class="flex_container_col_hcent">
 						<h3>Backend</h3>
-						<div class="tech_group">
-							<div>
+						<div id="tech_group" class="flex_container_row_vcent">
+							<div class="flex_container_col_hcent">
 								<a href="https://www.djangoproject.com/">
 									<img src="{% static 'vocapp/icons/django_icon.svg' %}" alt="" width="48" height="48">
 								</a>
 								<span>Django</span>
 							</div>
-							<div>
+							<div class="flex_container_col_hcent">
 								<a href="https://www.mysql.com">
 									<img src="{% static 'vocapp/icons/mysql_icon.svg' %}" alt="" width="48" height="48">
 								</a>
@@ -69,10 +69,10 @@
 							</div>
 						</div>
 					</div>
-					<div id="type">
+					<div class="flex_container_col_hcent">
 						<h3>Hosting</h3>
-						<div class="tech_group">
-							<div>
+						<div id="tech_group" class="flex_container_row_vcent">
+							<div class="flex_container_col_hcent">
 								<a href="https://www.pythonanywhere.com/">
 									<img src="{% static 'vocapp/icons/pythonanywhere_icon.svg' %}" alt="" width="48" height="48">
 								</a>

@@ -4,6 +4,7 @@ function show_solution() {
 	show_button.classList.remove("visible_object");
 	show_button.classList.add("hidden_object");
 	
+	solution_div.classList.remove("hidden_object");
 	solution_div.classList.add("visible_object");
 }
 
