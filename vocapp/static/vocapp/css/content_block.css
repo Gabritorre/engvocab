@@ -291,3 +291,21 @@ main {
 						width: 95px;
 						text-align: end;
 					}
+
+
+/* progress.html */
+
+#main_progress {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#chart_container {
+	display:flex;
+	justify-content: center;
+	margin: 20px 0px;
+	height: 80vh;
+	width: 80vw;
+}
+

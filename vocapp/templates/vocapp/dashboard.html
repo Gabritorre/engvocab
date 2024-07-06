@@ -1,13 +1,65 @@
 {% extends "layout_template.html" %}
 
 {% block main %}
-<main>
-<ul>
-	<li>not learned: {{not_learned}}</li>
-	<li>learning: {{learning}}</li>
-	<li>learned: {{learned}}</li>
-	<li>total: {{total_expressions}}</li>
+<main id="main_progress">
+	<!-- <ul>
+		<li>not learned: {{not_learned}}</li>
+		<li>learning: {{learning}}</li>
+		<li>learned: {{learned}}</li>
+		<li>total: {{total_expressions}}</li>
+	</ul> -->
+		<div id="chart_container">
+			<canvas id="chart"></canvas>
+		</div>
 
-</ul>
 </main>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const canvas = document.getElementById('chart');
+
+new Chart(canvas, {
+	type: 'pie',
+	data: {
+		labels: ['Learned', 'Learning', 'Never seen'],
+		datasets: [{
+			label: 'Epressions',
+			
+			data: ["{{learned}}", "{{learning}}", "{{not_learned}}"],
+			backgroundColor: [
+				'rgb(74, 168, 30)',
+				'rgb(45, 90, 187)',
+				'rgb(124, 107, 107)',
+			],
+			hoverOffset: 15,
+			borderWidth: 1,
+			hoverBorderWidth: 2,
+		}]
+	},
+	options: {
+		radius: "95%",
+		plugins: {
+			subtitle: {
+                display: true,
+                text: 'Total number of expressions: {{total_expressions}}',
+				position: 'bottom',
+				color: 'rgb(190, 211, 210)',
+				font: {
+					size: 16,
+				},
+				padding: 10,
+            },
+			legend: {
+                display: true,
+                labels: {
+                    color: 'rgb(190, 211, 210)',
+					font: {
+						size: 14,
+					},
+                }
+            }
+        },
+	}
+});
+</script>
 {% endblock %}
