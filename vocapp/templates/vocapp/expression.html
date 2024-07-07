@@ -1,14 +1,52 @@
 {% extends "layout_template.html" %}
 
 {% block main %}
-<main>
-	<div>
-		<h1>expression id: {{expression_id}}</h1>
-		{{expression_info.content}}<br>
-		{{expression_info.level}} | {{expression_info.role}} | {{expression_info.context}} | {{expression_info.is_phrasal_verb}} | {{expression_info.is_formal}} | {{expression_info.is_figurative}}<br>
-		{{expression_info.translation_it}}<br>
-		{{expression_info.example_en}} | {{expression_info.example_it}}<br>
-		{{expression_info.note}}<br>
+<main class="flex_container_col_hcent">
+
+	<div class="flex_container_col_hcent top-spacing">
+		<div id="table_container" class="flex_container_col_cent">
+			<table>
+				<tbody>
+					<tr>
+						<th>Level</th>
+						<th>Role</th>
+						<th>Context</th>
+						{% if expression_info.is_phrasal_verb %}
+						<th>other info 1</th>
+						{% endif %}
+						{% if expression_info.is_formal %}
+						<th>other info 2</th>
+						{%endif%}
+						{% if expression_info.is_figurative %}
+						<th>other info 3</th>
+						{%endif%}
+					</tr>
+					<tr>
+						<td>{{expression_info.level}}</td>
+						<td>{{expression_info.role}}</td>
+						<td>{{expression_info.context}}</td>
+						{% if expression_info.is_phrasal_verb %}
+							<td>phrasal verb</td>
+						{% endif %}
+						{% if expression_info.is_formal %}
+							<td>formal</td>
+						{%endif%}
+						{% if expression_info.is_figurative %}
+							<td>figurative</td>
+						{%endif%}
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<p class="content">{{expression_info.content}}</p>
+		<p class="translation">{{expression_info.translation_it}}</p>
+		
+		<div id="translation_info_container">
+			<p id="example_en"><strong>Example</strong>: {{expression_info.example_en}}</p>
+			<p id="example_it"><strong>Esempio</strong>: {{expression_info.example_it}}</p>
+			<p id="notes"><strong>Note</strong>: {{expression_info.note}}</p>
+		</div>
 	</div>
 </main>
 {% endblock %}

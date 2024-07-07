@@ -13,7 +13,7 @@ main {
 	width: 100%;
 }
 
-/* home.html */
+/* home.html, expression.html */
 
 #apply_filter_button {
 	margin-top: 15px;
@@ -201,4 +201,11 @@ hr {
 	margin: 20px 0px;
 	height: 80vh;
 	width: 80vw;
+}
+
+
+/* expression.html */
+
+.top-spacing {
+	margin-top: 20px;
 }

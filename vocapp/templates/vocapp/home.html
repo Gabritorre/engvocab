@@ -65,10 +65,10 @@
 					</tbody>
 				</table>
 			</div>
-			<p id="content"></p>
+			<p id="expression_slot" class="content"></p>
 			<button id="show_button" class="visible_object" onclick="show_solution()">Show</button>
 			<div id="solution" class="hidden_object flex_container_col_hcent" >
-				<p id="translation">{{expression_info.translation_it}}</p>
+				<p class="translation">{{expression_info.translation_it}}</p>
 				<div id="translation_info_container">
 					<p id="example_en"><strong>Example</strong>: {{expression_info.example_en}}</p>
 					<p id="example_it"><strong>Esempio</strong>: {{expression_info.example_it}}</p>
@@ -124,7 +124,7 @@
 	window.active_timers = 0;	//acts like a semaphore for waiting the previous command to be fully typed into the shell
 
 	"{%if expression_info.content%}"
-		type("{{expression_info.content}}", "content", 1, false, false, false);
+		type("{{expression_info.content}}", "expression_slot", 1, false, false, false);
 	"{% endif %}"
 	addHomeEvents();
 </script>
