@@ -151,7 +151,7 @@ def progress(request):
 	if request.user.is_authenticated:
 		discovered_ids = Learn.objects.filter(user_id = request.user.id).values_list('expression_id', flat=True)
 		not_learned = Expression.objects.exclude(id__in=discovered_ids).count()
-		learning = Learn.objects.filter(user=request.user.id, confidence__range=(1, CONFIDENCE_BAR-1)).count()
+		learning = Learn.objects.filter(user=request.user.id, confidence__range=(0, CONFIDENCE_BAR-1)).count()
 		learned = Learn.objects.filter(user=request.user.id, confidence__gte=CONFIDENCE_BAR).count()
 		context = {
 			"not_learned" : not_learned,
