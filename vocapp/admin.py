@@ -4,6 +4,12 @@ from django.contrib.auth.admin import UserAdmin
 
 from .models import Role, Level, Expression, User
 
+from django.forms import TextInput, Textarea
+from django.db import models
+
+admin.site.site_header = "Engvocab Admin page"
+admin.site.site_title = "Engvocab"
+
 class UserAdmin(UserAdmin):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
@@ -24,6 +30,14 @@ class ExpressionAdmin(admin.ModelAdmin):
 	list_display = ["id", "content", "translation_it", "level", "is_phrasal_verb"]
 	search_fields = ["content", "translation_it"]
 	ordering = ["content", "translation_it", "level"]
+
+	def get_form(self, request, obj=None, **kwargs):
+		form = super(ExpressionAdmin, self).get_form(request, obj, **kwargs)
+		form.base_fields['note'].widget.attrs['style'] = 'width: 60em;'
+		form.base_fields['example_en'].widget.attrs['style'] = 'width: 60em;'
+		form.base_fields['example_it'].widget.attrs['style'] = 'width: 60em;'
+		return form
+
 
 
 admin.site.register(Role)
