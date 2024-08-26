@@ -92,22 +92,22 @@
 						<button id="report_button" onclick = "toggle_report_form()">Report error <img src="{% static 'vocapp/icons/arrow_down.svg' %}" alt=""></button>
 					</div>
 					<div class="report_form hidden_object">
-						<form class="flex_container_col_hcent" action="{%url 'vocapp:report' expression_info.id%}" method="POST">
+						<form class="flex_container_col_hcent" action="{%url 'vocapp:report' expression_info.id%}" method="POST" onsubmit="check_report_form(event)">
 							{% csrf_token %}
 							<p>Which fields contain errors?</p>
 							<div class="fields_list flex_container_col_start">
 								<div>
-									<input type="checkbox" name="involved_fields" value="expression" id="content_error">
+									<input type="checkbox" name="involved_fields" value="content" id="content_error">
 									<label for="content_error">Expression</label>
 								</div>
 								
 								<div>
-									<input type="checkbox" name="involved_fields" value="translation" id="translation_error">
+									<input type="checkbox" name="involved_fields" value="transl" id="translation_error">
 									<label for="translation_error">Translation</label>
 								</div>
 								
 								<div>
-									<input type="checkbox" name="involved_fields" value="level" id="level_error">
+									<input type="checkbox" name="involved_fields" value="lvl" id="level_error">
 									<label for="level_error">Level</label>
 								</div>
 
@@ -122,17 +122,17 @@
 								</div>
 
 								<div>
-									<input type="checkbox" name="involved_fields" value="example" id="example_error">
+									<input type="checkbox" name="involved_fields" value="expl" id="example_error">
 									<label for="example_error">Example</label>
 								</div>
 
 								<div>
-									<input type="checkbox" name="involved_fields" value="note" id="example_it_error">
+									<input type="checkbox" name="involved_fields" value="expl_it" id="example_it_error">
 									<label for="example_it_error">Example translation</label>
 								</div>
 
 								<div>
-									<input type="checkbox" name="involved_fields" value="phrasal" id="note_error">
+									<input type="checkbox" name="involved_fields" value="note" id="note_error">
 									<label for="note_error">Note</label>
 								</div>
 								
@@ -153,7 +153,7 @@
 							</div>
 
 							<textarea name="message" id="error_message" cols="40" rows="15" required placeholder="Describe the error"></textarea>
-							<button type="submit">Send</button>
+							<button id="submit_report_button" type="submit">Send</button>
 						</form>
 					</div>
 				{% endif %}
@@ -191,6 +191,7 @@
 </script>
 
 <script src="{% static 'vocapp/js/home.js' %}"></script>
+<script src="{% static 'vocapp/js/report.js' %}"></script>
 <script src="{% static 'vocapp/js/typing_sim.js' %}"></script>
 
 <script>
@@ -200,6 +201,7 @@
 		type("{{expression_info.content}}", "expression_slot", 1, false, false, false);
 	"{% endif %}"
 	addHomeEvents();
+	add_report_events();
 </script>
 
 <script>filters_button_style()</script>

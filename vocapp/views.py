@@ -2,13 +2,15 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout 
 from django.urls import reverse
+from django.utils.html import escape
 from .forms import LoginForm, SignupForm
 
-from .models import Role, Level, Expression, Learn, User
+from .models import *
 from .custom_exceptions import EmptyQuery
 from random import choice
 
 import json
+
 
 CONFIDENCE_BAR = 420
 CONFIDENCE_PARAMETERS = {
@@ -18,6 +20,9 @@ CONFIDENCE_PARAMETERS = {
 	"B2" : 42,
 	"C1/C2" : 35
 }
+FORCED_EXPRESSION_ID = None
+VALID_REPORT_FIELDS = {'content', 'transl', 'note', 'context', 'expl', 'expl_it', 'phrasal', 'formal', 'figurative', 'role', 'lvl'}
+
 
 def redir_home(request):
     return redirect('vocapp:home')
@@ -47,13 +52,16 @@ def update_filters(request):
 	request.session["phrasal"] = False
 	request.session["category"] = "discover"
 	if ("level" in request.GET):
-		request.session["level_filters"] = dict(request.GET)["level"]
+		for level in dict(request.GET)["level"]:
+			if level in CONFIDENCE_PARAMETERS.keys():
+				request.session["level_filters"].append(level)
 
 	if ("phrasal" in request.GET):
 		request.session["phrasal"] = True
 
 	if ("category" in request.GET):
-		request.session["category"] = request.GET["category"]
+		if request.GET["category"] == "review":
+			request.session["category"] = request.GET["category"]
 
 	return HttpResponseRedirect(reverse("vocapp:home"))
 
@@ -102,7 +110,18 @@ def filter_expressions(levels, phrasal, category, user):
 
 
 def home(request):
+	global FORCED_EXPRESSION_ID
 	levels = Level.objects.values_list('level', flat = True)
+
+	if FORCED_EXPRESSION_ID:
+		context = {
+			"levels": levels,
+			"expression_info": Expression.objects.get(pk = FORCED_EXPRESSION_ID),
+			"error" : {}
+		}
+		FORCED_EXPRESSION_ID = None
+		return render(request, "vocapp/home.html", context)
+
 	if ("level_filters" not in request.session.keys()):
 		request.session["level_filters"] = []
 	
@@ -147,7 +166,23 @@ def inspect_expression(request, expression_id):
 
 
 def report(request, expression_id):
-	pass
+	global FORCED_EXPRESSION_ID
+	global VALID_REPORT_FIELDS
+	if request.user.is_authenticated:
+		if request.method == "POST":
+			if "message" not in request.POST or "involved_fields" not in request.POST:
+				FORCED_EXPRESSION_ID = expression_id
+				return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+			fields_string = ""
+			for field in request.POST.getlist("involved_fields"):
+				if field in VALID_REPORT_FIELDS:
+					fields_string += field + "-"
+			expression = Expression.objects.get(pk = expression_id)
+			message = escape(request.POST["message"])
+			report = Report(user = request.user, expression = expression, fields = fields_string, message = message)
+			report.save()
+			FORCED_EXPRESSION_ID = expression_id
+	return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 def progress(request):
 	# check if user is autenticated, if not redirect to home
@@ -168,7 +203,7 @@ def progress(request):
 
 def about(request):
 	context = {
-		"version" : "2.0.0",
+		"version" : "2.1.0",
 		"repo" : "https://github.com/Gabritorre/engvocab",
 	}
 	return render(request, "vocapp/about.html", context)
@@ -206,7 +241,7 @@ def login_user(request):
 	else:
 		form = LoginForm()
 	return render(request, "vocapp/login.html", {'form': form})
-	
+
 
 def logout_user(request):
     logout(request)

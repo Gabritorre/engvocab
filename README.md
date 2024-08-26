@@ -131,5 +131,5 @@ Run the server with the following command:
 
 - make the shell interactive
 - add the possibility to change username and password
-- allow users to report errors in the expressions
+- Provide more data in the progress page
 - Show confidence progress for each expressions

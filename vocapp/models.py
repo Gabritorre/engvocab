@@ -48,6 +48,6 @@ class Learn(models.Model):
 class Report(models.Model):
 	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	expression = models.ForeignKey(Expression, on_delete=models.CASCADE)
-	fields = models.CharField(max_length=75, null=False, blank=False)
+	fields = models.CharField(max_length=100, null=False, blank=False)
 	message = models.TextField(max_length=350, blank=True, validators=[MaxLengthValidator(350)])
 	created_at = models.DateTimeField(auto_now_add=True)

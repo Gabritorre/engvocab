@@ -235,6 +235,6 @@ hr {
 
 /* expression.html */
 
-.top-spacing {
-	margin-top: 20px;
+.top-bottom-spacing {
+	margin: 20px 0px 50px 0px;
 }
