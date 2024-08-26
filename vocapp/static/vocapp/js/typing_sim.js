@@ -48,7 +48,7 @@ async function type(string, container_id, speed = 1, append = false, save = fals
 	for (let i = 0; i < string.length; i++) {
 		window.active_timers++;
 		timers[i] = setTimeout(() => {
-			container.innerHTML += string[i];
+			container.textContent += string[i];
 			window.active_timers--;
 		}, i * interval);
 	}
