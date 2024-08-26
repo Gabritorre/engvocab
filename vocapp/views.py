@@ -157,7 +157,10 @@ def search(request):
 
 
 def inspect_expression(request, expression_id):
+	global FORCED_EXPRESSION_ID
 	expression_info = Expression.objects.get(pk = expression_id)
+	if FORCED_EXPRESSION_ID:
+		FORCED_EXPRESSION_ID = None
 	context = {
 		"expression_id" : expression_id,
 		"expression_info": expression_info,
