@@ -9,19 +9,21 @@ class Role(models.Model):
 	def __str__(self):
 		return self.role
 
+
 class Level(models.Model):
 	level = models.CharField(max_length=10, primary_key=True)
 
 	def __str__(self):
 		return self.level
 
+
 class Expression(models.Model):
-	content = models.CharField(max_length=50, null=False, blank=False, unique=True)
-	translation_it = models.CharField(max_length=50, null=True)
-	note = models.CharField(max_length=300, null=True)
-	context = models.CharField(max_length=30, null=True)
-	example_en = models.CharField(max_length=150, null=True)
-	example_it = models.CharField(max_length=150, null=True)
+	content = models.CharField(max_length=75, null=False, blank=False, unique=True)
+	translation_it = models.CharField(max_length=100, null=True)
+	note = models.CharField(max_length=350, null=True)
+	context = models.CharField(max_length=100, null=True)
+	example_en = models.CharField(max_length=200, null=True)
+	example_it = models.CharField(max_length=200, null=True)
 	is_phrasal_verb = models.BooleanField(default=False)
 	is_formal = models.BooleanField(default=False)
 	is_figurative = models.BooleanField(default=False)
