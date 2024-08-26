@@ -158,3 +158,33 @@ input[type=text]:focus, input[type=password]:focus {
 	transform: scale(1);
 	box-shadow: 0 0px 10px 3px rgba(0, 0, 0, 0.3);
 }
+
+#report_button {
+	font-size: 14px;
+	width: 120px;
+}
+
+.report_form .fields_list div {
+	transform: scale(1);
+	transition: transform 0.3s ease,
+}
+
+.report_form .fields_list div:hover {
+	transform: scale(1.08);
+	transition: transform 0.3s ease,
+}
+
+textarea {
+	display:flex;
+	font-size: 16px;
+	background-color: rgb(190, 211, 210);
+	border-radius: 3px;
+	transform: scale(1);
+	transition: transform 0.3s ease,
+}
+
+textarea:focus {
+	outline:0px;
+	background-color: rgb(225, 235, 234);
+	transform: scale(1.04);
+}

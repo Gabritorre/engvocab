@@ -66,7 +66,9 @@
 				</table>
 			</div>
 			<p id="expression_slot" class="content"></p>
+
 			<button id="show_button" class="visible_object" onclick="show_solution()">Show</button>
+			
 			<div id="solution" class="hidden_object flex_container_col_hcent" >
 				<p class="translation">{{expression_info.translation_it}}</p>
 				<div id="translation_info_container">
@@ -84,6 +86,77 @@
 						<button type ="submit" class = "guess_button" name="guessing" value="1">Guessed</button> 
 					</form>
 				</div>
+
+				{% if request.user.is_authenticated %}
+					<div>
+						<button id="report_button" onclick = "toggle_report_form()">Report error <img src="{% static 'vocapp/icons/arrow_down.svg' %}" alt=""></button>
+					</div>
+					<div class="report_form hidden_object">
+						<form class="flex_container_col_hcent" action="{%url 'vocapp:report' expression_info.id%}" method="POST">
+							{% csrf_token %}
+							<p>Which fields contain errors?</p>
+							<div class="fields_list flex_container_col_start">
+								<div>
+									<input type="checkbox" name="involved_fields" value="expression" id="content_error">
+									<label for="content_error">Expression</label>
+								</div>
+								
+								<div>
+									<input type="checkbox" name="involved_fields" value="translation" id="translation_error">
+									<label for="translation_error">Translation</label>
+								</div>
+								
+								<div>
+									<input type="checkbox" name="involved_fields" value="level" id="level_error">
+									<label for="level_error">Level</label>
+								</div>
+
+								<div>
+									<input type="checkbox" name="involved_fields" value="role" id="role_error">
+									<label for="role_error">Role</label>
+								</div>
+								
+								<div>
+									<input type="checkbox" name="involved_fields" value="context" id="context_error">
+									<label for="context_error">Context</label>
+								</div>
+
+								<div>
+									<input type="checkbox" name="involved_fields" value="example" id="example_error">
+									<label for="example_error">Example</label>
+								</div>
+
+								<div>
+									<input type="checkbox" name="involved_fields" value="note" id="example_it_error">
+									<label for="example_it_error">Example translation</label>
+								</div>
+
+								<div>
+									<input type="checkbox" name="involved_fields" value="phrasal" id="note_error">
+									<label for="note_error">Note</label>
+								</div>
+								
+								<div>
+									<input type="checkbox" name="involved_fields" value="phrasal" id="phrasal_error">
+									<label for="phrasal_error">"Phrasal verb" tag</label>
+								</div>
+
+								<div>
+									<input type="checkbox" name="involved_fields" value="formal" id="formal_error">
+									<label for="formal_error">"Formal" tag</label>
+								</div>
+								
+								<div>
+									<input type="checkbox" name="involved_fields" value="figurative" id="figurative_error">
+									<label for="figurative_error">"Figurative" tag</label>
+								</div>
+							</div>
+
+							<textarea name="message" id="error_message" cols="40" rows="15" required placeholder="Describe the error"></textarea>
+							<button type="submit">Send</button>
+						</form>
+					</div>
+				{% endif %}
 			</div>
 		{% else %}
 			<p>{{error}}</p>

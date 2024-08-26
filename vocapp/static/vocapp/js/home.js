@@ -8,6 +8,25 @@ function show_solution() {
 	solution_div.classList.add("visible_object");
 }
 
+function toggle_report_form() {
+	let report_form = document.getElementsByClassName("report_form")[0];
+	if (report_form.classList.contains("hidden_object")) {
+		report_form.classList.remove("hidden_object");
+		report_form.classList.add("visible_object");
+	}
+	else {
+		report_form.classList.remove("visible_object");
+		report_form.classList.add("hidden_object");
+	}
+	let img_button = document.getElementById("report_button").children[0];
+	if (img_button.src.includes("down")) {
+		img_button.src = img_button.src.replace("down", "up");
+	}
+	else {
+		img_button.src = img_button.src.replace("up", "down");
+	}
+}
+
 function filters_button_style() {
 	let filters = document.getElementsByClassName("filter");
 	for (let i = 0; i < filters.length; i++) {

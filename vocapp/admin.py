@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin
 
-from .models import Role, Level, Expression, User, Learn
+from .models import *
 
 
 admin.site.site_header = "Engvocab Admin page"
@@ -44,10 +44,21 @@ class LearnAdmin(admin.ModelAdmin):
 	ordering = ["user", "expression"]
 
 
+class ReportAdmin(admin.ModelAdmin):
+	list_display = ["user", "expression", "created_at"]
+	search_fields = ["expression"]
+	ordering = ["expression", "created_at"]
+	def get_form(self, request, obj=None, **kwargs):
+		form = super(ReportAdmin, self).get_form(request, obj, **kwargs)
+		form.base_fields['fields'].widget.attrs['style'] = 'width: 30em;'
+		form.base_fields['message'].widget.attrs['style'] = 'width: 70em;'
+		return form
+
 admin.site.register(Role)
 admin.site.register(Level)
 admin.site.register(Expression, ExpressionAdmin)
 admin.site.register(User, UserAdmin)
 admin.site.register(Learn, LearnAdmin)
+admin.site.register(Report, ReportAdmin)
 
 admin.site.unregister(Group)

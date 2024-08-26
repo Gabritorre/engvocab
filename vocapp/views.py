@@ -146,6 +146,9 @@ def inspect_expression(request, expression_id):
 	return render(request, "vocapp/expression.html", context)
 
 
+def report(request, expression_id):
+	pass
+
 def progress(request):
 	# check if user is autenticated, if not redirect to home
 	if request.user.is_authenticated:
