@@ -1,4 +1,4 @@
-﻿﻿# Engvocab
+﻿# Engvocab
 
 A website to use during idle moments to learn the Italian translation of some English terms and expressions.
 
