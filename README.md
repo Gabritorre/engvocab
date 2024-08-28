@@ -1,4 +1,4 @@
-﻿# Engvocab
+﻿﻿# Engvocab
 
 A website to use during idle moments to learn the Italian translation of some English terms and expressions.
 
@@ -27,6 +27,7 @@ You need to install the following packages:
 		$ sudo apt install default-libmysqlclient-dev build-essential pkg-config mysql-server mysql-client
 
 - Python packages
+
 	Go in the root directory of the project and run
 	
 		$ pip3 install -r requirements.txt
@@ -51,6 +52,7 @@ You need to install the following packages:
 		$ sudo dnf install community-mysql-server community-mysql-devel
 
 - Python packages
+
 	Go to the root directory of the project and run
 	
 		$ pip3 install -r requirements.txt
@@ -110,9 +112,10 @@ Now let's create the database:
 
 	> create database mydatabase;
 
-Even in this case the may must match the one given in the environment variables file.
+Even in this case the name must match the one present in the environment variables file.
 
 Make Django create the tables:
+
 Go to the root directory of the project and run:
 
 	$  python3 manage.py migrate
