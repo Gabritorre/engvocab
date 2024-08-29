@@ -2,24 +2,20 @@
 
 {% block main %}
 <main class="flex_container_col_hcent">
-	<div id="chart_container" class="flex_container_row_vcent">
-		<canvas id="chart"></canvas>
+	<div class="flex_container_row_vcent chart_container">
+		<canvas id="general_chart"></canvas>
 	</div>
-
-	{% for level, info in levels.items %}
-		{{level}} - {{info}} <br>
-	{%endfor%}
-
-	<canvas id="myChart" width="400" height="200"></canvas>
-
-
+	
+	<div class="flex_container_row_vcent chart_container">
+		<canvas id="levels_chart" ></canvas>
+	</div>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
 <script>
-const canvas = document.getElementById('chart');
+const canvas = document.getElementById('general_chart');
 
 new Chart(canvas, {
 	type: 'pie',
@@ -28,11 +24,11 @@ new Chart(canvas, {
 		datasets: [{
 			label: 'Epressions',
 			
-			data: ["{{learned}}", "{{learning}}", "{{not_learned}}"],
+			data: ["{{learned}}", "{{learning}}", "{{never_seen}}"],
 			backgroundColor: [
 				'rgb(74, 168, 30)',
-				'rgb(45, 90, 187)',
-				'rgb(124, 107, 107)',
+				'rgb(232, 116, 27)',
+				'rgb(172, 169, 169)',
 			],
 			hoverOffset: 15,
 			borderWidth: 1,
@@ -67,67 +63,119 @@ new Chart(canvas, {
 </script>
 
 <script>
-const ctx = document.getElementById('myChart').getContext('2d');
+const ctx = document.getElementById('levels_chart').getContext('2d');
+
+
+// index=0: Never seen; index=1: Learning; index=2: Learned; index=3: Total
+function get_data_list(index) {
+	let data_list = [];
+	"{% for info in levels.values %}"
+		switch(index) {
+			case 0:
+				data_list.push("{{info.0}}");
+				break;
+			case 1:
+				data_list.push("{{info.1}}");
+				break;
+			case 2:
+				data_list.push("{{info.2}}");
+				break;
+			case 3:
+				data_list.push("{{info.3}}");
+				break;
+		}
+	"{% endfor %}"
+	return data_list;
+}
+
+const legend_margin = {
+	id: 'legend_margin',
+	afterInit(chart, args, plugins) {
+		const original_fit = chart.legend.fit;
+		const margin = plugins.margin || 0;
+		chart.legend.fit = function fit() {
+			if(original_fit) {
+				original_fit.call(this);
+			}
+			return this.height += margin;
+		};
+	}
+}
 
 const myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['A1/A2', 'B1', 'B1+', 'B2', 'C1/C2'],
-        datasets: [
+	type: 'bar',
+	data: {
+		labels: ['A1/A2', 'B1', 'B1+', 'B2', 'C1/C2'],
+		datasets: [
 			{
-                label: 'Never seen',
-                data: [2, 20, 30, 10, 20],
-                backgroundColor: 'rgba(25, 19, 122, 1)',
-            },
+				label: 'Never seen',
+				data: get_data_list(0),
+				backgroundColor: 'rgb(172, 169, 169)',
+			},
 			{
-                label: 'Learning',
-                data: [15, 25, 35, 15, 25],
-                backgroundColor: 'rgba(54, 162, 235, 1)',
-            },
-            {
-                label: 'Learned',
-                data: [3, 20, 30, 10, 20],
-                backgroundColor: 'rgba(255, 99, 132, 1)',
-            },
-            {
-                label: 'Total',
-                data: [20, 30, 40, 18, 28],
-                backgroundColor: 'rgba(75, 192, 192, 1)',
-            }
-        ]
-    },
-    options: {
-		responsive: true,
-        scales: {
-            x: {
-                stacked: false // Abilita lo stacking sull'asse x
-            },
-            y: {
-                stacked: false // Abilita lo stacking sull'asse y
-            }
-        },
-		plugins: {
-            legend: {
-                position: 'top',
-            },
-            datalabels: {
-                color: '#fff', // Colore del testo
-                anchor: 'end', // Posizione del testo
-                align: 'top', // Allineamento del testo
-                formatter: function(value) {
-                    return value; // Mostra il valore all'interno delle barre
-                },
-                font: {
-                    weight: 'bold', // Peso del font
-                    size: 14 // Dimensione del font
-                },
-                padding: {
-                    bottom: 4 // Padding inferiore
-                }
-            },
-		}
+				label: 'Learning',
+				data: get_data_list(1),
+				backgroundColor: 'rgb(232, 116, 27)',
+			},
+			{
+				label: 'Learned',
+				data: get_data_list(2),
+				backgroundColor: 'rgb(74, 168, 30)',
+			},
+			{
+				label: 'Total',
+				data: get_data_list(3),
+				backgroundColor: 'rgb(73, 33, 236)',
+			}
+		]
 	},
-	plugins: [ChartDataLabels]
+	options: {
+		responsive: true,
+		scales: {
+			x: {
+				stacked: false,
+				ticks: {
+					color: 'rgb(190, 211, 210)',
+					font: {
+						size: 16,
+					}
+				}
+			},
+			y: {
+				stacked: false
+			}
+		},
+		plugins: {
+			legend: {
+				position: 'top',
+				labels: {
+					color: '#fff', // Colore del testo
+					font: {
+						size: 14 // Dimensione del font
+					},
+				},
+			},
+			legend_margin: {
+				margin: 15,
+			},
+			datalabels: {
+				color: '#fff',
+				anchor: 'end',
+				align: 'top',
+				formatter: function(value) {
+					return value;
+				},
+				font: {
+					weight: 'bold',
+					size: 14
+				},
+				padding: {
+					bottom: 0,
+				}
+			},
+		},
+	},
+	plugins: [ChartDataLabels, legend_margin]
 });
 
 </script>

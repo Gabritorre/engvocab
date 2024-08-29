@@ -191,24 +191,26 @@ def progress(request):
 	# check if user is autenticated, if not redirect to home
 	if request.user.is_authenticated:
 		discovered_ids = Learn.objects.filter(user_id = request.user.id).values_list('expression_id', flat=True)
-		not_learned = Expression.objects.exclude(id__in=discovered_ids).count()
+		never_seen = Expression.objects.exclude(id__in=discovered_ids).count()
 		learning = Learn.objects.filter(user=request.user.id, confidence__range=(0, CONFIDENCE_BAR-1)).count()
 		learned = Learn.objects.filter(user=request.user.id, confidence__gte=CONFIDENCE_BAR).count()
 		expressions_by_level = Expression.objects.values('level').annotate(total=models.Count('level'))
-		user_learning_expressions_by_level = Learn.objects.filter(user=request.user.id, confidence__lt=CONFIDENCE_BAR).values('expression__level').annotate(total=models.Count('expression__level'))
-		user_learned_expressions_by_level = Learn.objects.filter(user=request.user.id, confidence__gte=CONFIDENCE_BAR).values('expression__level').annotate(total=models.Count('expression__level'))
-		
+		learning_expressions_by_level = Learn.objects.filter(user=request.user.id, confidence__lt=CONFIDENCE_BAR).values('expression__level').annotate(total=models.Count('expression__level'))
+		learned_expressions_by_level = Learn.objects.filter(user=request.user.id, confidence__gte=CONFIDENCE_BAR).values('expression__level').annotate(total=models.Count('expression__level'))
+		never_seen_expressions_by_level = Expression.objects.exclude(id__in=discovered_ids).values('level').annotate(total=models.Count('level'))
+
+		never_seen_expressions_by_level = {item['level']: item['total'] for item in never_seen_expressions_by_level}
 		expressions_by_level = {item['level']: item['total'] for item in expressions_by_level}
-		user_learning_expressions_by_level = {item['expression__level']: item['total'] for item in user_learning_expressions_by_level}
-		user_learned_expressions_by_level = {item['expression__level']: item['total'] for item in user_learned_expressions_by_level}
+		learning_expressions_by_level = {item['expression__level']: item['total'] for item in learning_expressions_by_level}
+		learned_expressions_by_level = {item['expression__level']: item['total'] for item in learned_expressions_by_level}
 		levels = Level.objects.values_list('level', flat = True)
-		levels = {level: (expressions_by_level[level], user_learning_expressions_by_level.get(level, 0), user_learned_expressions_by_level.get(level, 0)) for level in levels}
+		levels = {level: (never_seen_expressions_by_level.get(level, 0), learning_expressions_by_level.get(level, 0), learned_expressions_by_level.get(level, 0), expressions_by_level[level]) for level in levels}
 
 		context = {
-			"not_learned" : not_learned,
+			"never_seen" : never_seen,
 			"learning" : learning,
 			"learned" : learned,
-			"total_expressions": not_learned + learning + learned,
+			"total_expressions": never_seen + learning + learned,
 			"levels": levels,
 		}
 		return render(request, "vocapp/progress.html", context)
@@ -217,7 +219,7 @@ def progress(request):
 
 def about(request):
 	context = {
-		"version" : "2.1.0",
+		"version" : "2.2.0",
 		"repo" : "https://github.com/Gabritorre/engvocab",
 	}
 	return render(request, "vocapp/about.html", context)
