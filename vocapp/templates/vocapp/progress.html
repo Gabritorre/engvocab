@@ -5,6 +5,11 @@
 	<div id="chart_container" class="flex_container_row_vcent">
 		<canvas id="chart"></canvas>
 	</div>
+
+	{% for level, info in levels.items %}
+		{{level}} - {{info}} <br>
+	{%endfor%}
+
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -34,25 +39,25 @@ new Chart(canvas, {
 		radius: "95%",
 		plugins: {
 			subtitle: {
-                display: true,
-                text: 'Total number of expressions: {{total_expressions}}',
+				display: true,
+				text: 'Total number of expressions: {{total_expressions}}',
 				position: 'bottom',
 				color: 'rgb(190, 211, 210)',
 				font: {
 					size: 16,
 				},
 				padding: 10,
-            },
+			},
 			legend: {
-                display: true,
-                labels: {
-                    color: 'rgb(190, 211, 210)',
+				display: true,
+				labels: {
+					color: 'rgb(190, 211, 210)',
 					font: {
 						size: 14,
 					},
-                }
-            }
-        },
+				}
+			}
+		},
 	}
 });
 </script>

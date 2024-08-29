@@ -25,7 +25,7 @@ VALID_REPORT_FIELDS = {'content', 'transl', 'note', 'context', 'expl', 'expl_it'
 
 
 def redir_home(request):
-    return redirect('vocapp:home')
+	return redirect('vocapp:home')
 
 def adjust_confidence(request, expression_id):
 	if request.user.is_authenticated:
@@ -152,7 +152,7 @@ def search(request):
 	expressions_list = dict(Expression.objects.values_list('id', 'content'))
 	context = {
 		"expressions_list" : json.dumps(expressions_list),
-    }
+	}
 	return render(request, "vocapp/search.html", context)
 
 
@@ -194,11 +194,22 @@ def progress(request):
 		not_learned = Expression.objects.exclude(id__in=discovered_ids).count()
 		learning = Learn.objects.filter(user=request.user.id, confidence__range=(0, CONFIDENCE_BAR-1)).count()
 		learned = Learn.objects.filter(user=request.user.id, confidence__gte=CONFIDENCE_BAR).count()
+		expressions_by_level = Expression.objects.values('level').annotate(total=models.Count('level'))
+		user_learning_expressions_by_level = Learn.objects.filter(user=request.user.id, confidence__lt=CONFIDENCE_BAR).values('expression__level').annotate(total=models.Count('expression__level'))
+		user_learned_expressions_by_level = Learn.objects.filter(user=request.user.id, confidence__gte=CONFIDENCE_BAR).values('expression__level').annotate(total=models.Count('expression__level'))
+		
+		expressions_by_level = {item['level']: item['total'] for item in expressions_by_level}
+		user_learning_expressions_by_level = {item['expression__level']: item['total'] for item in user_learning_expressions_by_level}
+		user_learned_expressions_by_level = {item['expression__level']: item['total'] for item in user_learned_expressions_by_level}
+		levels = Level.objects.values_list('level', flat = True)
+		levels = {level: (expressions_by_level[level], user_learning_expressions_by_level.get(level, 0), user_learned_expressions_by_level.get(level, 0)) for level in levels}
+
 		context = {
 			"not_learned" : not_learned,
 			"learning" : learning,
 			"learned" : learned,
 			"total_expressions": not_learned + learning + learned,
+			"levels": levels,
 		}
 		return render(request, "vocapp/progress.html", context)
 	else:
@@ -247,5 +258,5 @@ def login_user(request):
 
 
 def logout_user(request):
-    logout(request)
-    return redirect("vocapp:login_user")
+	logout(request)
+	return redirect("vocapp:login_user")
