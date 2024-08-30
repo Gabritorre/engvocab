@@ -27,6 +27,7 @@ VALID_REPORT_FIELDS = {'content', 'transl', 'note', 'context', 'expl', 'expl_it'
 def redir_home(request):
 	return redirect('vocapp:home')
 
+
 def adjust_confidence(request, expression_id):
 	if request.user.is_authenticated:
 		user = User.objects.get(username=request.user.username)
@@ -47,6 +48,7 @@ def adjust_confidence(request, expression_id):
 	# if there is no user logged in just redirect to home
 	return redirect('vocapp:home')
 
+
 def update_filters(request):
 	request.session["level_filters"] = []
 	request.session["phrasal"] = False
@@ -64,6 +66,7 @@ def update_filters(request):
 			request.session["category"] = request.GET["category"]
 
 	return HttpResponseRedirect(reverse("vocapp:home"))
+
 
 def filter_expressions(levels, phrasal, category, user):
 	expressions_set = None
@@ -148,6 +151,7 @@ def home(request):
 	
 	return render(request, "vocapp/home.html", context)
 
+
 def search(request):
 	expressions_list = dict(Expression.objects.values_list('id', 'content'))
 	context = {
@@ -168,9 +172,25 @@ def inspect_expression(request, expression_id):
 	return render(request, "vocapp/expression.html", context)
 
 
+# check if the redirect_url is from expression page or home page
+def validate_redirect(request, redirect_url):
+	print("raw input", redirect_url)
+
+	home_url = request.build_absolute_uri(reverse("vocapp:home"))
+	expression_url = request.build_absolute_uri(reverse("vocapp:inspect_expression", kwargs={"expression_id": 0}))
+	expression_url = expression_url.replace("/0", "/")
+
+	if redirect_url == home_url or redirect_url.startswith(expression_url):
+		return True
+	else:
+		return False
+
+
 def report(request, expression_id):
 	global FORCED_EXPRESSION_ID
 	global VALID_REPORT_FIELDS
+	if not validate_redirect(request, request.META.get('HTTP_REFERER', '/')):
+		return redirect("vocapp:home")
 	if request.user.is_authenticated:
 		if request.method == "POST":
 			if "message" not in request.POST or "involved_fields" not in request.POST:
@@ -186,6 +206,7 @@ def report(request, expression_id):
 			report.save()
 			FORCED_EXPRESSION_ID = expression_id
 	return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
 
 def progress(request):
 	# check if user is autenticated, if not redirect to home
@@ -217,12 +238,14 @@ def progress(request):
 	else:
 		return redirect("vocapp:login_user")
 
+
 def about(request):
 	context = {
-		"version" : "2.2.0",
+		"version" : "2.2.1",
 		"repo" : "https://github.com/Gabritorre/engvocab",
 	}
 	return render(request, "vocapp/about.html", context)
+
 
 def signup(request):
 	if request.user.is_authenticated:
@@ -241,6 +264,7 @@ def signup(request):
 	else:
 		form = SignupForm()
 	return render(request, "vocapp/signup.html", {'form': form})
+
 
 def login_user(request):
 	if request.user.is_authenticated:
