@@ -10,6 +10,38 @@
 		<canvas id="levels_chart" ></canvas>
 	</div>
 
+	<div class="flex_container_row_vcent">
+		<table>
+			<tr>
+				<th>Never seen</th>
+				<th>Learning</th>
+				<th>Learned</th>
+			</tr>
+			<tr>
+				<td>
+					<ul>
+						{% for expression in never_seen_expression_list %}
+							<li>{{expression.content}}</li>
+						{% endfor %}
+					</ul>
+				</td>
+				<td>
+					<ul>
+						{% for expression in learning_expression_list %}
+							<li>{{expression.content}}</li>
+						{% endfor %}
+					</ul>
+				</td>
+				<td>
+					<ul>
+						{% for expression in learned_expression_list %}
+							<li>{{expression.content}}</li>
+						{% endfor %}
+					</ul>
+				</td>
+				</tr>
+		</table>
+
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

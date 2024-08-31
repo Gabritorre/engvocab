@@ -227,12 +227,19 @@ def progress(request):
 		levels = Level.objects.values_list('level', flat = True)
 		levels = {level: (never_seen_expressions_by_level.get(level, 0), learning_expressions_by_level.get(level, 0), learned_expressions_by_level.get(level, 0), expressions_by_level[level]) for level in levels}
 
+
+		never_seen_expression_list = Expression.objects.exclude(id__in=discovered_ids).order_by('content')
+		learning_expression_list = Expression.objects.filter(learn__user=request.user.id, learn__confidence__lt=CONFIDENCE_BAR).order_by('content')
+		learned_expression_list = Expression.objects.filter(learn__user=request.user.id, learn__confidence__gte=CONFIDENCE_BAR).order_by('content')
 		context = {
 			"never_seen" : never_seen,
 			"learning" : learning,
 			"learned" : learned,
 			"total_expressions": never_seen + learning + learned,
 			"levels": levels,
+			"never_seen_expression_list": never_seen_expression_list,
+			"learning_expression_list": learning_expression_list,
+			"learned_expression_list": learned_expression_list,
 		}
 		return render(request, "vocapp/progress.html", context)
 	else:
