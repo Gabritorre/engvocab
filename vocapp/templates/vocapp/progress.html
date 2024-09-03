@@ -7,10 +7,10 @@
 	</div>
 	
 	<div class="flex_container_row_vcent chart_container">
-		<canvas id="levels_chart" ></canvas>
+		<canvas id="levels_chart"></canvas>
 	</div>
 
-	<div class="flex_container_row_vcent">
+	<div id="table_container" class="flex_container_row_vcent">
 		<table>
 			<tr>
 				<th>Never seen</th>
@@ -19,28 +19,23 @@
 			</tr>
 			<tr>
 				<td>
-					<ul>
-						{% for expression in never_seen_expression_list %}
-							<li>{{expression.content}}</li>
-						{% endfor %}
-					</ul>
+					{% for expression in never_seen_expression_list %}
+						<p><a href="expression/{{expression.id}}">{{expression.content}}</a></p>
+					{% endfor %}
 				</td>
 				<td>
-					<ul>
-						{% for expression in learning_expression_list %}
-							<li>{{expression.content}}</li>
-						{% endfor %}
-					</ul>
+					{% for expression in learning_expression_list %}
+					<p><a href="expression/{{expression.id}}">{{expression.content}}</a></p>
+					{% endfor %}
 				</td>
 				<td>
-					<ul>
-						{% for expression in learned_expression_list %}
-							<li>{{expression.content}}</li>
-						{% endfor %}
-					</ul>
+					{% for expression in learned_expression_list %}
+					<p><a href="expression/{{expression.id}}">{{expression.content}}</a></p>
+					{% endfor %}
 				</td>
 				</tr>
 		</table>
+	</div>
 
 </main>
 
@@ -171,6 +166,7 @@ const myChart = new Chart(ctx, {
 					color: 'rgb(190, 211, 210)',
 					font: {
 						size: 16,
+						weight: 'bold',
 					}
 				}
 			},
@@ -184,12 +180,12 @@ const myChart = new Chart(ctx, {
 				labels: {
 					color: '#fff',
 					font: {
-						size: 14
+						size: 14,
 					},
 				},
 			},
 			legend_margin: {
-				margin: 15,
+				margin: 25,
 			},
 			datalabels: {
 				color: '#fff',

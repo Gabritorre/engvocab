@@ -10,10 +10,10 @@ nav {
 #nav_links {
 	display: flex;
 	flex-direction: row;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    align-content: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	align-content: center;
 	margin: 0px 10px;
 }
 

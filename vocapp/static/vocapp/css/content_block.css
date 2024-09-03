@@ -60,15 +60,27 @@ hr {
 		overflow-x: auto;
 		width: 80%;
 		margin-bottom: 20px;
+		margin-top: 20px;
 	}
 	table {
 		table-layout: fixed;
-		width: 100%;  
+		width: 100%;
+		border-collapse: collapse;
 	}
-	td {
+	
+	td, th {
 		text-align: center;
-		vertical-align: middle;
+		vertical-align: top;
+		border-right: 2px solid rgb(190, 211, 210);
+		border-radius: 5px;
 	}
+
+		th:first-child, td:first-child {
+			border-left: none;
+		}
+		th:last-child, td:last-child {
+			border-right: none;
+		}
 
 	.hidden_object {
 		visibility: hidden;

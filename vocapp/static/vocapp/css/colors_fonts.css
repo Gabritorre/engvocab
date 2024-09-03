@@ -122,10 +122,19 @@ button:active {
 #table_container {
 	filter: brightness(80%);
 }
-	.content, .translation {
+
+th {
+	font-size:20px;
+}
+
+.content, .translation {
 	font-size: 22px;
 	font-weight: bold;
 	margin-top: 0px;
+}
+
+.translation {
+	color:rgb(14, 138, 10)
 }
 
 #search_container input[type=text] {
