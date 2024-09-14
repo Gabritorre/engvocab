@@ -51,6 +51,10 @@ main {
 	background-color: rgb(36,24,36);
 }
 
+#cookie_banner {
+	background-color: rgb(22, 22, 22);
+}
+
 a {
 	color: rgb(31, 154, 163);
 	text-decoration: none;

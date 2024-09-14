@@ -123,6 +123,8 @@
 <script src="{% static 'vocapp/js/typing_sim.js' %}"></script>
 <script src="{% static 'vocapp/js/report.js' %}"></script>
 <script>
-	add_report_events();
+	"{% if request.user.is_authenticated %}"
+		add_report_events();
+	"{% endif %}"
 </script>
 {% endblock %}

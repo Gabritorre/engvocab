@@ -201,7 +201,9 @@
 		type("{{expression_info.content}}", "expression_slot", 1, false, false, false);
 	"{% endif %}"
 	addHomeEvents();
-	add_report_events();
+	"{% if request.user.is_authenticated %}"
+		add_report_events();
+	"{% endif %}"
 </script>
 
 <script>filters_button_style()</script>

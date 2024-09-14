@@ -61,6 +61,26 @@
 		{% block main %}
 		{% endblock %}
 	</body>
+	<div id="cookie_banner_container">
+		<div id="cookie_banner" class="hidden_object">
+			<p>This website uses cookies only for technical purposes, essential for its proper functioning.</p>
+			<button onclick="closeCookieBanner()">Close</button>
+		</div>
+	</div>
+
 	<script src="{% static 'vocapp/js/typing_sim.js' %}"></script>
 	<script>addNavEvents()</script>
+	<script>
+		let cookie_banner = localStorage.getItem("cookie_banner");
+		console.log(cookie_banner);
+		if (cookie_banner === null || cookie_banner != "closed") {
+			document.getElementById("cookie_banner").classList.remove("hidden_object");
+			localStorage.setItem("cookie_banner", "not closed")
+		}
+
+		function closeCookieBanner() {
+			document.getElementById("cookie_banner").classList.add("hidden_object");
+			localStorage.setItem("cookie_banner", "closed");
+		}
+	</script>
 </html>

@@ -248,7 +248,7 @@ def progress(request):
 
 def about(request):
 	context = {
-		"version" : "2.3.0",
+		"version" : "2.3.1",
 		"repo" : "https://github.com/Gabritorre/engvocab",
 	}
 	return render(request, "vocapp/about.html", context)
