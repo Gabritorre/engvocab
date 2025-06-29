@@ -21,6 +21,7 @@ function updateResults(inputValue) {
 
 	let html_list = document.getElementById("expressions");
 	let command_field = document.getElementById("command");
+	let expression_counter = document.getElementById("expression_counter");
 	for (let i = 0; i < expressions_content.length; i++) {
 		if (!expressions_content[i].toLowerCase().includes(inputValue.toLowerCase())) {	//keeps only the string that includes the user input string
 			continue;
@@ -50,6 +51,16 @@ function updateResults(inputValue) {
 				}
 			}
 		})
+	}
+	
+	if (html_list.childElementCount == 1) {
+		expression_counter.innerHTML = "1 expression found";
+	}
+	else if (html_list.childElementCount == 0) {
+		expression_counter.innerHTML = "No expressions found";
+	}
+	else {
+		expression_counter.innerHTML = html_list.childElementCount + " expressions found";
 	}
 }
 
