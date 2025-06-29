@@ -6,6 +6,13 @@ var password2_changed = false;
 
 var speed = 4
 
+function hideErrorMessage() {
+	let error_message = document.getElementsByClassName("error_message")[0];
+	if (error_message) {
+		error_message.style.display = "none";
+	}
+}
+
 function addSignupEvent() {
 	let submit_button = document.getElementById("submit_signup");
 	submit_button.addEventListener("mouseover", update_signup_shell)

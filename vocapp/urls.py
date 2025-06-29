@@ -10,6 +10,7 @@ urlpatterns = [
 	path("expression/<int:expression_id>", views.inspect_expression, name="inspect_expression"),
 	path("about", views.about, name="about"),
 	path("progress", views.progress, name="progress"),
+    path("profile", views.profile, name="profile"),
 	path("login", views.login_user, name="login_user"),
 	path("signup", views.signup, name="signup"),
 	path("logout", views.logout_user, name="logout_user"),

@@ -188,8 +188,6 @@ def inspect_expression(request, expression_id):
 
 # check if the redirect_url is from expression page or home page
 def validate_redirect(request, redirect_url):
-	print("raw input", redirect_url)
-
 	home_url = request.build_absolute_uri(reverse("vocapp:home"))
 	expression_url = request.build_absolute_uri(reverse("vocapp:inspect_expression", kwargs={"expression_id": 0}))
 	expression_url = expression_url.replace("/0", "/")
@@ -262,11 +260,33 @@ def progress(request):
 
 def about(request):
 	context = {
-		"version" : "2.3.1",
+		"version" : "2.4.0",
 		"repo" : "https://github.com/Gabritorre/engvocab",
 	}
 	return render(request, "vocapp/about.html", context)
 
+def profile(request):
+	if request.user.is_authenticated:
+		if request.method == "POST":
+			if "username" in request.POST and request.POST["username"]:
+				new_username = request.POST["username"]
+				if new_username == request.user.username:
+					return render(request, "vocapp/profile.html", {"ref":"username", "status":"ERROR", "response": "Username not changed."})
+				if User.objects.filter(username=new_username).exists():
+					return render(request, "vocapp/profile.html", {"ref":"username", "status":"ERROR", "response": "Username already exists."})
+				request.user.username = new_username
+				request.user.save()
+				return render(request, "vocapp/profile.html", {"ref":"username", "status":"OK", "response": "Username updated successfully."})
+			elif "password" in request.POST and request.POST["password"]:
+				if request.POST["password"] != request.POST["password_conf"]:
+					return render(request, "vocapp/profile.html", {"ref":"password", "status":"ERROR", "response": "Passwords do not match."})
+				request.user.set_password(request.POST["password"])
+				request.user.save()
+				return render(request, "vocapp/profile.html", {"ref":"password", "status":"OK", "response": "Password updated successfully. Login required."})
+		return render(request, "vocapp/profile.html", {"ref": None, "status": None, "response": None})
+	else:
+		return redirect("vocapp:login_user")
+	
 
 def signup(request):
 	if request.user.is_authenticated:
@@ -281,10 +301,16 @@ def signup(request):
 			if user:
 				login(request, user)
 				return redirect("vocapp:home")
-			return HttpResponseRedirect(reverse("vocapp:signup_user"))
+		
+		# If form is not valid or user already exists, return to signup page with error
+		form = SignupForm()
+		if User.objects.filter(username=request.POST["username"]).exists():
+			return render(request, "vocapp/signup.html", {'form': form, 'status': "ERROR", 'response': "Username already exists."})
+		if request.POST["password1"] != request.POST["password2"]:
+			return render(request, "vocapp/signup.html", {'form': form, "status":"ERROR", "response": "Passwords do not match."})
 	else:
 		form = SignupForm()
-	return render(request, "vocapp/signup.html", {'form': form})
+	return render(request, "vocapp/signup.html", {'form': form, 'status': None, 'response': None})
 
 
 def login_user(request):
@@ -299,9 +325,10 @@ def login_user(request):
 			if user:
 				login(request, user)
 				return redirect("vocapp:home")
+		return render(request, "vocapp/login.html", {'form': form, 'status': "ERROR", 'response': "Invalid credentials."})
 	else:
 		form = LoginForm()
-	return render(request, "vocapp/login.html", {'form': form})
+	return render(request, "vocapp/login.html", {'form': form, 'status': None, 'response': None})
 
 
 def logout_user(request):

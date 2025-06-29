@@ -201,3 +201,13 @@ textarea:focus {
 	background-color: rgb(225, 235, 234);
 	transform: scale(1.04);
 }
+
+.error_message {
+	color: rgb(214, 8, 8);
+	margin: 5px 0px;
+}
+
+.success_message {
+	color: rgb(8, 214, 8);
+	margin: 5px 0px;
+}

@@ -1,0 +1,58 @@
+{% extends "layout_template.html" %}
+
+{% block main %}
+<main class="flex_container_col_hcent">
+	<div class="flex_container_col_hcent">
+		<p>Join Date: {{ request.user.date_joined }}</p>
+		<form class="flex_container_row_hcent" method="POST">
+			{% csrf_token %}
+			<label for="username">Username:</label>
+			<input type="text" id="username" name="username" value="{{ request.user.username }}">
+			<button type="submit" onclick="hideMessages()" id="update_username">Update</button>
+		</form>
+		{% if ref == "username" %}
+			{% if status == "ERROR" %}
+				<p class="error_message">{{ response }}</p>
+			{% else %}
+				<p class="success_message">{{ response }}</p>
+			{% endif %}
+		{% endif %}
+		<hr>
+		<form class="flex_container_col_hcent" method="POST">
+			{% csrf_token %}
+			<div class="flex_container_col_hleft">
+				<div class="form_field_login">
+					<label for="password">Password:</label>
+					<input type="password" id="password" name="password" placeholder="New password">
+				</div>
+				<div class="form_field_login">
+					<label for="password_conf">Confirm password:</label>
+					<input type="password" id="password_conf" name="password_conf" placeholder="Repeat new password">
+				</div>
+			</div>
+			<button type="submit" onclick="hideMessages()" id="update_password">Update</button>
+		</form>
+		{% if ref == "password" %}
+			{% if status == "ERROR" %}
+				<p class="error_message">{{ response }}</p>
+			{% else %}
+				<p class="success_message">{{ response }}</p>
+			{% endif %}
+		{% endif %}
+	</div>
+</main>
+
+<script defer>
+	function hideMessages() {
+		let error_message = document.getElementsByClassName("error_message");
+		let success_message = document.getElementsByClassName("success_message");
+		for (err of error_message) {
+			err.style.display = "none";
+		}
+		for (succ of success_message) {
+			succ.style.display = "none";
+		}
+	}
+</script>
+{% endblock %}
+

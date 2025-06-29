@@ -4,6 +4,13 @@ var password_changed = false;
 
 var speed = 3;
 
+function hideErrorMessage() {
+	let error_message = document.getElementsByClassName("error_message")[0];
+	if (error_message) {
+		error_message.style.display = "none";
+	}
+}
+
 function addLoginEvent() {
 	let submit_button = document.getElementById("submit_login");
 	submit_button.addEventListener("mouseover", update_login_shell)

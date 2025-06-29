@@ -17,8 +17,11 @@
 				{{ form.password }}
 			</div>
 
-			<button type="submit" id="submit_login">Login</button>
+			<button type="submit" onclick="hideErrorMessage()" id="submit_login">Login</button>
 		</form>
+		{% if status == "ERROR" %}
+			<p class="error_message">{{ response }}</p>
+		{% endif %}
 	</div>
 </main>
 
