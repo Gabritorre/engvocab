@@ -4,6 +4,8 @@ A website to use during idle moments to learn the Italian translation of some En
 
 Created with Django and MySQL.
 
+Hosted by Pythonanywhere at https://engvocab.eu.pythonanywhere.com.
+
 ## Local installation
 
 1. Clone the repository
@@ -16,7 +18,12 @@ Created with Django and MySQL.
 
 You need to install the following packages:
 
-**Debian**
+<details>
+
+<summary>
+	
+#### Debian
+</summary>
 
 - Python
 
@@ -41,7 +48,14 @@ You need to install the following packages:
 
 		$ pip install --upgrade pip
 
-**Fedora**
+</details>
+
+<details>
+
+<summary>
+
+#### Fedora
+</summary>
 
 - Python
 
@@ -49,18 +63,19 @@ You need to install the following packages:
 
 - MySQL
 
-		$ sudo dnf install community-mysql-server community-mysql-devel
+		$ sudo dnf install gcc community-mysql-server community-mysql-devel
 
 - Python packages
 
 	Go to the root directory of the project and run
 	
 		$ pip3 install -r requirements.txt
-	
+
+</details>
+
 ### 3) Environment variables file
 
-Fill the `template.env` file.
-This is an example:
+Optionally edit the `template.env` file with your preferences. Then rename `template.env` to `.env`
 ```txt
 DB_ENGINE=django.db.backends.mysql
 DB_NAME=mydatabase
@@ -71,9 +86,8 @@ DB_PORT=3306
 DB_SECRET_KEY="i02$0g@6q!3gx%v2zzorh#7k&5!vk=&%k$jm!jr^a7e8d)e*0%9"
 DB_DEBUG=1
 ```
-Note that the value given to `DB_NAME`, `DB_USER`, `DB_PASSWORD` must match with the corresponding field when we will configure the database.
+**Note** that the value given to `DB_NAME`, `DB_USER`, `DB_PASSWORD` **must match** with the corresponding field when you will configure the database.
 
-Rename `template.env` to simply `.env`
 
 ### 4) Setup MySQL database
 
@@ -97,26 +111,26 @@ Now in the MySQL command line run the following three commands:
 
 	> create user '<username>'@'localhost' identified by '<password>';
 	
-Note: the username and the password must be the same as the ones specified the the environment variables file, in this case, for example must be:
+Note: the username and the password must be the same as the ones specified the the environment variables file, if you dont have changed the .env, the command should be:
 
 	> create user 'django'@'localhost' identified by '';
 
 then grant all the privileges to the user just created:
+(remember to use the right username.)
 
 	> grant usage on *.* to 'django'@'localhost';
 	> grant all privileges on *.* to 'django'@'localhost';
 
-always remember to use the right username.
 
 Now let's create the database:
+(the database name must match the one specified in the .env)
 
 	> create database mydatabase;
 
-Even in this case the name must match the one present in the environment variables file.
 
 Make Django create the tables:
 
-Go to the root directory of the project and run:
+Exit the Mysql console and go to the root directory of the project and run:
 
 	$  python3 manage.py migrate
 
@@ -130,9 +144,3 @@ Run the server with the following command:
 
 	$ python3 manage.py runserver
 
-## Future updates (if time permits)
-
-- make the shell interactive
-- add the possibility to change username and password
-- Provide more data in the progress page
-- Show confidence progress for each expressions
