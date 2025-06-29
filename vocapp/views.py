@@ -10,6 +10,7 @@ from .custom_exceptions import EmptyQuery
 from random import choice
 
 import json
+import re
 
 
 CONFIDENCE_BAR = 420
@@ -112,6 +113,16 @@ def filter_expressions(levels, phrasal, category, user):
 	return expressions_set.get(pk = choice(filtered_ids))
 
 
+def get_other_translations(expression):
+	match = re.search(r'\((\d+)\)', expression.content)
+	if match:	# if the expression contains "(<number>)"
+		number = match.group(1) # extract the number
+		word = expression.content.split(f' ({number})')[0]  # get the word before the number
+		return Expression.objects.filter(content__icontains=f'{word} (').exclude(id=expression.id) # get the other translations of the same word
+	else:
+		return []
+
+
 def home(request):
 	global FORCED_EXPRESSION_ID
 	levels = Level.objects.values_list('level', flat = True)
@@ -120,6 +131,7 @@ def home(request):
 		context = {
 			"levels": levels,
 			"expression_info": Expression.objects.get(pk = FORCED_EXPRESSION_ID),
+			"other_translations": get_other_translations(Expression.objects.get(pk = FORCED_EXPRESSION_ID)),
 			"error" : {}
 		}
 		FORCED_EXPRESSION_ID = None
@@ -140,15 +152,16 @@ def home(request):
 		context = {
 			"levels": levels,
 			"expression_info": {},
+			"other_translations": [],
 			"error": e,
 		}
 	else:
 		context = {
 			"levels": levels,
 			"expression_info": expression_data,
+			"other_translations": get_other_translations(expression_data),
 			"error" : {}
 		}
-	
 	return render(request, "vocapp/home.html", context)
 
 
@@ -168,6 +181,7 @@ def inspect_expression(request, expression_id):
 	context = {
 		"expression_id" : expression_id,
 		"expression_info": expression_info,
+		"other_translations": get_other_translations(expression_info),
 	}
 	return render(request, "vocapp/expression.html", context)
 

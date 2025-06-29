@@ -42,8 +42,16 @@
 		
 		<p class="content">{{expression_info.content}}</p>
 		<p class="translation">{{expression_info.translation_it}}</p>
-		
+
 		<div id="translation_info_container">
+			{% if other_translations %}
+				<p id="other_translations">Other translations:</p>
+				<ul id="other_translations_list">
+					{% for translation in other_translations %}
+						<li>{{translation.content}}: {{translation.translation_it}}</li>
+					{% endfor %}
+				</ul>
+			{% endif %}
 			<p id="example_en"><strong>Example</strong>: {{expression_info.example_en}}</p>
 			<p id="example_it"><strong>Esempio</strong>: {{expression_info.example_it}}</p>
 			<p id="notes"><strong>Note</strong>: {{expression_info.note}}</p>

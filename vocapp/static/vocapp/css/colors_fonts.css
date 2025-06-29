@@ -137,8 +137,8 @@ th {
 	margin-top: 0px;
 }
 
-.translation {
-	color:rgb(14, 138, 10)
+.translation-color {
+	color:rgb(18, 165, 13);
 }
 
 #search_container input[type=text] {
